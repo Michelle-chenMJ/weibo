@@ -61,7 +61,7 @@ def analyze_with_claude(hot_data, api_key, base_url):
 
     payload = {
         "model": "MiniMax-M2.1",
-        "max_tokens": 8000,
+        "max_tokens": 16000,  # 增加 token 限制
         "system": system_prompt,
         "messages": [
             {"role": "user", "content": user_message}
@@ -69,7 +69,7 @@ def analyze_with_claude(hot_data, api_key, base_url):
     }
 
     # 添加重试机制
-    max_retries = 3
+    max_retries = 2  # 减少重试次数
     for attempt in range(max_retries):
         try:
             print(f"尝试调用 API (第 {attempt + 1}/{max_retries} 次)...")
@@ -77,7 +77,7 @@ def analyze_with_claude(hot_data, api_key, base_url):
                 api_url,
                 headers=headers,
                 json=payload,
-                timeout=120
+                timeout=300  # 增加超时时间到 5 分钟
             )
 
             print(f"响应状态码: {response.status_code}")
