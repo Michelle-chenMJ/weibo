@@ -26,7 +26,7 @@ jobs:
       - name: Run analysis
         env:
           ANTHROPIC_API_KEY: ${{ secrets.UUCODE_API_KEY }}
-          ANTHROPIC_API_BASE_URL: https://api.uucode.org
+          ANTHROPIC_API_BASE_URL: https://api.minimaxi.com/anthropic
           TIANAPI_KEY: ${{ secrets.TIANAPI_KEY }}
         run: |
           python analyze.py

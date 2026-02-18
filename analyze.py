@@ -50,7 +50,7 @@ def analyze_with_claude(hot_data, api_key, base_url):
     # 构建请求 URL
     api_url = f"{base_url.rstrip('/')}/v1/messages"
     print(f"使用 API: {api_url}")
-    print(f"模型: claude-sonnet-4-5-20250929")
+    print(f"模型: MiniMax-M2.1")
 
     # 构建请求
     headers = {
@@ -60,7 +60,7 @@ def analyze_with_claude(hot_data, api_key, base_url):
     }
 
     payload = {
-        "model": "claude-sonnet-4-5-20250929",
+        "model": "MiniMax-M2.1",
         "max_tokens": 8000,
         "system": system_prompt,
         "messages": [
