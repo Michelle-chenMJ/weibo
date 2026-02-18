@@ -48,25 +48,40 @@ def analyze_with_claude(hot_data, api_key, base_url):
 请按照系统提示中的要求，完成分析并生成 HTML 报告。"""
 
     # 调用 Claude API
+    print(f"使用 API: {base_url}")
+    print(f"模型: claude-sonnet-4-5-20250929")
+
     client = Anthropic(
         api_key=api_key,
         base_url=base_url
     )
 
-    try:
-        message = client.messages.create(
-            model="claude-sonnet-4-5-20250929",
-            max_tokens=8000,
-            system=system_prompt,
-            messages=[
-                {"role": "user", "content": user_message}
-            ]
-        )
+    # 添加重试机制
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            print(f"尝试调用 API (第 {attempt + 1}/{max_retries} 次)...")
+            message = client.messages.create(
+                model="claude-sonnet-4-5-20250929",
+                max_tokens=8000,
+                system=system_prompt,
+                messages=[
+                    {"role": "user", "content": user_message}
+                ]
+            )
 
-        return message.content[0].text
-    except Exception as e:
-        print(f"Claude API 调用失败: {e}")
-        return None
+            print("API 调用成功！")
+            return message.content[0].text
+        except Exception as e:
+            print(f"第 {attempt + 1} 次调用失败: {e}")
+            if attempt < max_retries - 1:
+                import time
+                wait_time = (attempt + 1) * 5
+                print(f"等待 {wait_time} 秒后重试...")
+                time.sleep(wait_time)
+            else:
+                print(f"Claude API 调用失败，已重试 {max_retries} 次")
+                return None
 
 def save_html_report(content, output_dir='reports'):
     """保存 HTML 报告"""
