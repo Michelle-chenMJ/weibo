@@ -14,28 +14,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          node-version: '20'
+          python-version: '3.11'
 
-      - name: Install Claude Code
-        run: npm install -g @anthropic-ai/claude-code
-
-      - name: Setup Claude Code permissions
+      - name: Install dependencies
         run: |
-          mkdir -p $HOME/.claude
-          cat > $HOME/.claude/settings.local.json << 'EOF'
-          {
-            "permissions": {
-              "allow": [
-                "WebFetch(domain:apis.tianapi.com)",
-                "WebFetch(domain:uucode.org)"
-              ]
-            }
-          }
-          EOF
-          cat $HOME/.claude/settings.local.json
+          pip install -r requirements.txt
 
       - name: Run analysis
         env:
@@ -43,10 +29,7 @@ jobs:
           ANTHROPIC_API_BASE_URL: https://api.uucode.org/v1
           TIANAPI_KEY: ${{ secrets.TIANAPI_KEY }}
         run: |
-          claude -p "$(cat prompt.md)" \
-            --model claude-sonnet-4-5-20250929 \
-            --dangerously-skip-permissions \
-            --verbose
+          python analyze.py
 
       - name: Commit and push report
         run: |
