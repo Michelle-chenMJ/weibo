@@ -85,7 +85,24 @@ def analyze_with_claude(hot_data, api_key, base_url):
             if response.status_code == 200:
                 result = response.json()
                 print("API 调用成功！")
-                return result['content'][0]['text']
+
+                # 提取内容（兼容不同的响应格式）
+                content = result.get('content', [])
+                if content:
+                    # 尝试获取 text 类型的内容
+                    for item in content:
+                        if item.get('type') == 'text':
+                            return item.get('text', '')
+                        elif item.get('type') == 'thinking':
+                            # MiniMax 可能返回 thinking 类型
+                            return item.get('thinking', '')
+
+                    # 如果没有找到，返回第一个内容
+                    first_item = content[0]
+                    return first_item.get('text') or first_item.get('thinking', '')
+
+                print("警告: 响应中没有找到内容")
+                return None
             else:
                 print(f"API 返回错误: {response.text}")
 
