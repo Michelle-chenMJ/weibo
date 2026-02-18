@@ -1,0 +1,44 @@
+name: 微博热搜产品创意分析
+
+on:
+  schedule:
+    - cron: '0 1 * * *'    # 每天 UTC 01:00（北京时间 09:00）
+  workflow_dispatch:         # 支持手动触发
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run analysis
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TIANAPI_KEY: ${{ secrets.TIANAPI_KEY }}
+        run: |
+          claude -p "$(cat prompt.md)" \
+            --dangerously-skip-permissions \
+            --verbose
+
+      - name: Commit and push report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          if git diff --staged --quiet; then
+            echo "No new report generated"
+          else
+            git commit -m "feat: 添加 $(date +%Y-%m-%d) 微博热搜分析报告"
+            git push
+          fi
