@@ -120,7 +120,7 @@ def analyze_with_claude(hot_data, api_key, base_url):
     print(f"Claude API 调用失败，已重试 {max_retries} 次")
     return None
 
-def save_html_report(content, output_dir='reports'):
+def save_html_report(content, output_dir='docs'):
     """保存 HTML 报告"""
     os.makedirs(output_dir, exist_ok=True)
 
