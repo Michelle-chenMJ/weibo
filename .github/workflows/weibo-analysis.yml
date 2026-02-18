@@ -30,7 +30,7 @@ jobs:
             "permissions": {
               "allow": [
                 "WebFetch(domain:apis.tianapi.com)",
-                "WebFetch(domain:openrouter.ai)"
+                "WebFetch(domain:uucode.org)"
               ]
             }
           }
@@ -39,11 +39,12 @@ jobs:
 
       - name: Run analysis
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          ANTHROPIC_API_BASE_URL: https://openrouter.ai/api/v1
+          ANTHROPIC_API_KEY: ${{ secrets.UUCODE_API_KEY }}
+          ANTHROPIC_API_BASE_URL: https://api.uucode.org/v1
           TIANAPI_KEY: ${{ secrets.TIANAPI_KEY }}
         run: |
           claude -p "$(cat prompt.md)" \
+            --model opus \
             --dangerously-skip-permissions \
             --verbose
 
