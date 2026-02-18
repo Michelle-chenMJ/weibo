@@ -31,6 +31,9 @@ def get_weibo_hot_data(tianapi_key):
 def analyze_with_claude(hot_data, api_key, base_url):
     """使用 Claude 分析热搜数据"""
 
+    # 只取前 20 条热搜
+    hot_data = hot_data[:20]
+
     # 读取 prompt
     with open('prompt.md', 'r', encoding='utf-8') as f:
         system_prompt = f.read()
