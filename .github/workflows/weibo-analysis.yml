@@ -44,7 +44,7 @@ jobs:
           TIANAPI_KEY: ${{ secrets.TIANAPI_KEY }}
         run: |
           claude -p "$(cat prompt.md)" \
-            --model opus \
+            --model claude-sonnet-4-5-20250929 \
             --dangerously-skip-permissions \
             --verbose
 
