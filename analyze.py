@@ -51,9 +51,18 @@ def analyze_with_claude(hot_data, api_key, base_url):
     print(f"使用 API: {base_url}")
     print(f"模型: claude-sonnet-4-5-20250929")
 
+    # uucode 需要使用完整的 v1 路径
+    if not base_url.endswith('/v1'):
+        base_url = base_url.rstrip('/') + '/v1'
+
+    print(f"实际请求地址: {base_url}")
+
     client = Anthropic(
         api_key=api_key,
-        base_url=base_url
+        base_url=base_url,
+        default_headers={
+            "anthropic-version": "2023-06-01"
+        }
     )
 
     # 添加重试机制
