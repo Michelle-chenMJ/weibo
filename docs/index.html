@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        .report-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .report-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: block;
+        }
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .report-date {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .report-desc {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 微博热搜产品创意分析</h1>
+        <p class="subtitle">每日自动分析微博热搜，挖掘产品创意机会</p>
+
+        <div class="info-box">
+            <h3>🎯 项目介绍</h3>
+            <p>本项目通过 GitHub Actions 每天自动抓取微博热搜数据，使用 AI 分析热点趋势，挖掘潜在的产品创意和商业机会。</p>
+        </div>
+
+        <h2 style="color: #667eea; margin-top: 40px; margin-bottom: 20px;">📅 历史报告</h2>
+        <div class="report-list" id="reportList">
+            <!-- 报告列表将通过 JavaScript 动态生成 -->
+        </div>
+
+        <footer>
+            <p>🤖 由 GitHub Actions 自动生成 | 数据来源：微博热搜</p>
+        </footer>
+    </div>
+
+    <script>
+        // 自动扫描 docs 目录下的 HTML 文件
+        async function loadReports() {
+            const reportList = document.getElementById('reportList');
+
+            // 这里需要手动维护报告列表，因为 GitHub Pages 是静态托管
+            const reports = [
+                { date: '2026-02-18', file: '微博热搜分析_2026-02-18.html' }
+            ];
+
+            // 按日期倒序排列
+            reports.sort((a, b) => b.date.localeCompare(a.date));
+
+            reports.forEach(report => {
+                const card = document.createElement('a');
+                card.className = 'report-card';
+                card.href = report.file;
+                card.innerHTML = `
+                    <div class="report-date">${report.date}</div>
+                    <div class="report-desc">查看当日微博热搜分析报告</div>
+                `;
+                reportList.appendChild(card);
+            });
+        }
+
+        loadReports();
+    </script>
+</body>
+</html>
