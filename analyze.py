@@ -92,17 +92,15 @@ def analyze_with_claude(hot_data, api_key, base_url):
                 # 提取内容（兼容不同的响应格式）
                 content = result.get('content', [])
                 if content:
-                    # 尝试获取 text 类型的内容
+                    # 只获取 text 类型的内容，忽略 thinking
                     for item in content:
                         if item.get('type') == 'text':
                             return item.get('text', '')
-                        elif item.get('type') == 'thinking':
-                            # MiniMax 可能返回 thinking 类型
-                            return item.get('thinking', '')
 
-                    # 如果没有找到，返回第一个内容
+                    # 如果没有 text 类型，尝试其他字段
                     first_item = content[0]
-                    return first_item.get('text') or first_item.get('thinking', '')
+                    if 'text' in first_item:
+                        return first_item.get('text', '')
 
                 print("警告: 响应中没有找到内容")
                 return None
