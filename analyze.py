@@ -39,16 +39,17 @@ def analyze_with_claude(hot_data, api_key, base_url):
         system_prompt = f.read()
 
     # 构建用户消息
+    today = datetime.now().strftime('%Y年%m月%d日')
     hot_list_text = "\n".join([
         f"{i+1}. {item['hotword']} (热度: {item['hotwordnum']}, 标签: {item.get('hottag', '无')})"
         for i, item in enumerate(hot_data)
     ])
 
-    user_message = f"""今天的微博热搜数据如下：
+    user_message = f"""今天是 {today}，微博热搜数据如下：
 
 {hot_list_text}
 
-请按照系统提示中的要求，完成分析并生成 HTML 报告。"""
+请按照系统提示中的要求，完成分析并生成 HTML 报告。注意：报告中的生成时间请使用 {today}。"""
 
     # 构建请求 URL
     api_url = f"{base_url.rstrip('/')}/v1/messages"
