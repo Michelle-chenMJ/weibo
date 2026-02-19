@@ -3,599 +3,661 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>微博热搜产品创意分析报告</title>
+    <title>微博热搜产品创意分析报告 - 2026年02月19日</title>
     <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-light: #dbeafe;
+            --text-dark: #1f2937;
+            --text-gray: #6b7280;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
+            background: var(--bg-light);
+            color: var(--text-dark);
             line-height: 1.6;
             padding: 20px;
         }
+
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
         }
-        header {
+
+        /* 顶部标题区域 */
+        .header {
             text-align: center;
             padding: 40px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1d4ed8 100%);
+            color: var(--white);
+            border-radius: var(--radius);
             margin-bottom: 30px;
-            color: white;
+            box-shadow: var(--shadow-lg);
         }
-        header h1 {
-            font-size: 2.2rem;
+
+        .header h1 {
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
-        header p {
-            font-size: 1.1rem;
+
+        .header .subtitle {
+            font-size: 14px;
             opacity: 0.9;
         }
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-        .stat-item {
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        .section {
+
+        /* 总览卡片 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
             margin-bottom: 40px;
         }
-        .section-title {
-            font-size: 1.5rem;
-            color: #2c3e50;
+
+        .overview-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .overview-card .label {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        /* 分类标题 */
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-            display: inline-block;
+            border-bottom: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .section-tag {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-left: 10px;
+
+        .category-title::before {
+            content: "";
+            width: 4px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 2px;
         }
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
+
+        .section {
+            margin-bottom: 50px;
         }
-        .card {
-            background: white;
-            border-radius: 12px;
+
+        /* 重点分析卡片 */
+        .priority-card {
+            background: var(--white);
+            border-radius: var(--radius);
             padding: 24px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-md);
+            border-left: 4px solid var(--primary-color);
         }
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-        }
-        .card-priority-high {
-            border-left: 4px solid #10b981;
-        }
-        .card-priority-low {
-            border-left: 4px solid #f59e0b;
-            padding: 16px;
-        }
-        .card-header {
+
+        .priority-card .card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
-        .hotword {
-            font-size: 1.1rem;
+
+        .priority-card .hot-topic {
+            font-size: 18px;
             font-weight: 600;
-            color: #1a1a1a;
+            color: var(--text-dark);
             flex: 1;
         }
-        .heat {
-            font-size: 0.85rem;
-            color: #666;
-            background: #f0f0f0;
-            padding: 4px 10px;
-            border-radius: 12px;
-            white-space: nowrap;
-            margin-left: 10px;
-        }
-        .tag {
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 4px;
-            margin-left: 8px;
-        }
-        .tag-new { background: #dbeafe; color: #1d4ed8; }
-        .tag-hot { background: #fee2e2; color: #dc2626; }
-        .tag-fire { background: #fef3c7; color: #d97706; }
-        
-        .analysis-content {
-            margin-top: 15px;
-        }
-        .analysis-item {
-            margin-bottom: 12px;
-        }
-        .analysis-label {
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-        .analysis-value {
-            font-size: 0.95rem;
-            color: #333;
-        }
-        .potential {
-            display: inline-block;
+
+        .priority-card .heat {
+            font-size: 14px;
+            color: #ef4444;
+            background: #fef2f2;
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            margin-left: 12px;
+        }
+
+        .priority-card .analysis-section {
+            margin-bottom: 16px;
+        }
+
+        .priority-card .analysis-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .priority-card .analysis-content {
+            font-size: 15px;
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        .priority-card .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .priority-card .tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 4px;
             font-weight: 500;
         }
-        .potential-high { background: #d1fae5; color: #059669; }
-        .potential-medium { background: #fef3c7; color: #d97706; }
-        .potential-low { background: #f3f4f6; color: #6b7280; }
-        
-        .brief-card {
-            display: flex;
-            align-items: center;
+
+        .tag-potential {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .tag-mvp {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .tag-commercial {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* 潜力标签颜色 */
+        .potential-high {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .potential-medium {
+            background: #fed7aa;
+            color: #9a3412;
+        }
+
+        .potential-low {
+            background: #e5e7eb;
+            color: #4b5563;
+        }
+
+        /* 次重点卡片区域 */
+        .secondary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 12px;
+            margin-top: 16px;
         }
-        .brief-hotword {
+
+        .secondary-card {
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .secondary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .secondary-card .topic {
+            font-size: 14px;
             font-weight: 600;
-            color: #333;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .brief-arrow {
-            color: #667eea;
-            font-size: 1.2rem;
+
+        .secondary-card .topic .heat {
+            font-size: 12px;
+            color: #ef4444;
+            font-weight: 500;
         }
-        .brief-direction {
-            color: #666;
-            font-size: 0.9rem;
+
+        .secondary-card .direction {
+            font-size: 13px;
+            color: var(--text-gray);
+            line-height: 1.5;
         }
-        
-        footer {
+
+        .secondary-section {
+            margin-bottom: 40px;
+        }
+
+        /* 页脚 */
+        .footer {
             text-align: center;
-            padding: 30px;
-            color: #666;
-            font-size: 0.85rem;
-            border-top: 1px solid #e5e7eb;
+            padding: 30px 20px;
+            color: var(--text-gray);
+            font-size: 13px;
+            border-top: 1px solid var(--border);
             margin-top: 40px;
         }
-        footer p {
-            margin-bottom: 5px;
+
+        .footer .disclaimer {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #9ca3af;
         }
-        .disclaimer {
-            font-size: 0.8rem;
-            color: #999;
-        }
-        
+
+        /* 响应式 */
         @media (max-width: 768px) {
-            header {
-                padding: 30px 15px;
-            }
-            header h1 {
-                font-size: 1.6rem;
-            }
-            .stats {
-                gap: 20px;
-            }
-            .cards-grid {
+            .overview {
                 grid-template-columns: 1fr;
             }
-            .card-priority-low {
-                padding: 14px;
+
+            .priority-card .card-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .priority-card .heat {
+                margin-left: 0;
+            }
+
+            .secondary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 22px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <!-- 顶部标题 -->
+        <div class="header">
             <h1>微博热搜产品创意分析报告</h1>
-            <p>生成时间：2026年02月19日</p>
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-value">20</div>
-                    <div class="stat-label">今日热搜总数</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">6</div>
-                    <div class="stat-label">分析分类数</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">9</div>
-                    <div class="stat-label">重点分析话题</div>
-                </div>
-            </div>
-        </header>
+            <div class="subtitle">生成时间：2026年02月19日</div>
+        </div>
 
-        <section class="section">
-            <h2 class="section-title">体育 <span class="section-tag">4条热搜</span></h2>
+        <!-- 总览区域 -->
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </div>
+
+        <!-- 娱乐板块 -->
+        <div class="section">
+            <h2 class="category-title">娱乐</h2>
             
-            <div class="cards-grid">
-                <div class="card card-priority-high">
-                    <div class="card-header">
-                        <span class="hotword">谷爱凌这串笑声嘲讽拉满</span>
-                        <span class="heat">热度: 1081256</span>
-                    </div>
-                    <div class="analysis-content">
-                        <div class="analysis-item">
-                            <div class="analysis-label">产品创意</div>
-                            <div class="analysis-value">体育赛事"打脸时刻"短视频合集App</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">目标用户</div>
-                            <div class="analysis-value">体育爱好者、热衷爽文内容的年轻用户</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">MVP建议</div>
-                            <div class="analysis-value">聚合各类体育赛事中"对手嚣张→被反超→打脸"精彩片段，按项目分类，支持用户自制合集分享</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">商业潜力</div>
-                            <span class="potential potential-medium">中</span>
-                            <span style="color: #666; font-size: 0.85rem; margin-left: 8px;">适合B站/抖音内容形态，变现依赖广告和带货</span>
-                        </div>
-                    </div>
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">飞驰人生3同期票房超哪吒2</div>
+                    <div class="heat">热度: 107万</div>
                 </div>
-
-                <div class="card card-priority-high">
-                    <div class="card-header">
-                        <span class="hotword">林孝埈已为中国短道燃尽所有</span>
-                        <span class="heat">热度: 793112</span>
-                    </div>
-                    <div class="analysis-content">
-                        <div class="analysis-item">
-                            <div class="analysis-label">产品创意</div>
-                            <div class="analysis-value">体育运动员故事化叙事平台"冠军之路"</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">目标用户</div>
-                            <div class="analysis-value">体育迷、励志内容爱好者</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">MVP建议</div>
-                            <div class="analysis-value">图文+短视频讲述运动员成长故事，重点呈现逆境翻盘、跨国转会等戏剧性经历，引入打赏和付费解锁</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">商业潜力</div>
-                            <span class="potential potential-high">高</span>
-                            <span style="color: #666; font-size: 0.85rem; margin-left: 8px;">情感共鸣强，粉丝付费意愿高，可延伸周边电商</span>
-                        </div>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">开发一个<strong>电影票房预测与竞猜平台</strong>，用户可以对上映电影进行票房预测，参与竞猜获得积分奖励。</div>
                 </div>
-
-                <div class="card card-priority-high">
-                    <div class="card-header">
-                        <span class="hotword">苏翊鸣中日美关系最好的一集</span>
-                        <span class="heat">热度: 160091</span>
-                        <span class="tag tag-new">新</span>
-                    </div>
-                    <div class="analysis-content">
-                        <div class="analysis-item">
-                            <div class="analysis-label">产品创意</div>
-                            <div class="analysis-value">体娱跨界内容社区"冠军日常"</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">目标用户</div>
-                            <div class="analysis-value">年轻体育粉丝、明星粉丝</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">MVP建议</div>
-                            <div class="analysis-value">聚焦运动员场外互动、跨界社交等轻松内容，支持用户投稿和话题聚合</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">商业潜力</div>
-                            <span class="potential potential-medium">中</span>
-                            <span style="color: #666; font-size: 0.85rem; margin-left: 8px;">流量大但变现路径模糊，适合作为流量入口</span>
-                        </div>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">电影爱好者、影迷社区、喜欢竞猜互动的年轻用户</div>
                 </div>
-
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">苏翊鸣甜蜜回复朱易</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">运动员CP互动内容聚合</span>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">做一个微信小程序，接入猫眼/灯塔票房数据API，用户选择已上映或待上映电影进行预测，预测准确获得积分，可兑换电影票优惠券。</div>
                 </div>
+                <div class="tags">
+                    <span class="tag tag-potential">高商业潜力</span>
+                    <span class="tag tag-mvp">小程序</span>
+                    <span class="tag tag-commercial">对接票务平台</span>
+                </div>
+            </div>
 
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">韩媒赛前嘲讽中国队0金被打脸</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">体育舆论反讽视频合集</span>
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">刘晓庆 短剧还能有脱口秀掉价吗</div>
+                    <div class="heat">热度: 20万</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">打造一个<strong>短剧创作者服务平台</strong>，连接短剧编剧、演员、制片方，提供剧本交易、演员资源、投融资对接。</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">短剧创业者、MCN机构、影视公司、想要转型的传统艺人</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">做一个垂直社区，发布短剧项目需求、演员档期、剧本投稿，设置机构认证体系，撮合成功收取5%服务费。</div>
+                </div>
+                <div class="tags">
+                    <span class="tag tag-potential">中商业潜力</span>
+                    <span class="tag tag-mvp">垂直社区</span>
+                    <span class="tag tag-commercial">服务费模式</span>
+                </div>
+            </div>
+
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">春晚为什么不给我看这个</div>
+                    <div class="heat">热度: 22万</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">开发<strong>春晚精彩片段智能分发平台</strong>，用AI识别并剪辑春晚亮点，按用户兴趣标签（相声、舞蹈、明星）个性化推送。</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">春晚观众、中老年用户、喜欢怀旧的80/90后</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">春晚播出期间，运营团队实时剪辑精彩片段，发布到抖音/视频号账号，积累粉丝后引导到自有APP或小程序看完整版。</div>
+                </div>
+                <div class="tags">
+                    <span class="tag tag-potential">中商业潜力</span>
+                    <span class="tag tag-mvp">短视频运营</span>
+                    <span class="tag tag-commercial">会员订阅</span>
+                </div>
+            </div>
+
+            <div class="secondary-section">
+                <h3 style="font-size: 14px; color: #6b7280; margin-bottom: 12px;">次重点话题</h3>
+                <div class="secondary-grid">
+                    <div class="secondary-card">
+                        <div class="topic">蔡徐坤Chinese New Year <span class="heat">45万</span></div>
+                        <div class="direction">粉丝应援互动工具，为明星生日/纪念日提供应援策划、公益联动、周边众筹功能</div>
+                    </div>
+                    <div class="secondary-card">
+                        <div class="topic">拍了三个月得闲谨制妈妈却没认出自己 <span class="heat">16万</span></div>
+                        <div class="direction">影视幕后纪录片/花絮平台，满足粉丝对明星工作状态的好奇心</div>
+                    </div>
+                    <div class="secondary-card">
+                        <div class="topic">白鹿曾舜晞韩国旅游 <span class="heat">13万</span></div>
+                        <div class="direction">明星同款旅游打卡地推荐小程序，结合地图POI做旅游商业化</div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="section">
-            <h2 class="section-title">电影娱乐 <span class="section-tag">4条热搜</span></h2>
+        <!-- 体育板块 -->
+        <div class="section">
+            <h2 class="category-title">体育</h2>
             
-            <div class="cards-grid">
-                <div class="card card-priority-high">
-                    <div class="card-header">
-                        <span class="hotword">拍了三个月得闲谨制妈妈却没认出自己</span>
-                        <span class="heat">热度: 294187</span>
-                        <span class="tag tag-new">新</span>
-                    </div>
-                    <div class="analysis-content">
-                        <div class="analysis-item">
-                            <div class="analysis-label">产品创意</div>
-                            <div class="analysis-value">电影幕后故事短视频平台"片场秘密"</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">目标用户</div>
-                            <div class="analysis-value">影迷、电影从业者预备役、内容创作者</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">MVP建议</div>
-                            <div class="analysis-value">聚合电影拍摄幕后花絮、演员特效妆对比、道具制作幕后等内容，支持按电影/类型/岗位检索</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">商业潜力</div>
-                            <span class="potential potential-high">高</span>
-                            <span style="color: #666; font-size: 0.85rem; margin-left: 8px;">内容质量高，用户粘性强，可对接影视宣发</span>
-                        </div>
-                    </div>
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">林孝埈已为中国短道燃尽所有</div>
+                    <div class="heat">热度: 61万</div>
                 </div>
-
-                <div class="card card-priority-high">
-                    <div class="card-header">
-                        <span class="hotword">飞驰人生3同期票房超哪吒2</span>
-                        <span class="heat">热度: 240189</span>
-                        <span class="tag tag-hot">热</span>
-                    </div>
-                    <div class="analysis-content">
-                        <div class="analysis-item">
-                            <div class="analysis-label">产品创意</div>
-                            <div class="analysis-value">实时电影票房对比+口碑分析工具"票房显微镜"</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">目标用户</div>
-                            <div class="analysis-value">影迷、投资者、影视从业者</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">MVP建议</div>
-                            <div class="analysis-value">实时抓取票房数据，生成对比图表，整合豆瓣/猫眼评分和用户评论的情感分析</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">商业潜力</div>
-                            <span class="potential potential-medium">中</span>
-                            <span style="color: #666; font-size: 0.85rem; margin-left: 8px;">工具属性强，to B收费潜力大</span>
-                        </div>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">开发<strong>运动员故事深度内容平台</strong>，聚焦运动员成长历程、训练日常、心理故事，以长图文/播客形式呈现。</div>
                 </div>
-
-                <div class="card card-priority-high">
-                    <div class="card-header">
-                        <span class="hotword">一下子分不清是谁在过年了</span>
-                        <span class="heat">热度: 194818</span>
-                    </div>
-                    <div class="analysis-content">
-                        <div class="analysis-item">
-                            <div class="analysis-label">产品创意</div>
-                            <div class="analysis-value">跨年晚会名场面合集小程序"春晚名场面"</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">目标用户</div>
-                            <div class="analysis-value">春晚观众、综艺爱好者、过年氛围组</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">MVP建议</div>
-                            <div class="analysis-value">聚合各台春晚及跨年晚会精彩片段，支持按节目/明星/梗分类，可自制GIF和表情包</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">商业潜力</div>
-                            <span class="potential potential-low">低</span>
-                            <span style="color: #666; font-size: 0.85rem; margin-left: 8px;">季节性强，仅春节前后需求大</span>
-                        </div>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">体育迷、运动员粉丝、青少年家长（教育意义）</div>
                 </div>
-
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">春晚为什么不给我看这个</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">春晚精彩片段按需点播</span>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">先做一个公众号/播客账号，采访退役运动员或现役运动员的教练/队友，讲述不为人知的故事，吸引粉丝后开发APP做付费会员。</div>
                 </div>
+                <div class="tags">
+                    <span class="tag tag-potential">中商业潜力</span>
+                    <span class="tag tag-mvp">内容平台</span>
+                    <span class="tag tag-commercial">会员订阅</span>
+                </div>
+            </div>
 
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">蔡徐坤Chinese New Year</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">明星春节舞台合集</span>
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">苏翊鸣说储备了没有人实现过的动作</div>
+                    <div class="heat">热度: 11.8万</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">打造<strong>极限运动动作教学平台</strong>，签约专业运动员录制动作解析、技术要点、训练方法课程。</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">滑雪/滑板爱好者、极限运动入门者、青少年</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">在B站/小红书发布苏翊鸣或其他顶尖运动员的动作解析视频，引流到付费课程平台，提供动作分解、训练计划、装备推荐。</div>
+                </div>
+                <div class="tags">
+                    <span class="tag tag-potential">中商业潜力</span>
+                    <span class="tag tag-mvp">视频课程</span>
+                    <span class="tag tag-commercial">品牌联合</span>
+                </div>
+            </div>
+
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">韩媒赛前嘲讽中国队0金被打脸</div>
+                    <div class="heat">热度: 14.7万</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">开发<strong>国际赛事舆论监测与反击工具</strong>，监测外媒对中国体育的负面报道，聚合网友正能量评论，形成舆论反击素材库。</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">体育自媒体运营者、粉丝后援会、官方体育机构宣传部门</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">做一个舆情监测SaaS工具，设置关键词自动抓取外媒报道，AI生成反驳文案模板，一键分发到社交媒体。</div>
+                </div>
+                <div class="tags">
+                    <span class="tag potential-low">低商业潜力</span>
+                    <span class="tag tag-mvp">SaaS工具</span>
+                    <span class="tag tag-commercial">机构客户</span>
+                </div>
+            </div>
+
+            <div class="secondary-section">
+                <h3 style="font-size: 14px; color: #6b7280; margin-bottom: 12px;">次重点话题</h3>
+                <div class="secondary-grid">
+                    <div class="secondary-card">
+                        <div class="topic">谷爱凌这串笑声嘲讽拉满 <span class="heat">78万</span></div>
+                        <div class="direction">运动员社交媒体情绪分析工具，为品牌方提供代言人舆情监测</div>
+                    </div>
+                    <div class="secondary-card">
+                        <div class="topic">徐梦桃回复黄奕了 <span class="heat">15万</span></div>
+                        <div class="direction">运动员与跨界明星互动内容聚合平台，记录经典跨界联动</div>
+                    </div>
+                    <div class="secondary-card">
+                        <div class="topic">苏翊鸣中日美关系最好的一集 <span class="heat">11.8万</span></div>
+                        <div class="direction">体育外交故事库，挖掘运动员/赛事促进国际友好的案例</div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="section">
-            <h2 class="section-title">社会民生 <span class="section-tag">3条热搜</span></h2>
+        <!-- 生活板块 -->
+        <div class="section">
+            <h2 class="category-title">生活</h2>
             
-            <div class="cards-grid">
-                <div class="card card-priority-high">
-                    <div class="card-header">
-                        <span class="hotword">宜城烟花爆燃事故应急处置情况通报</span>
-                        <span class="heat">热度: 194684</span>
-                    </div>
-                    <div class="analysis-content">
-                        <div class="analysis-item">
-                            <div class="analysis-label">产品创意</div>
-                            <div class="analysis-value">本地化安全知识科普+事故预警App"身边安全"</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">目标用户</div>
-                            <div class="analysis-value">普通居民、家长、安全意识强的上班族</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">MVP建议</div>
-                            <div class="analysis-value">基于地理位置推送本地安全事件，结合事故科普烟花燃放规范、应急处理等知识，可对接官方预警系统</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">商业潜力</div>
-                            <span class="potential potential-medium">中</span>
-                            <span style="color: #666; font-size: 0.85rem; margin-left: 8px;">需政府合作，适合作为公共服务产品</span>
-                        </div>
-                    </div>
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">初三一定记得睡懒觉</div>
+                    <div class="heat">热度: 20万</div>
                 </div>
-
-                <div class="card card-priority-high">
-                    <div class="card-header">
-                        <span class="hotword">过年剩下的红包不要扔</span>
-                        <span class="heat">热度: 164508</span>
-                    </div>
-                    <div class="analysis-content">
-                        <div class="analysis-item">
-                            <div class="analysis-label">产品创意</div>
-                            <div class="analysis-value">红包/压岁钱理财小程序"红包成年礼"</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">目标用户</div>
-                            <div class="analysis-value">青少年、亲子家庭</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">MVP建议</div>
-                            <div class="analysis-value">引导孩子将压岁钱存入虚拟账户，学习基础理财知识，支持设定储蓄目标和查看收益，培养财商意识</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">商业潜力</div>
-                            <span class="potential potential-medium">中</span>
-                            <span style="color: #666; font-size: 0.85rem; margin-left: 8px;">家长付费意愿强，可延伸至儿童金融产品</span>
-                        </div>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">开发<strong>传统习俗智能提醒日历</strong>，收录中国传统节日、节气、习俗禁忌，按用户籍贯和关注点个性化推送提醒。</div>
                 </div>
-
-                <div class="card card-priority-high">
-                    <div class="card-header">
-                        <span class="hotword">去哪儿28251什么意思</span>
-                    </div>
-                    <div class="analysis-content">
-                        <div class="analysis-item">
-                            <div class="analysis-label">产品创意</div>
-                            <div class="analysis-value">热点话题答疑社区"热搜百科"</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">目标用户</div>
-                            <div class="analysis-value">好奇宝宝型网民、吃瓜群众</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">MVP建议</div>
-                            <div class="analysis-value">自动抓取微博热搜和知乎高赞回答，为每个热点生成通俗易懂的科普卡片，支持追问和延伸阅读</div>
-                        </div>
-                        <div class="analysis-item">
-                            <div class="analysis-label">商业潜力</div>
-                            <span class="potential potential-medium">中</span>
-                            <span style="color: #666; font-size: 0.85rem; margin-left: 8px;">流量大，适合作为搜索入口导流</span>
-                        </div>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">在外地工作的年轻人、关注传统文化的80/90后、想要教育孩子传统文化的父母</div>
                 </div>
-
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">初三一定记得睡懒觉</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">节假日作息健康提醒工具</span>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">做一个微信小程序/日历插件，录入各地春节、清明、中秋等习俗，设置日期提醒，支持家庭成员共享日历互相提醒。</div>
                 </div>
+                <div class="tags">
+                    <span class="tag tag-potential">中商业潜力</span>
+                    <span class="tag tag-mvp">日历小程序</span>
+                    <span class="tag tag-commercial">文创产品</span>
+                </div>
+            </div>
 
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">热水器出现明火女子被吓懵</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">家电安全知识短视频</span>
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">爸妈来后冰箱都变老了</div>
+                    <div class="heat">热度: 15.5万</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">打造<strong>家庭远程关爱智能硬件套装</strong>，通过智能冰箱/体重秤/摄像头等设备，让异地子女远程查看父母生活状态。</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">异地打拼子女、有独居老人家庭、养老服务机构</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">与智能家电品牌合作，开发"子女关怀模式"，在冰箱屏幕上显示子女留言、食材保质期提醒、体重变化趋势图。</div>
+                </div>
+                <div class="tags">
+                    <span class="tag tag-potential">高商业潜力</span>
+                    <span class="tag tag-mvp">智能硬件</span>
+                    <span class="tag tag-commercial">居家养老</span>
+                </div>
+            </div>
+
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">从春晚看智能科技跃迁</div>
+                    <div class="heat">热度: 15万</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">开发<strong>科技产品购买决策助手</strong>，将春晚/影视剧等节目中出现的科技产品自动识别，生成购买攻略、替代方案、价格对比。</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">被春晚种草的普通消费者、科技产品小白、送礼人群</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">做一个微博机器人账号，用户@它并描述春晚看到的产品，它回复产品名称、价格区间、购买链接和避坑指南。</div>
+                </div>
+                <div class="tags">
+                    <span class="tag tag-potential">中商业潜力</span>
+                    <span class="tag tag-mvp">聊天机器人</span>
+                    <span class="tag tag-commercial">导购佣金</span>
+                </div>
+            </div>
+
+            <div class="secondary-section">
+                <h3 style="font-size: 14px; color: #6b7280; margin-bottom: 12px;">次重点话题</h3>
+                <div class="secondary-grid">
+                    <div class="secondary-card">
+                        <div class="topic">时薪150和时薪800主播的区别 <span class="heat">15万</span></div>
+                        <div class="direction">主播职业培训平台，提供话术培训、人设打造、变现路径规划课程</div>
+                    </div>
+                    <div class="secondary-card">
+                        <div class="topic">宜城烟花爆燃事故遇难者身份核实 <span class="heat">15万</span></div>
+                        <div class="direction">安全生产培训SaaS，面向中小企业提供隐患排查、应急演练、合规检查工具</div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="section">
-            <h2 class="section-title">生活方式 <span class="section-tag">4条热搜</span></h2>
+        <!-- 科技/经济板块 -->
+        <div class="section">
+            <h2 class="category-title">科技 / 经济</h2>
             
-            <div class="cards-grid">
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">从小逛到大的庙会</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">本地庙会地图+打卡攻略</span>
-                    </div>
+            <div class="priority-card">
+                <div class="card-header">
+                    <div class="hot-topic">时薪150和时薪800主播的区别</div>
+                    <div class="heat">热度: 14.9万</div>
                 </div>
-
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">热水器出现明火女子被吓懵</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">家电安全知识短视频</span>
-                    </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">产品创意</div>
+                    <div class="analysis-content">打造<strong>直播从业者职业发展平台</strong>，提供主播能力测评、分级课程推荐、MCN机构对接、合同审核服务。</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">目标用户</div>
+                    <div class="analysis-content">想要入行的新人主播、想要升级的中腰部主播、想要转型的传统艺人</div>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-label">MVP 建议</div>
+                    <div class="analysis-content">做一个主播能力测评工具，从镜头表现、互动能力、选品眼光、粉丝运营等维度打分，推荐对应课程和匹配MCN机构。</div>
+                </div>
+                <div class="tags">
+                    <span class="tag tag-potential">中高商业潜力</span>
+                    <span class="tag tag-mvp">测评工具</span>
+                    <span class="tag tag-commercial">课程+抽成</span>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="section">
-            <h2 class="section-title">综艺娱乐 <span class="section-tag">1条热搜</span></h2>
+        <!-- 社会板块 -->
+        <div class="section">
+            <h2 class="category-title">社会</h2>
             
-            <div class="cards-grid">
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">大侦探</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">推理综艺互动观剧App</span>
-                    </div>
+            <div class="secondary-grid">
+                <div class="secondary-card">
+                    <div class="topic">尹锡悦今天或被判死刑 <span class="heat">22万</span></div>
+                    <div class="direction">法律科普内容账号/小程序，面向普通人解读韩国政治人物的法律案件</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="topic">宜城烟花爆燃事故应急通报 <span class="heat">11.8万</span></div>
+                    <div class="direction">烟花购买实名制追溯系统、应急物资智能储备提醒工具</div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="section">
-            <h2 class="section-title">明星娱乐 <span class="section-tag">4条热搜</span></h2>
-            
-            <div class="cards-grid">
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">白鹿韩国</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">明星行程追踪工具</span>
-                    </div>
-                </div>
-
-                <div class="card card-priority-low">
-                    <div class="brief-card">
-                        <span class="brief-hotword">曝侯明昊美妆营业额一小时600万</span>
-                        <span class="brief-arrow">→</span>
-                        <span class="brief-direction">明星带货数据监控</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <p>数据来源：微博热搜</p>
-            <p class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考</p>
-        </footer>
+        <!-- 页脚 -->
+        <div class="footer">
+            <div>数据来源：微博热搜</div>
+            <div class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考，不构成任何投资或商业建议</div>
+        </div>
     </div>
 </body>
 </html>
