@@ -94,16 +94,22 @@ def analyze_with_claude(hot_data, api_key, base_url):
                 content = result.get('content', [])
                 if content:
                     # 只获取 text 类型的内容，忽略 thinking
+                    text_content = None
                     for item in content:
                         if item.get('type') == 'text':
-                            return item.get('text', '')
+                            text_content = item.get('text', '')
+                            break
 
-                    # 如果没有 text 类型，尝试其他字段
-                    first_item = content[0]
-                    if 'text' in first_item:
-                        return first_item.get('text', '')
+                    if text_content:
+                        # 确保返回的是 HTML 格式
+                        if text_content.strip().startswith('<!DOCTYPE html>') or text_content.strip().startswith('<html'):
+                            return text_content
+                        else:
+                            print("警告: 返回的内容不是 HTML 格式")
+                            print(f"内容预览: {text_content[:200]}")
+                            return None
 
-                print("警告: 响应中没有找到内容")
+                print("警告: 响应中没有找到 text 类型的内容")
                 return None
             else:
                 print(f"API 返回错误: {response.text}")
