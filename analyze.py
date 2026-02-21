@@ -49,7 +49,9 @@ def analyze_with_claude(hot_data, api_key, base_url):
 
 {hot_list_text}
 
-请按照系统提示中的要求，完成分析并生成 HTML 报告。注意：报告中的生成时间请使用 {today}。"""
+【重要】请直接输出完整的 HTML 代码，从 <!DOCTYPE html> 开始到 </html> 结束。不要输出任何分析过程、思考过程、markdown 格式或其他说明文字。只输出纯 HTML 代码。
+
+报告中的生成时间请使用 {today}。"""
 
     # 构建请求 URL
     api_url = f"{base_url.rstrip('/')}/v1/messages"
@@ -65,10 +67,7 @@ def analyze_with_claude(hot_data, api_key, base_url):
 
     payload = {
         "model": "MiniMax-M2.1",
-        "max_tokens": 16000,  # 增加 token 限制
-        "thinking": {
-            "type": "disabled"  # 强制禁用 thinking 模式
-        },
+        "max_tokens": 16000,
         "system": system_prompt,
         "messages": [
             {"role": "user", "content": user_message}
@@ -105,12 +104,21 @@ def analyze_with_claude(hot_data, api_key, base_url):
 
                     if text_content:
                         # 确保返回的是 HTML 格式
-                        if text_content.strip().startswith('<!DOCTYPE html>') or text_content.strip().startswith('<html'):
-                            return text_content
-                        else:
-                            print("警告: 返回的内容不是 HTML 格式")
-                            print(f"内容预览: {text_content[:200]}")
+                        text_content = text_content.strip()
+
+                        # 如果不是 HTML，直接拒绝
+                        if not (text_content.startswith('<!DOCTYPE html>') or text_content.startswith('<html')):
+                            print("❌ 错误: AI 返回的不是 HTML 格式")
+                            print(f"内容开头: {text_content[:100]}")
+
+                            # 如果是思考过程，明确提示
+                            if text_content.startswith('我来') or text_content.startswith('##'):
+                                print("⚠️  检测到 AI 返回了思考过程而非 HTML")
+                                print("这是 MiniMax API 的已知问题，请重试或联系 API 提供商")
+
                             return None
+
+                        return text_content
 
                 print("警告: 响应中没有找到 text 类型的内容")
                 return None
