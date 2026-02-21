@@ -66,6 +66,9 @@ def analyze_with_claude(hot_data, api_key, base_url):
     payload = {
         "model": "MiniMax-M2.1",
         "max_tokens": 16000,  # 增加 token 限制
+        "thinking": {
+            "type": "disabled"  # 强制禁用 thinking 模式
+        },
         "system": system_prompt,
         "messages": [
             {"role": "user", "content": user_message}
