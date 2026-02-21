@@ -106,6 +106,13 @@ def analyze_with_claude(hot_data, api_key, base_url):
                         # 确保返回的是 HTML 格式
                         text_content = text_content.strip()
 
+                        # 如果被 markdown 代码块包裹，提取出来
+                        if text_content.startswith('```html'):
+                            start = text_content.find('```html') + 7
+                            end = text_content.rfind('```')
+                            if end > start:
+                                text_content = text_content[start:end].strip()
+
                         # 如果不是 HTML，直接拒绝
                         if not (text_content.startswith('<!DOCTYPE html>') or text_content.startswith('<html')):
                             print("❌ 错误: AI 返回的不是 HTML 格式")
