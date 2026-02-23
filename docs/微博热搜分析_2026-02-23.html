@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f8fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* 头部样式 */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* 总览区域 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        /* 分类标题 */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        /* 重点热搜卡片 */
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .highlight-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 4px solid #667eea;
+        }
+        
+        .highlight-card .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .highlight-card .heat {
+            font-size: 13px;
+            color: #999;
+            font-weight: 400;
+        }
+        
+        .highlight-card .section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+        
+        .highlight-card .section-title {
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        
+        .highlight-card .section-content {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .highlight-card .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-high {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .tag-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .tag-low {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        /* 次重点卡片 */
+        .secondary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .secondary-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 16px;
+            border-left: 3px solid #adb5bd;
+        }
+        
+        .secondary-card .hotword {
+            font-size: 15px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 6px;
+        }
+        
+        .secondary-card .heat {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        
+        .secondary-card .direction {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #888;
+            font-size: 13px;
+            border-top: 1px solid #e9ecef;
+            margin-top: 40px;
+        }
+        
+        footer .disclaimer {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .overview, .highlight-grid, .secondary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 24px;
+            }
+            
+            .category-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年02月23日 14:30</p>
+        </header>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">7</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">15</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+        
+        <!-- 体育健康 -->
+        <div class="category">
+            <h2 class="category-title">体育健康</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="hotword">
+                        谷爱凌商业价值排冬奥运动员第一
+                        <span class="heat">29.8万</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">运动员商业价值评估工具，整合品牌代言、社交影响力、赛事表现数据，为品牌方提供运动员代言 ROI 测算</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">品牌营销部门、体育经纪公司、赞助商</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">Web 端展示页面，手动录入运动员数据，计算商业价值得分，可生成简单的对比报告</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> 体育营销市场需求大，变现路径清晰
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">
+                        谷爱凌晒金牌打脸外媒
+                        <span class="heat">83.4万</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">运动员社交媒体舆情监测系统，实时追踪外媒报道，自动生成反驳素材库和舆论应对建议</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">体育协会、运动员团队、公关公司</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">关键词监测工具 + 舆情报告生成器，支持主流外媒报道抓取和情感分析</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> 细分市场，客单价高但需求总量有限
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">
+                        谷爱凌夺冠动作形成完美生物力学闭环
+                        <span class="heat">19.3万</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">运动动作分析教学 App，通过视频上传 AI 分析动作规范性，提供动作优化建议和训练计划</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">运动爱好者、教练、体育生、健身用户</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">上传动作视频 → AI 分析 → 生成动作评分和改进建议的闭环功能</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> 健身运动人群基数大，技术壁垒可构建护城河
+                    </div>
+                </div>
+            </div>
+            <div class="secondary-grid">
+                <div class="secondary-card">
+                    <div class="hotword">徐梦桃夺冠当天收到1600多条信息</div>
+                    <div class="heat">14.1万</div>
+                    <div class="direction">产品方向：运动员祝福/应援工具，聚合粉丝祝福一键发送</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 科技数码 -->
+        <div class="category">
+            <h2 class="category-title">科技数码</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="hotword">
+                        史上最贵iPhone要来了
+                        <span class="heat">25.3万</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">苹果新品发布倒计时+配置预测平台，聚合供应链消息、分析师预测，用户可订阅提醒和参与价格竞猜</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">科技爱好者、数码博主、果粉、黄牛</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">倒计时页面 + 历史配置数据库 + 用户投票预测功能，预计发售前 3 个月上线</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> 流量可观，变现依赖广告和电商导流
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 社会生活 -->
+        <div class="category">
+            <h2 class="category-title">社会生活</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="hotword">
+                        西安大雪
+                        <span class="heat">114.9万</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">城市天气场景化服务 App，结合气象数据推荐出行方案、穿搭建议、路况预警，恶劣天气自动推送安全提醒</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">通勤人群、家长、老年人、户外工作者</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">天气详情页 + 出行建议卡片 + 场景化穿搭推荐，嵌入地图 SDK 显示实时路况</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> 刚需高频，广告和本地生活导流空间大
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">
+                        大年初七新的旅程开启
+                        <span class="heat">63.5万</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">年度目标规划与进度追踪工具，结合节日节点（春节、开工日）推送目标提醒，支持打卡、复盘、社交化目标PK</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">职场人士、大学生、想要自我提升的用户</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">目标设定页面 + 进度打卡 + 里程碑提醒 + 成就徽章体系</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> 付费会员解锁高级分析功能，社交裂变获客
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 职场社会 -->
+        <div class="category">
+            <h2 class="category-title">职场社会</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="hotword">
+                        父母托关系找的工作应该去吗
+                        <span class="heat">22.1万</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">职场决策辅助工具，输入工作机会信息（薪资、发展、关系成本等），AI 辅助权衡利弊，提供决策建议和风险提示</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">应届毕业生、职场新人、面临职业选择的人</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">问卷式信息收集 → 决策矩阵分析 → 生成利弊对比报告和行动建议</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> 切入点精准，可扩展至职业规划服务
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 消费维权 -->
+        <div class="category">
+            <h2 class="category-title">消费维权</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="hotword">
+                        大理4公里拖车费1400元
+                        <span class="heat">22.1万</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">拖车救援价格透明化平台，聚合各地拖车收费标准，用户输入车型、距离、地区即可预估费用，提供投诉通道和比价功能</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">车主、保险用户、经常自驾出行的人</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">拖车费用计算器 + 用户晒单数据库 + 维权指引文档</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> 痛点强且普遍，可对接保险公司和救援平台抽佣
+                    </div>
+                </div>
+            </div>
+            <div class="secondary-grid">
+                <div class="secondary-card">
+                    <div class="hotword">离婚发现女儿非亲生判还抚养费</div>
+                    <div class="heat">19.7万</div>
+                    <div class="direction">产品方向：法律咨询+亲子鉴定服务入口平台</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 金融财经 -->
+        <div class="category">
+            <h2 class="category-title">金融财经</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="hotword">
+                        女子深陷迷你贷400元分36期
+                        <span class="heat">14.1万</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">小额贷风险识别与科普工具，扫描贷款合同识别潜在风险，计算真实年化利率，提供债务重组建议和正规贷款渠道指引</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">年轻消费者、冲动借贷用户、金融小白</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">利率计算器 + 贷款合同拍照识别 + 风险预警提示 + 正规机构链接</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> 社会责任属性强，可对接正规金融机构导流
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 娱乐影视 -->
+        <div class="category">
+            <h2 class="category-title">娱乐影视</h2>
+            <div class="secondary-grid">
+                <div class="secondary-card">
+                    <div class="hotword">杨幂 这么来历不明的二维码也要扫吗</div>
+                    <div class="heat">48.3万</div>
+                    <div class="direction">产品方向：扫码安全检测工具，识别二维码风险链接</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">陈丽君自曝把命都交代出去</div>
+                    <div class="heat">23.5万</div>
+                    <div class="direction">产品方向：演员敬业度话题，可做影视幕后纪录片平台</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">神仙肉</div>
+                    <div class="heat">21.1万</div>
+                    <div class="direction">产品方向：短剧/微短剧推荐和评分平台</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">大侦探</div>
+                    <div class="heat">17.0万</div>
+                    <div class="direction">产品方向：剧本杀/推理游戏线上工具</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">周洁琼不参与I.O.I回归</div>
+                    <div class="heat">16.8万</div>
+                    <div class="direction">产品方向：韩流偶像动态聚合+粉丝社群</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">金裕贞短发造型</div>
+                    <div class="heat">14.1万</div>
+                    <div class="direction">产品方向：明星发型参考+造型社区</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考，不构成任何投资或产品决策建议</p>
+        </footer>
+    </div>
+</body>
+</html>
