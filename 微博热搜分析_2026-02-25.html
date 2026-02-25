@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #4a90e2 0%, #67b8de 100%);
+            border-radius: 16px;
+            color: white;
+        }
+        
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .overview-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a90e2;
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-left: 16px;
+            border-left: 4px solid #4a90e2;
+            color: #2c3e50;
+        }
+        
+        .priority-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .priority-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        
+        .priority-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .priority-card .hotword {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .priority-card .hotword .heat {
+            font-size: 12px;
+            color: #999;
+            font-weight: 400;
+        }
+        
+        .priority-card .section-title {
+            font-size: 12px;
+            color: #4a90e2;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .priority-card h4 {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        
+        .priority-card p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .priority-card .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .tag-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .tag-low {
+            background: #f5f5f5;
+            color: #757575;
+        }
+        
+        .secondary-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .secondary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+            border-left: 3px solid #e0e0e0;
+        }
+        
+        .secondary-card .hotword {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .secondary-card .hotword .heat {
+            font-size: 11px;
+            color: #999;
+            font-weight: 400;
+        }
+        
+        .secondary-card p {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px 20px;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        footer p {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .priority-list,
+            .secondary-list {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p>生成时间：2026年02月25日</p>
+        </header>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <span class="number">20</span>
+                <span class="label">今日热搜总数</span>
+            </div>
+            <div class="overview-card">
+                <span class="number">5</span>
+                <span class="label">分析分类数</span>
+            </div>
+            <div class="overview-card">
+                <span class="number">10</span>
+                <span class="label">重点分析话题</span>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">社会热点</h2>
+            
+            <div class="priority-list">
+                <div class="priority-card">
+                    <div class="section-title">重点分析</div>
+                    <div class="hotword">
+                        考公火爆缩编却开始了
+                        <span class="heat">43万</span>
+                    </div>
+                    <h4>产品创意</h4>
+                    <p>公考岗位追踪与智能匹配工具，实时监控各地区编制变化，一键订阅目标岗位动态</p>
+                    <h4>目标用户</h4>
+                    <p>备考公务员及事业编的考生群体</p>
+                    <h4>MVP建议</h4>
+                    <p>开发小程序，聚合国考/省考岗位表，支持按地区/专业/学历筛选，提供缩编预警订阅</p>
+                    <span class="tag tag-high">高商业潜力</span>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点分析</div>
+                    <div class="hotword">
+                        春节国内出游5.96亿人次
+                        <span class="heat">62万</span>
+                    </div>
+                    <h4>产品创意</h4>
+                    <p>节假日出游人流预测与错峰神器，基于大数据预测各景区人流，提供反向出游建议</p>
+                    <h4>目标用户</h4>
+                    <p>节假日有出游计划的家庭和个人</p>
+                    <h4>MVP建议</h4>
+                    <p>接入景区客流数据API，生成热门城市/景区的人流热力图，推荐冷门替代景点</p>
+                    <span class="tag tag-high">高商业潜力</span>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点分析</div>
+                    <div class="hotword">
+                        交警回应女子随手拍举报20多辆车
+                        <span class="heat">21万</span>
+                    </div>
+                    <h4>产品创意</h4>
+                    <p>全民交通违法举报平台，接入各地交警举报入口，简化举报流程赚取积分奖励</p>
+                    <h4>目标用户</h4>
+                    <p>关注交通文明、愿意参与社会治理的市民</p>
+                    <h4>MVP建议</h4>
+                    <p>开发举报小程序，集成多地交警举报入口，上传视频自动识别车牌，支持积分商城</p>
+                    <span class="tag tag-medium">中商业潜力</span>
+                </div>
+            </div>
+            
+            <div class="secondary-list">
+                <div class="secondary-card">
+                    <div class="hotword">
+                        中秋请3天假堪比春节
+                        <span class="heat">111万</span>
+                    </div>
+                    <p>拼假攻略工具，智能计算最优请假方案，生成请假话术模板</p>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">
+                        多少滞留三亚的人被自己穷笑了
+                        <span class="heat">58万</span>
+                    </div>
+                    <p>穷游三亚攻略平台，聚合低价机票、酒店、美食信息</p>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">
+                        游客在三亚沙滩写不想上班
+                        <span class="heat">35万</span>
+                    </div>
+                    <p>情绪释放+治愈系旅游产品，主打解压放空的旅游目的地推荐</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">生活健康</h2>
+            
+            <div class="priority-list">
+                <div class="priority-card">
+                    <div class="section-title">重点分析</div>
+                    <div class="hotword">
+                        伊能静尝试生酮饮食半年瘦到86斤
+                        <span class="heat">20万</span>
+                    </div>
+                    <h4>产品创意</h4>
+                    <p>生酮饮食科学指导工具，提供食谱推荐、效果追踪、营养分析，连接专业营养师</p>
+                    <h4>目标用户</h4>
+                    <p>关注减重、尝试生酮饮食的人群</p>
+                    <h4>MVP建议</h4>
+                    <p>开发饮食记录小程序，提供生酮友好食谱库，接入智能体脂秤数据，生成报告</p>
+                    <span class="tag tag-medium">中商业潜力</span>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点分析</div>
+                    <div class="hotword">
+                        三亚通报在职教师被开除
+                        <span class="heat">81万</span>
+                    </div>
+                    <h4>产品创意</h4>
+                    <p>教师职业风险预警平台，收录各地教师违规案例，提供职业规范指南与风险提醒</p>
+                    <h4>目标用户</h4>
+                    <p>在职教师、师范生群体</p>
+                    <h4>MVP建议</h4>
+                    <p>搭建教师违规案例数据库，生成风险预警报告，提供在线职业培训课程</p>
+                    <span class="tag tag-medium">中商业潜力</span>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点分析</div>
+                    <div class="hotword">
+                        难怪考试不让上厕所
+                        <span class="heat">34万</span>
+                    </div>
+                    <h4>产品创意</h4>
+                    <p>考试健康应对指南，针对考前焦虑、考场生理需求提供科学解决方案</p>
+                    <h4>目标用户</h4>
+                    <p>备考学生及家长</p>
+                    <h4>MVP建议</h4>
+                    <p>开发备考知识库，整理各省考试规则，提供心理调节和生理应对建议</p>
+                    <span class="tag tag-low">低商业潜力</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">教育职场</h2>
+            
+            <div class="secondary-list">
+                <div class="secondary-card">
+                    <div class="hotword">
+                        校服的裙摆开播
+                        <span class="heat">35万</span>
+                    </div>
+                    <p>校园剧衍生内容社区，聚合剧集周边、校园话题讨论</p>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">
+                        被继父亲吻女童老师称孩子挺正常
+                        <span class="heat">19万</span>
+                    </div>
+                    <p>儿童安全教育平台，提供防侵害课程与家庭沟通指南</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">科技商业</h2>
+            
+            <div class="priority-list">
+                <div class="priority-card">
+                    <div class="section-title">重点分析</div>
+                    <div class="hotword">
+                        你打字吧 你字好看
+                        <span class="heat">43万</span>
+                    </div>
+                    <h4>产品创意</h4>
+                    <p>手写字体定制与AI美化工具，将手写字转化为专属字体，应用于各种场景</p>
+                    <h4>目标用户</h4>
+                    <p>追求个性化、重视手写仪式感的年轻用户</p>
+                    <h4>MVP建议</h4>
+                    <p>开发字体生成小程序，用户手写200字即可生成专属字体包，支持键盘皮肤定制</p>
+                    <span class="tag tag-high">高商业潜力</span>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点分析</div>
+                    <div class="hotword">
+                        刘强东已接到5条大型游艇订单
+                        <span class="heat">34万</span>
+                    </div>
+                    <h4>产品创意</h4>
+                    <p>高端旅游与游艇租赁平台，连接供应商与高净值用户，提供定制化海上体验</p>
+                    <h4>目标用户</h4>
+                    <p>高净值人群、企业团建客户</p>
+                    <h4>MVP建议</h4>
+                    <p>搭建游艇租赁信息平台，提供包船体验、企业活动定制服务</p>
+                    <span class="tag tag-medium">中商业潜力</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">娱乐明星</h2>
+            
+            <div class="secondary-list">
+                <div class="secondary-card">
+                    <div class="hotword">
+                        告白官宣王星越和邓恩熙
+                        <span class="heat">35万</span>
+                    </div>
+                    <p>明星动态聚合工具，定制关注艺人的行程与作品更新</p>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">
+                        单依纯二巡官宣
+                        <span class="heat">24万</span>
+                    </div>
+                    <p>演唱会抢票辅助工具，提供开票提醒、座位分析服务</p>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">
+                        时代峰峻高会否认时代少年团单飞
+                        <span class="heat">30万</span>
+                    </div>
+                    <p>饭圈资讯聚合平台，整理idol动态与粉丝社群</p>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">
+                        14岁谷爱凌在上海街头说这么多老外
+                        <span class="heat">35万</span>
+                    </div>
+                    <p>运动员商业价值追踪，分析代言与社交影响力</p>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">
+                        王橹杰彩烟应援
+                        <span class="heat">23万</span>
+                    </div>
+                    <p>粉丝应援工具，提供应援方案策划与执行平台</p>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">
+                        吴昕自曝录制快本三四个月还是想走
+                        <span class="heat">34万</span>
+                    </div>
+                    <p>职场心理分析内容，探讨职业倦怠与转型选择</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p>免责声明：本报告由 AI 自动生成，仅供参考，不构成任何投资或决策建议</p>
+        </footer>
+    </div>
+</body>
+</html>
