@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* 头部样式 */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* 总览区域 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s;
+        }
+        
+        .overview-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 分类标题 */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            padding-left: 16px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 20px;
+        }
+        
+        /* 卡片布局 */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        /* 重点卡片 */
+        .priority-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            border-top: 4px solid #667eea;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .priority-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .priority-card .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .priority-card .hotword .heat {
+            font-size: 14px;
+            color: #999;
+            font-weight: 400;
+        }
+        
+        .priority-card .section {
+            margin-top: 16px;
+        }
+        
+        .priority-card .section-title {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        
+        .priority-card .section-content {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.7;
+        }
+        
+        /* 商业潜力标签 */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-high {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .tag-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .tag-low {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        /* 次重点卡片 */
+        .secondary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-left: 3px solid #a0aec0;
+            transition: transform 0.2s;
+        }
+        
+        .secondary-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .secondary-card .hotword {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .secondary-card .hotword .heat {
+            font-size: 13px;
+            color: #999;
+            font-weight: 400;
+        }
+        
+        .secondary-card .direction {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+        
+        footer .disclaimer {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #bbb;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 24px;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .priority-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年02月28日 14:30</p>
+        </header>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <span class="number">20</span>
+                <span class="label">今日热搜总数</span>
+            </div>
+            <div class="overview-card">
+                <span class="number">6</span>
+                <span class="label">分析分类数</span>
+            </div>
+            <div class="overview-card">
+                <span class="number">12</span>
+                <span class="label">重点分析话题数</span>
+            </div>
+        </div>
+        
+        <!-- 教育类 -->
+        <div class="category">
+            <h2 class="category-title">教育</h2>
+            <div class="cards">
+                <!-- 重点 -->
+                <div class="priority-card">
+                    <div class="hotword">
+                        2026考研国家线发布
+                        <span class="heat">844726</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">一款考研分数线智能查询与预测工具，输入目标院校专业可获取历年分数线、报录比、复试难度等综合分析</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">2026届考研考生、准备考研的本科生、考研二战群体</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">Web端工具页面，聚合34所自主划线院校+其他院校数据，提供分数线查询、趋势图、院校对比三个核心功能</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-high">高</span> 考研市场规模大，考生刚需强，可对接考研培训机构广告</div>
+                    </div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">
+                        张雪峰谈考研人数减少分数线却涨了
+                        <span class="heat">254739</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">一个考研趋势分析与择校咨询平台，整合专家观点和数据分析，帮助考生理解考研形势变化</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">对考研趋势困惑的学生、想要科学择校的考生家长</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">公众号+小程序形态，提供考研趋势解读文章、分数线预测、专家问答功能</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-medium">中</span> 内容付费+咨询付费模式，用户付费意愿较强但天花板明显</div>
+                    </div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">
+                        考研下岸了
+                        <span class="heat">561106</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">考研失败者社区与职业规划平台，提供失利经验分享、出路分析（就业/考公/留学/二战）</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">考研失利的考生、正在考虑是否二战的学生</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">垂直社区App，包含经验帖、问答、出路指南功能，初期用公众号承载</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-medium">中</span> 每年300万+考研人，失利群体可观，变现靠留学/考公中介对接</div>
+                    </div>
+                </div>
+                <!-- 次重点 -->
+                <div class="secondary-card">
+                    <div class="hotword">
+                        国家线 砍一刀
+                        <span class="heat">269307</span>
+                    </div>
+                    <div class="direction">产品方向：分数线吐槽+社交分享工具，生成"我被砍了多少分"这类趣味图片，适合社交传播</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 科技/汽车类 -->
+        <div class="category">
+            <h2 class="category-title">科技与汽车</h2>
+            <div class="cards">
+                <!-- 重点 -->
+                <div class="priority-card">
+                    <div class="hotword">
+                        小米超跑
+                        <span class="heat">400770</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">智能汽车资讯与社区平台，聚焦小米、华为等科技公司造车动态，提供新车发布、评测、对比功能</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">科技爱好者、智能汽车潜在买家、数码产品用户</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">公众号+小程序，聚合智能汽车新闻资讯，提供车型参数对比工具</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-high">高</span> 智能汽车赛道火热，用户规模快速增长，变现靠广告+汽车电商</div>
+                    </div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">
+                        周鸿祎揭美伪造陈志案证据内幕
+                        <span class="heat">730402</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">科技热点解读与国际信息安全内容平台，聚合科技大佬观点、解读国际科技事件</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">科技行业从业者、关心国际科技动态的普通用户</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">资讯公众号+付费社群，输出科技热点深度解读，会员可参与闭门分享</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-medium">中</span> 科技话题关注度高，内容付费和社群变现路径清晰</div>
+                    </div>
+                </div>
+                <!-- 次重点 -->
+                <div class="secondary-card">
+                    <div class="hotword">
+                        WTT大满贯首对非中国混双冠军
+                        <span class="heat">202519</span>
+                    </div>
+                    <div class="direction">产品方向：体育赛事资讯+数据查询工具，提供WTT等乒乓球赛事赛程、结果、数据统计</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 社会/健康类 -->
+        <div class="category">
+            <h2 class="category-title">社会与健康</h2>
+            <div class="cards">
+                <!-- 重点 -->
+                <div class="priority-card">
+                    <div class="hotword">
+                        蔡磊已进入渐冻症疾病的终末期
+                        <span class="heat">1214548</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">渐冻症患者生活辅助与关爱平台，提供护理知识、呼吸支持设备推荐、医患对接、心理支持</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">渐冻症患者及家属、罕见病关爱组织、医疗从业者</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">小程序+公众号，提供护理知识库、呼吸机/眼控设备推荐、患者社区功能</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-low">低</span> 患者群体小众，社会意义大于商业价值，可对接公益和医疗器械</div>
+                    </div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">
+                        婚后拒同房男方讨说法已涉嫌违法
+                        <span class="heat">255331</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">婚恋法律知识科普平台，以案例形式解读婚姻法、财产分割、权益保护等法律知识</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">适婚年龄青年、已婚人士、婚恋法律知识需求者</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">短视频+图文内容，先做法律科普IP，再对接律师事务所做付费咨询</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-medium">中</span> 婚姻法律是刚需，可对接法律咨询和婚恋平台合作</div>
+                    </div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">
+                        男子劝朋友别醉驾走后对方车祸身亡
+                        <span class="heat">715580</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">酒后代驾预约+劝酒法律风险科普平台，科普劝酒法律后果，推代驾服务</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">有社交饮酒场景的用户、关心法律风险的普通人</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">与代驾平台API对接，做劝酒法律案例科普短视频，引流至代驾服务</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-medium">中</span> 代驾市场成熟，可做垂直场景营销，变现靠代驾分成</div>
+                    </div>
+                </div>
+                <!-- 次重点 -->
+                <div class="secondary-card">
+                    <div class="hotword">
+                        近视散光人群开夜车的视角
+                        <span class="heat">228805</span>
+                    </div>
+                    <div class="direction">产品方向：近视人群驾驶辅助产品推荐+驾驶技巧分享，针对散光/近视夜间驾驶痛点</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">
+                        保姆卖雇主名牌包给小三20万
+                        <span class="heat">254866</span>
+                    </div>
+                    <div class="direction">产品方向：家政服务评价平台+雇主权益保护工具，解决家政行业信任问题</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">
+                        撞人族是日本特有
+                        <span class="heat">200575</span>
+                    </div>
+                    <div class="direction">产品方向：国际社会现象科普内容，了解不同国家社会问题的知识类账号</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 娱乐类 -->
+        <div class="category">
+            <h2 class="category-title">娱乐</h2>
+            <div class="cards">
+                <!-- 重点 -->
+                <div class="priority-card">
+                    <div class="hotword">
+                        魏大勋恋综鲶鱼嘉宾
+                        <span class="heat">256083</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">明星综艺内容聚合与粉丝社区平台，提供综艺节目预告、cut剪辑、粉丝互动</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">综艺爱好者、明星粉丝、追星族</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">公众号+小程序，聚合热播综艺资讯，提供明星行程、节目cut、粉丝讨论区</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-high">高</span> 粉丝经济规模庞大，变现靠会员、周边、明星商务合作</div>
+                    </div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">
+                        嘉行否认迪丽热巴合约到期
+                        <span class="heat">255518</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">明星工作室官方信息聚合平台，帮助粉丝快速获取明星官方动态、行程、商务</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">迪丽热巴等热门明星的粉丝、娱评人、媒体</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">做明星工作室信息聚合工具，提供官方微博、小程序、行程更新聚合</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-medium">中</span> 粉丝刚需强，但容易被明星工作室官方替代，需找准差异化</div>
+                    </div>
+                </div>
+                <!-- 次重点 -->
+                <div class="secondary-card">
+                    <div class="hotword">
+                        Angelababy37岁了
+                        <span class="heat">255145</span>
+                    </div>
+                    <div class="direction">产品方向：明星生日/行程提醒工具，聚合明星重要日期，做粉丝应援助手</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">
+                        范丞丞方说不认识没交集
+                        <span class="heat">255840</span>
+                    </div>
+                    <div class="direction">产品方向：娱乐新闻辟谣平台，快速核实明星声明、澄清网络谣言</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">
+                        迪丽热巴个人工作室
+                        <span class="heat">206155</span>
+                    </div>
+                    <div class="direction">产品方向：明星工作室动态聚合工具，帮助粉丝一站式获取官方信息</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 国际类 -->
+        <div class="category">
+            <h2 class="category-title">国际</h2>
+            <div class="cards">
+                <!-- 重点 -->
+                <div class="priority-card">
+                    <div class="hotword">
+                        美国对伊朗提了4项要求
+                        <span class="heat">368824</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">国际局势分析内容平台，解读地缘政治事件、国际关系动态，提供专业分析</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">关心国际形势的用户、国际关系学生、从事外贸/出海业务的人群</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">公众号+付费社群，每日国际新闻解读，会员可获取深度分析和闭门分享</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="section-content"><span class="tag tag-medium">中</span> 付费内容+企业培训+出海服务对接，商业路径清晰</div>
+                    </div>
+                </div>
+                <!-- 次重点 -->
+                <div class="secondary-card">
+                    <div class="hotword">
+                        多国呼吁避免前往伊朗
+                        <span class="heat">256030</span>
+                    </div>
+                    <div class="direction">产品方向：出境安全提醒工具，聚合各国出行安全预警，提供旅行安全指南</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考，不构成投资建议</p>
+        </footer>
+    </div>
+</body>
+</html>
