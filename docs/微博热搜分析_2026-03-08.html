@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f8fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b26f 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(74, 144, 217, 0.3);
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .overview {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .overview-item {
+            text-align: center;
+        }
+
+        .overview-item .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a90d9;
+            display: block;
+        }
+
+        .overview-item .label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .category {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #4a90d9;
+            display: inline-block;
+        }
+
+        .card {
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .card-highlight {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+            border: 1px solid #d4e6f7;
+        }
+
+        .card-secondary {
+            background: #fafbfc;
+            border: 1px solid #eee;
+            padding: 15px 20px;
+        }
+
+        .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .hotword .heat {
+            font-size: 14px;
+            font-weight: 400;
+            color: #e74c3c;
+            margin-left: 10px;
+        }
+
+        .card-highlight .product-idea {
+            font-size: 15px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            padding-left: 12px;
+            border-left: 3px solid #4a90d9;
+        }
+
+        .card-highlight .detail-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 12px;
+        }
+
+        .detail-item {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .detail-item .label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .detail-item .value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .potential {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .potential-high {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .potential-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .potential-low {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .card-secondary .hotword {
+            font-size: 16px;
+        }
+
+        .card-secondary .direction {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        footer .disclaimer {
+            margin-top: 8px;
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #e8f4fd;
+            color: #4a90d9;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            header {
+                padding: 30px 20px;
+            }
+
+            header h1 {
+                font-size: 22px;
+            }
+
+            .category {
+                padding: 20px;
+            }
+
+            .overview {
+                padding: 20px;
+            }
+
+            .detail-item {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <div class="subtitle">生成时间：2026年03月08日 14:00</div>
+        </header>
+
+        <div class="overview">
+            <div class="overview-item">
+                <span class="number">20</span>
+                <span class="label">今日热搜总数</span>
+            </div>
+            <div class="overview-item">
+                <span class="number">5</span>
+                <span class="label">分析分类数</span>
+            </div>
+            <div class="overview-item">
+                <span class="number">9</span>
+                <span class="label">重点分析话题</span>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">科技 · AI 应用</div>
+            
+            <div class="card card-highlight">
+                <div class="hotword">姐妹们用千问AI下单快乐过节 <span class="tag">新</span> <span class="heat">NEW</span></div>
+                <div class="product-idea">基于AI语音交互的一站式女性消费助手，集成购物、理财、生活服务</div>
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="label">目标用户</div>
+                        <div class="value">25-40岁女性消费者</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">MVP 建议</div>
+                        <div class="value">开发千问AI插件，嵌入淘宝/京东，下单语音指令+智能比价</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">商业潜力</div>
+                        <div class="value"><span class="potential potential-high">高</span> 女性消费决策入口，佣金变现空间大</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-highlight">
+                <div class="hotword">AI龙虾爆火有人几天赚了26万 <span class="heat">385478</span></div>
+                <div class="product-idea">AI养殖数据分析平台，提供龙虾养殖智能决策、行情预测服务</div>
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="label">目标用户</div>
+                        <div class="value">水产养殖户、返乡创业者</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">MVP 建议</div>
+                        <div class="value">小程序采集水温/水质数据，AI推荐养殖方案+供应链对接</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">商业潜力</div>
+                        <div class="value"><span class="potential potential-medium">中</span> 垂直赛道，付费订阅+撮合交易可盈利</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-highlight">
+                <div class="hotword">AI写作48小时生成500万字长篇小说 <span class="heat">165567</span></div>
+                <div class="product-idea">网文作者AI辅助创作工具，提供世界观构建、情节生成、润色优化</div>
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="label">目标用户</div>
+                        <div class="value">网文作者、写手、兼职创作者</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">MVP 建议</div>
+                        <div class="value">Web端工具，输入题材/大纲，AI生成分章内容+一键润色</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">商业潜力</div>
+                        <div class="value"><span class="potential potential-high">高</span> 网文市场规模大，按字数/会员订阅收费</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-secondary">
+                <div class="hotword">千问一句话买眼镜 <span class="heat">154443</span></div>
+                <div class="direction">产品方向：AI语音购物场景化工具，一句话完成选品比价下单</div>
+            </div>
+
+            <div class="card card-secondary">
+                <div class="hotword">养龙虾为什么爆火 <span class="tag">新</span> <span class="heat">151773</span></div>
+                <div class="direction">产品方向：农产品创业趋势分析工具，挖掘热门养殖品类</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">社会 · 内容治理</div>
+            
+            <div class="card card-highlight">
+                <div class="hotword">男子为博流量盗用新娘头像造谣被拘 <span class="tag">新</span></div>
+                <div class="product-idea">社交平台造谣AI检测与身份保护工具，实时识别盗图、伪造内容</div>
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="label">目标用户</div>
+                        <div class="value">社交平台方、受侵权用户、网暴受害者</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">MVP 建议</div>
+                        <div class="value">API工具，图片指纹比对+AI谣言语义分析，一键举报+防护</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">商业潜力</div>
+                        <div class="value"><span class="potential potential-high">高</span> 平台合规刚需，B端付费意愿强</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-secondary">
+                <div class="hotword">美袭击伊朗海水淡化厂 <span class="heat">227881</span></div>
+                <div class="direction">产品方向：国际突发事件推送+舆情监测工具，面向出海企业</div>
+            </div>
+
+            <div class="card card-secondary">
+                <div class="hotword">伊朗65所学校遭袭 <span class="heat">154383</span></div>
+                <div class="direction">产品方向：全球教育安全预警平台，海外中国公民保护</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">生活 · 女性消费</div>
+            
+            <div class="card card-highlight">
+                <div class="hotword">妇女节 <span class="heat">741855</span></div>
+                <div class="product-idea">女性节日消费策划平台，聚合品牌优惠、情绪营销、礼物推荐</div>
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="label">目标用户</div>
+                        <div class="value">25-45岁女性、品牌方、电商平台</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">MVP 建议</div>
+                        <div class="value">节日小程序，礼物智能推荐+品牌优惠券聚合+打卡分享</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">商业潜力</div>
+                        <div class="value"><span class="potential potential-medium">中</span> 季节性强，品牌广告+导流变现</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-highlight">
+                <div class="hotword">170斤女孩穿旗袍跳舞自信到发光 <span class="tag">辟谣</span> <span class="heat">160548</span></div>
+                <div class="product-idea">大码女装+身材自信内容社区，连接KOL种草与品牌电商</div>
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="label">目标用户</div>
+                        <div class="value">大码女性、身材焦虑用户、服装品牌</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">MVP 建议</div>
+                        <div class="value">小程序，真实身材试穿展示+尺码匹配+大码品牌商城</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">商业潜力</div>
+                        <div class="value"><span class="potential potential-high">高</span> 蓝海市场，客单价高+复购率高</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-secondary">
+                <div class="hotword">向每一位闪闪发光的她致敬 <span class="tag">新</span> <span class="heat">154408</span></div>
+                <div class="direction">产品方向：女性成长故事平台，品牌情感营销内容聚合</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">政策 · 经济</div>
+            
+            <div class="card card-highlight">
+                <div class="hotword">9个字看十五五规划里的世界机遇 <span class="heat">605035</span></div>
+                <div class="product-idea">政策解读短视频+AI分析工具，把脉行业发展方向与投资机会</div>
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="label">目标用户</div>
+                        <div class="value">企业家、投资者、职场人士</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">MVP 建议</div>
+                        <div class="value">公众号+视频号，政策要点图解+AI行业影响分析报告</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label">商业潜力</div>
+                        <div class="value"><span class="potential potential-medium">中</span> 知识付费+咨询培训，变现路径清晰</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-secondary">
+                <div class="hotword">一五到十五五重大工程 <span class="heat">176131</span></div>
+                <div class="direction">产品方向：基建投资机会数据库，关联上市公司分析</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">娱乐 · 内容消费</div>
+            
+            <div class="card card-secondary">
+                <div class="hotword">玉兰花开君再来 <span class="heat">187343</span></div>
+                <div class="direction">产品方向：剧集热度追踪+CP嗑糖工具，粉丝社区</div>
+            </div>
+
+            <div class="card card-secondary">
+                <div class="hotword">张凌赫田曦薇下意识牵手 <span class="heat">161651</span></div>
+                <div class="direction">产品方向：明星CP二创内容平台，剪辑工具+同人文社区</div>
+            </div>
+
+            <div class="card card-secondary">
+                <div class="hotword">十日终焉 <span class="heat">155361</span></div>
+                <div class="direction">产品方向：小说IP改编互动社区，剧情讨论+周边衍生</div>
+            </div>
+        </div>
+
+        <footer>
+            <div>数据来源：微博热搜</div>
+            <div class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考，不构成投资建议</div>
+        </footer>
+    </div>
+</body>
+</html>
