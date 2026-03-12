@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* 总览区域 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90d9;
+            margin-bottom: 8px;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 分类区域 */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-left: 16px;
+            border-left: 4px solid #4a90d9;
+        }
+        
+        /* 重点卡片 */
+        .priority-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .priority-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e8eef3;
+        }
+        
+        .priority-card .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .priority-card .heat {
+            font-size: 13px;
+            color: #999;
+            font-weight: 400;
+        }
+        
+        .priority-card .section-title {
+            font-size: 12px;
+            color: #4a90d9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .priority-card .product-idea {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #4a90d9;
+        }
+        
+        .priority-card .detail-row {
+            margin-bottom: 12px;
+        }
+        
+        .priority-card .detail-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .priority-card .detail-content {
+            font-size: 14px;
+            color: #333;
+            margin-top: 4px;
+        }
+        
+        .priority-card .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        
+        .tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-high {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .tag-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .tag-low {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        /* 次重点卡片 */
+        .secondary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        .secondary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .secondary-card .hotword {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .secondary-card .heat {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+        
+        .secondary-card .direction {
+            font-size: 14px;
+            color: #666;
+            padding: 10px;
+            background: #fafafa;
+            border-radius: 6px;
+            border-left: 3px solid #ccc;
+        }
+        
+        /* 页面区块标题 */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .section-badge {
+            background: #4a90d9;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-size: 13px;
+            margin-top: 40px;
+        }
+        
+        footer .disclaimer {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header {
+                padding: 30px 20px;
+            }
+            
+            header h1 {
+                font-size: 24px;
+            }
+            
+            .priority-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .secondary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年03月12日</p>
+        </header>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">6</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">15</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+        
+        <!-- 社会与民生 -->
+        <div class="category">
+            <h2 class="category-title">社会与民生</h2>
+            
+            <div class="priority-cards">
+                <div class="priority-card">
+                    <div class="section-title">重点热搜 1</div>
+                    <div class="hotword">
+                        委员回应年轻人受不了内卷想出家
+                        <span class="heat">热度: 102万</span>
+                    </div>
+                    <div class="product-idea">
+                        开发一款面向职场年轻人的心理压力检测与疏导工具，提供AI情绪陪伴和压力可视化报告。
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">目标用户</div>
+                        <div class="detail-content">22-35岁职场新人、面临996压力的互联网/金融从业者</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">MVP 建议</div>
+                        <div class="detail-content">开发微信小程序，包含每日情绪打卡、AI对话疏导、压力指数测评三个核心功能，首批邀请1000名用户内测</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-high">商业潜力：高</span>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点热搜 2</div>
+                    <div class="hotword">
+                        建议让全年无休的照护者能喘口气
+                        <span class="heat">热度: 74万</span>
+                    </div>
+                    <div class="product-idea">
+                        搭建喘息服务平台，连接专业护理人员与长期照护者，提供临时替代照护服务。
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">目标用户</div>
+                        <div class="detail-content">全职照护失能老人/重病家人的家庭照护者、养老机构</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">MVP 建议</div>
+                        <div class="detail-content">先从北京上海试点，开发陪护服务预约平台，招募兼职护理员，提供4小时/8小时/24小时不同档次的喘息陪护服务</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-high">商业潜力：高</span>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点热搜 3</div>
+                    <div class="hotword">
+                        建议提高待遇激励医学生扎根基层
+                        <span class="heat">热度: 59万</span>
+                    </div>
+                    <div class="product-idea">
+                        打造基层医疗人才服务社区，提供招聘信息对接、培训资源和政策解读服务。
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">目标用户</div>
+                        <div class="detail-content">医学毕业生、基层医疗机构、人力资源服务商</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">MVP 建议</div>
+                        <div class="detail-content">开发医学生就业社区小程序，聚合基层医院招聘信息，展示待遇政策，首批与10个县医院合作试点</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-medium">商业潜力：中</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">建议扩围职业病目录明确认定标准</div>
+                    <div class="heat">热度: 58万</div>
+                    <div class="direction">产品方向：职业病防护与咨询服务平台，为劳动者提供职业健康检测、维权指导</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">代表说农民交的公粮就等于交了社保</div>
+                    <div class="heat">热度: 28万</div>
+                    <div class="direction">产品方向：农村养老政策解读与咨询服务，帮助老年农民了解权益</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">3月12日两会日程</div>
+                    <div class="heat">热度: 60万</div>
+                    <div class="direction">产品方向：两会信息聚合与解读工具，帮助民众快速了解政策动态</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 科技与数码 -->
+        <div class="category">
+            <h2 class="category-title">科技与数码</h2>
+            
+            <div class="priority-cards">
+                <div class="priority-card">
+                    <div class="section-title">重点热搜 1</div>
+                    <div class="hotword">
+                        苹果最贵手机要来了
+                        <span class="heat">热度: 47万</span>
+                    </div>
+                    <div class="product-idea">
+                        开发苹果新品比价与评测聚合平台，提供价格走势分析和以旧换新计算器。
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">目标用户</div>
+                        <div class="detail-content">苹果潜在换机用户、数码爱好者、二手交易用户</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">MVP 建议</div>
+                        <div class="detail-content">开发小程序，提供历代iPhone价格对比、配置对比、以旧换新估价、各渠道价格提醒功能</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-medium">商业潜力：中</span>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点热搜 2</div>
+                    <div class="hotword">
+                        杨利伟揭秘航天员太空出征细节
+                        <span class="heat">热度: 60万</span>
+                    </div>
+                    <div class="product-idea">
+                        打造航天知识科普与互动平台，结合AR技术让用户"体验"太空生活。
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">目标用户</div>
+                        <div class="detail-content">青少年学生、航天爱好者、科普教育机构</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">MVP 建议</div>
+                        <div class="detail-content">开发航天科普公众号系列内容，配合简单的AR体验页面，首批产出10期航天员日常科普内容</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-low">商业潜力：低</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 生活消费 -->
+        <div class="category">
+            <h2 class="category-title">生活消费</h2>
+            
+            <div class="priority-cards">
+                <div class="priority-card">
+                    <div class="section-title">重点热搜 1</div>
+                    <div class="hotword">
+                        东北阿姨坐5小时高铁后把座椅全立直
+                        <span class="heat">热度: 28万</span>
+                    </div>
+                    <div class="product-idea">
+                        开发高铁出行互助社区，提供座椅调节礼仪指南、邻座沟通技巧等实用内容。
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">目标用户</div>
+                        <div class="detail-content">高频高铁出行人群、经常需要长途通勤的上班族</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">MVP 建议</div>
+                        <div class="detail-content">推出高铁出行礼仪短视频系列，制作座椅调节指南图解，在抖音/小红书试水传播</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-medium">商业潜力：中</span>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点热搜 2</div>
+                    <div class="hotword">
+                        景区买个水果捞没想到切完多了
+                        <span class="heat">热度: 26万</span>
+                    </div>
+                    <div class="product-idea">
+                        开发景区消费避坑工具，提供景区物价公示、消费纠纷投诉入口。
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">目标用户</div>
+                        <div class="detail-content">经常外出旅游的用户、亲子游群体、大学生穷游群体</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">MVP 建议</div>
+                        <div class="detail-content">先开发小程序，聚合各地景区消费投诉案例，提供景区评分查询功能</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-high">商业潜力：高</span>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="section-title">重点热搜 3</div>
+                    <div class="hotword">
+                        妇科医生最想撕碎的健康谣言
+                        <span class="heat">热度: -</span>
+                    </div>
+                    <div class="product-idea">
+                        打造女性健康科普平台，邀请专业医生定期粉碎健康谣言，提供科学建议。
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">目标用户</div>
+                        <div class="detail-content">18-45岁女性、关注健康的年轻妈妈群体</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">MVP 建议</div>
+                        <div class="detail-content">先运营微信公众号，邀请妇科医生入驻，每周发布健康辟谣内容，建立粉丝社群</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-medium">商业潜力：中</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 娱乐 -->
+        <div class="category">
+            <h2 class="category-title">娱乐</h2>
+            
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">逐玉破万 经纪人亲一个</div>
+                    <div class="heat">热度: 57万</div>
+                    <div class="direction">产品方向：影视作品热度追踪与推荐工具，帮助用户发现热门剧集</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">张凌赫田曦薇头纱照</div>
+                    <div class="heat">热度: 45万</div>
+                    <div class="direction">产品方向：明星写真/剧照高清图库工具，满足粉丝收藏需求</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">田曦薇第一位双平台破万女演员</div>
+                    <div class="heat">热度: 25万</div>
+                    <div class="direction">产品方向：艺人成就榜单与数据分析平台，服务粉丝和行业</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 体育 -->
+        <div class="category">
+            <h2 class="category-title">体育</h2>
+            
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">王濛拟被破格晋升</div>
+                    <div class="heat">热度: 60万</div>
+                    <div class="direction">产品方向：运动员职业生涯档案与成就展示平台</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 国际 -->
+        <div class="category">
+            <h2 class="category-title">国际</h2>
+            
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">伊朗港口若遭袭将打击地区所有港口</div>
+                    <div class="heat">热度: 57万</div>
+                    <div class="direction">产品方向：国际局势快讯聚合工具，为出海企业提供风险预警</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">美国伊朗冲突</div>
+                    <div class="heat">热度: 38万</div>
+                    <div class="direction">产品方向：国际新闻深度解读与可视化工具</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
