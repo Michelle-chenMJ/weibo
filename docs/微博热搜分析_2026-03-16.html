@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* 顶部标题区 */
+        .header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(74, 144, 217, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* 总览区域 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90d9;
+            margin-bottom: 8px;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 分类标题 */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-left: 16px;
+            border-left: 4px solid #4a90d9;
+        }
+        
+        /* 重点热搜卡片 */
+        .focus-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .focus-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        
+        .focus-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .focus-card .hotword {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .focus-card .heat {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+        
+        .focus-card .section {
+            margin-bottom: 14px;
+        }
+        
+        .focus-card .section-title {
+            font-size: 12px;
+            color: #4a90d9;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        
+        .focus-card .section-content {
+            font-size: 14px;
+            color: #444;
+        }
+        
+        .focus-card .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .tag-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .tag-low {
+            background: #f5f5f5;
+            color: #757575;
+        }
+        
+        /* 次重点卡片 */
+        .sub-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .sub-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 18px;
+            border: 1px solid #e8eef3;
+        }
+        
+        .sub-card .hotword {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .sub-card .heat {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        
+        .sub-card .direction {
+            font-size: 13px;
+            color: #666;
+            padding-top: 10px;
+            border-top: 1px solid #e8eef3;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .footer .disclaimer {
+            margin-top: 8px;
+            color: #aaa;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .focus-cards,
+            .sub-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            body {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <div class="subtitle">生成时间：2026年03月16日 17:00</div>
+        </div>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">9</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+        
+        <!-- 社会民生 -->
+        <div class="category">
+            <div class="category-title">社会民生</div>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">湘雅医院失联学生确认坠江身亡</div>
+                    <div class="heat">热度: 1,490,224</div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">校园安全预警App——实时推送校园周边安全事件，支持紧急求助和位置共享</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">大学生、研究生群体及高校管理人员</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP建议</div>
+                        <div class="section-content">开发基于校园地图的定位分享功能 + 一键紧急联系人呼叫 + 异常时间自动提醒</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">卖给孩子的可爱卡片竟有上吊暗示</div>
+                    <div class="heat">热度: 311,392</div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">未成年人内容安全检测工具——家长扫码即可识别文具、玩具中的不良内容元素</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">家长、老师、零售商</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP建议</div>
+                        <div class="section-content">小程序拍照识别功能 + 建立不良内容图片库 + 风险等级提示</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">14岁女孩被上铺舍友踩头致重伤</div>
+                    <div class="heat">热度: 202,320</div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">校园宿舍冲突调解平台——匿名上报系统 + 智能分级预警 + 心理辅导资源对接</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">中学生、大学生，宿管老师</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP建议</div>
+                        <div class="section-content">匿名投诉入口 + 敏感词自动预警 + 一键转接心理咨询热线</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">315曝光名单</div>
+                    <div class="heat">热度: 1,157,882</div>
+                    <div class="direction">315投诉入口聚合平台，一键投诉追踪</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">漂白鸡爪企业致歉</div>
+                    <div class="heat">热度: 614,466</div>
+                    <div class="direction">食品安全溯源小程序，扫码查看生产信息</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">胖东来回应若检测无错会起诉博主</div>
+                    <div class="heat">热度: 291,533</div>
+                    <div class="direction">商家信誉评价系统，检测报告透明化</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 健康生活 -->
+        <div class="category">
+            <div class="category-title">健康生活</div>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">脑梗最快急救方法</div>
+                    <div class="heat">热度: 269,971</div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">急性疾病急救指南App——AI症状初判 + 急救步骤语音指导 + 附近医院导航</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">中老年群体及其家属、突发疾病高危人群</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP建议</div>
+                        <div class="section-content">常见急症急救视频库 + 语音急救步骤指导 + 一键拨打120 + 位置自动发送</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">大冰教家长应对孩子不自律</div>
+                    <div class="heat">热度: 343,979</div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">青少年自律养成小程序——习惯打卡 + 家长监督工具 + 激励机制</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">青少年家长、教育工作者</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP建议</div>
+                        <div class="section-content">每日习惯设定 + 家长提醒功能 + 成就徽章系统</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">金价</div>
+                    <div class="heat">热度: 306,166</div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">贵金属价格监控工具——实时金价提醒 + 投资组合管理 + 购买渠道比价</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">黄金投资者、珠宝消费者</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP建议</div>
+                        <div class="section-content">实时价格推送 + 价格走势图表 + 心理价位提醒</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 科技汽车 -->
+        <div class="category">
+            <div class="category-title">科技汽车</div>
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">上汽大众ID.ERA技术发布会</div>
+                    <div class="heat">热度: --</div>
+                    <div class="direction">新能源车智能配置对比工具</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 国际热点 -->
+        <div class="category">
+            <div class="category-title">国际热点</div>
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">内塔尼亚胡发视频自证在世</div>
+                    <div class="heat">热度: 320,045</div>
+                    <div class="direction">国际新闻深度解读聚合平台</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">泰国抛尸案嫌疑人对话音频曝光</div>
+                    <div class="heat">热度: 250,568</div>
+                    <div class="direction">出境安全预警工具</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">伊朗发布战报</div>
+                    <div class="heat">热度: 204,544</div>
+                    <div class="direction">国际局势影响分析工具</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">中国石狮被刻意放在靖国神社</div>
+                    <div class="heat">热度: 198,214</div>
+                    <div class="direction">历史文化事件档案库</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 娱乐 -->
+        <div class="category">
+            <div class="category-title">娱乐</div>
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">我们的爸爸</div>
+                    <div class="heat">热度: 331,444</div>
+                    <div class="direction">综艺内容二次创作工具</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">樊长玉因身份悬殊不敢回应</div>
+                    <div class="heat">热度: 316,425</div>
+                    <div class="direction">剧集社交讨论社区</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div>数据来源：微博热搜</div>
+            <div class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考</div>
+        </div>
+    </div>
+</body>
+</html>
