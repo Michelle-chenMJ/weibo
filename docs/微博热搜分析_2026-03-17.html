@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f8fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* 顶部区域 */
+        .header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b26f 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(74, 144, 217, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* 总览区域 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90d9;
+            display: block;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        /* 分类区域 */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-left: 12px;
+            border-left: 4px solid #4a90d9;
+        }
+        
+        /* 重点卡片 */
+        .focus-cards {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .focus-card {
+            background: white;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            border: 1px solid #e8ecf0;
+        }
+        
+        .focus-card .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .focus-card .hotword .hot-tag {
+            font-size: 12px;
+            font-weight: 500;
+            color: #ff6b6b;
+            background: #fff0f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .focus-card .heat {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+        
+        .focus-card .section {
+            margin-bottom: 14px;
+        }
+        
+        .focus-card .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a90d9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        
+        .focus-card .section-content {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+        }
+        
+        .focus-card .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+        
+        .tag-high {
+            background: #e6f7ed;
+            color: #1d7a3c;
+        }
+        
+        .tag-medium {
+            background: #fff4e6;
+            color: #d97706;
+        }
+        
+        .tag-low {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        /* 次重点卡片 */
+        .sub-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .sub-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #e5e8eb;
+        }
+        
+        .sub-card .hotword {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .sub-card .heat {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        
+        .sub-card .direction {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        /* 无价值提示 */
+        .no-value {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        /* 页脚 */
+        .footer {
+            margin-top: 50px;
+            padding: 24px;
+            text-align: center;
+            color: #888;
+            font-size: 13px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .footer .disclaimer {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .sub-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .focus-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 -->
+        <div class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年03月17日 14:30</p>
+        </div>
+        
+        <!-- 总览 -->
+        <div class="overview">
+            <div class="overview-card">
+                <span class="number">20</span>
+                <span class="label">今日热搜总数</span>
+            </div>
+            <div class="overview-card">
+                <span class="number">4</span>
+                <span class="label">分析分类数</span>
+            </div>
+            <div class="overview-card">
+                <span class="number">12</span>
+                <span class="label">重点分析话题数</span>
+            </div>
+        </div>
+        
+        <!-- 分类1: 社会生活 -->
+        <div class="category">
+            <h2 class="category-title">社会生活</h2>
+            
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">
+                        爸爸买彩票中748万不告诉孩子
+                        <span class="hot-tag">热度 362,151</span>
+                    </div>
+                    <div class="heat"></div>
+                    
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">家庭财务教育工具——帮助家长以合适方式与孩子讨论金钱观念，培养财商</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">有6-18岁孩子的中产家庭家长</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">微信小程序：提供亲子财商课程、零花钱管理工具、家庭财务讨论模板。核心功能是"何时告诉孩子家中财务状况"的决策辅助</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="tag tag-medium">中</div>
+                        <span style="font-size:13px;color:#666;vertical-align:middle;">家长付费意愿强，但需要持续内容运营</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">
+                        入职未满1年怀孕请假被拒获赔10万
+                        <span class="hot-tag">热度 181,066</span>
+                    </div>
+                    <div class="heat"></div>
+                    
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">职场孕妇权益保护平台——提供孕期权益咨询、职场维权指导、劳动仲裁流程辅助</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">孕期职场女性、备孕女性、HR从业者</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">小程序+法律咨询：孕期请假被拒的应对指南、赔偿案例库、一键生成劳动仲裁申请书模板。初期可对接公益法律援助</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="tag tag-high">高</div>
+                        <span style="font-size:13px;color:#666;vertical-align:middle;">刚需强烈，可拓展企业HR服务和企业版</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">
+                        20岁男子感染HIV后HPV反复发作
+                        <span class="hot-tag">热度 161,785</span>
+                    </div>
+                    <div class="heat"></div>
+                    
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">性健康数据管理工具——帮助HIV/HPV感染者记录病情、提醒用药、追踪复查</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">HIV/HPV感染者及高风险人群</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">App：用药提醒、病程记录、复查日历、匿名匿名的健康社区。需严格保护隐私，突出"健康陪伴"而非"疾病管理"</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="tag tag-medium">中</div>
+                        <span style="font-size:13px;color:#666;vertical-align:middle;">用户群体明确，隐私合规是最大挑战</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">大爷撞法拉利掏163元和4棵菜赔偿</div>
+                    <div class="heat">热度 314,581</div>
+                    <div class="direction">交通事故赔偿计算器——输入事故信息提供参考赔偿金额，降低沟通成本</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">仅收280元牙医回应女孩将复查3次</div>
+                    <div class="heat">热度 1,060,789</div>
+                    <div class="direction">牙科复诊预约管理工具——帮助患者跟踪治疗进度，提供预约提醒</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">76岁奶奶送孙子入伍这一幕看泪目了</div>
+                    <div class="heat">热度 147,876</div>
+                    <div class="direction">军人家庭社交平台——征兵信息、军属社区、军人家庭服务</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分类2: 科技游戏 -->
+        <div class="category">
+            <h2 class="category-title">科技游戏</h2>
+            
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">
+                        恋与深空 无法登陆
+                        <span class="hot-tag">热度 173,407</span>
+                    </div>
+                    <div class="heat"></div>
+                    
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">游戏服务器状态监控与玩家社区——实时显示各游戏服务器状态，崩溃时提供一键报修、补偿查询</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">手游玩家、游戏公会管理者</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">小程序：主流手游服务器状态看板 + 玩家交流论坛。接入手游官方API获取实时状态，崩溃时推送通知并提供官方补偿链接</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="tag tag-low">低</div>
+                        <span style="font-size:13px;color:#666;vertical-align:middle;">依赖游戏官方合作，变现空间有限</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">洛克王国世界预注册</div>
+                    <div class="heat">热度 154,995</div>
+                    <div class="direction">游戏预注册与资讯聚合平台——汇总新游预注册信息、礼包领取、攻略社区</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">华为渠道服</div>
+                    <div class="heat">热度 759,921</div>
+                    <div class="direction">渠道服账号管理与礼包服务——多账号管理、渠道专属福利提醒</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分类3: 商业消费 -->
+        <div class="category">
+            <h2 class="category-title">商业消费</h2>
+            
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">
+                        胖东来169元1克拉方糖戒指再上架
+                        <span class="hot-tag">热度 223,980</span>
+                    </div>
+                    <div class="heat"></div>
+                    
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">平价珠宝电商+胖东来式商业模式分析工具——分析爆款商品定价策略，打造"高性价比"商品推荐平台</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">追求高性价比的年轻消费者、零售行业从业者</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">公众号+小红书：整理"胖东来式平替"商品清单，分析其供应链和定价逻辑，为消费者提供省钱指南</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">商业潜力</div>
+                        <div class="tag tag-medium">中</div>
+                        <span style="font-size:13px;color:#666;vertical-align:middle;">内容电商模式，可接入带货变现</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">网络辟谣标签</div>
+                    <div class="heat"></div>
+                    <div class="direction">辟谣信息聚合与真伪查询工具——帮助用户快速核实网络信息的真实性</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分类4: 娱乐文化 -->
+        <div class="category">
+            <h2 class="category-title">娱乐文化</h2>
+            
+            <div class="no-value">
+                <p>本期热搜以国际时事和社会民生为主，娱乐话题产品价值有限。</p>
+                <p style="margin-top:8px;color:#999;font-size:13px;">相关话题：逐玉(韩剧)、樊长玉听见下聘成亲的反应、紫薯精改大理寺、吴映洁大侦探返场</p>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>数据来源：微博热搜</p>
+            <p class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考，不构成任何投资或决策建议</p>
+        </div>
+    </div>
+</body>
+</html>
