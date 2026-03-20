@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(74, 144, 217, 0.3);
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* 统计卡片 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a90d9;
+        }
+
+        .stat-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* 分类样式 */
+        .category {
+            margin-bottom: 30px;
+        }
+
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 4px solid #4a90d9;
+        }
+
+        /* 重点卡片 */
+        .priority-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .priority-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e8eef3;
+        }
+
+        .priority-card .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .priority-card .heat {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 16px;
+        }
+
+        .priority-card .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a90d9;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .priority-card p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag-high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .tag-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .tag-low {
+            background: #f5f5f5;
+            color: #757575;
+        }
+
+        /* 次重点卡片 */
+        .secondary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .secondary-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 16px;
+            border-left: 3px solid #cbd5e1;
+        }
+
+        .secondary-card .hotword {
+            font-size: 15px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .secondary-card .direction {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        footer .disclaimer {
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .priority-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .secondary-cards {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <div class="subtitle">生成时间：2026年03月20日 14:30</div>
+        </header>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+
+        <!-- 科技数码 -->
+        <div class="category">
+            <div class="category-title">科技数码</div>
+            
+            <div class="priority-cards">
+                <div class="priority-card">
+                    <div class="hotword">32G内存涨了约3000元</div>
+                    <div class="heat">热度: 191071</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>内存价格监控与预警工具，提供历史价格查询、降价提醒、替代方案推荐</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>DIY电脑爱好者、硬件升级需求者、小型工作室采购人员</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>开发微信小程序，集成实时价格爬取、价格趋势图表、主流电商比价功能，用户可设置关注品牌和心理价位提醒</p>
+                    
+                    <span class="tag tag-high">高</span>
+                </div>
+
+                <div class="priority-card">
+                    <div class="hotword">华为Mate80官宣新版本</div>
+                    <div class="heat">热度: 181525</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>新机发布资讯聚合平台，提供参数对比、购买攻略、配件推荐一站式服务</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>花粉群体、数码爱好者、换机刚需用户</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>公众号或小程序形式，核心功能：新品参数对比表、发售日期提醒、渠道购买链接聚合、用户投票表态</p>
+                    
+                    <span class="tag tag-medium">中</span>
+                </div>
+
+                <div class="priority-card">
+                    <div class="hotword">看大国重器硬核龙抬头</div>
+                    <div class="heat">热度: 188823</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>国防科技可视化内容平台，用动画、图解形式解读大国重器背后的技术原理</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>军事爱好者、学生群体、科普内容消费者</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>短视频账号+图文公众号双载体，系列化产出军事装备技术解读内容，建立国防科普IP</p>
+                    
+                    <span class="tag tag-medium">中</span>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">南昌舰以一敌二逼退外舰细节公布</div>
+                    <div class="direction">产品方向：军事纪录片/短视频内容产品，打造中国海军形象IP</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 娱乐影视 -->
+        <div class="category">
+            <div class="category-title">娱乐影视</div>
+            
+            <div class="priority-cards">
+                <div class="priority-card">
+                    <div class="hotword">白日提灯定档</div>
+                    <div class="heat">热度: 1121469</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>追剧日历+剧情讨论社区，提供播出时间提醒、演员百科、实时弹幕互动</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>剧集粉丝、CP向用户、影视解说创作者</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>微信小程序：接入各平台播放链接、集成演员社交账号、设置剧情投票和讨论话题区</p>
+                    
+                    <span class="tag tag-high">高</span>
+                </div>
+
+                <div class="priority-card">
+                    <div class="hotword">你是迟来的欢喜定档</div>
+                    <div class="heat">热度: 647512</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>小说IP改编追踪工具，聚合原著小说、演员选角、杀青开机等影视化全流程信息</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>原著书粉、IP改编剧爱好者、网文读者</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>垂直社区小程序，覆盖热门IP影视化进度追踪、原著阅读入口、改编对比讨论</p>
+                    
+                    <span class="tag tag-medium">中</span>
+                </div>
+
+                <div class="priority-card">
+                    <div class="hotword">孟羽童再上初入职场和董明珠说了</div>
+                    <div class="heat">热度: 182868</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>职场真人秀内容聚合平台，整理职场观察类综艺金句、干货、职场技能拆解</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>职场新人、求职群体、职场内容消费者</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>公众号+短视频矩阵，核心输出职场真人秀片段剪辑、金句海报、职场避坑指南</p>
+                    
+                    <span class="tag tag-high">高</span>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">原著谢征和长玉提了分手</div>
+                    <div class="direction">产品方向：剧情讨论社区，CP粉互动阵地</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">迪丽热巴新经纪人郝阿三上岗了</div>
+                    <div class="direction">产品方向：明星动态订阅工具，艺人行程提醒</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 商业生活 -->
+        <div class="category">
+            <div class="category-title">商业生活</div>
+            
+            <div class="priority-cards">
+                <div class="priority-card">
+                    <div class="hotword">二月二龙抬头应该吃点啥</div>
+                    <div class="heat">热度: 231695</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>传统节日食俗指南小程序，聚合各地习俗、应季食谱、饮食文化科普</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>注重传统节日的家庭用户、美食爱好者、亲子教育群体</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>节日专属内容小程序，提供习俗讲解+食谱教程+食材购买一站式服务，可复用到其他传统节日</p>
+                    
+                    <span class="tag tag-high">高</span>
+                </div>
+
+                <div class="priority-card">
+                    <div class="hotword">和淘宝闪购明星天团抢春季新品</div>
+                    <div class="heat">热度: 新</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>电商直播选品工具，聚合明星直播间预告、好物清单、优惠信息汇总</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>直播购物用户、明星粉丝、追求性价比的消费者</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>小程序工具：整合各平台明星直播排期、预告商品、用户评价聚合，支持一键跳转</p>
+                    
+                    <span class="tag tag-medium">中</span>
+                </div>
+
+                <div class="priority-card">
+                    <div class="hotword">海底捞32周年生日快乐</div>
+                    <div class="heat">热度: 新</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>餐饮品牌会员权益聚合平台，整合各品牌会员日、优惠活动、生日特权</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>餐饮消费高频用户、薅羊毛爱好者、连锁品牌会员</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>公众号+小程序：整理头部餐饮品牌会员权益日历，设置优惠提醒，提供积分兑换攻略</p>
+                    
+                    <span class="tag tag-low">低</span>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">东契奇60分</div>
+                    <div class="direction">产品方向：体育赛事数据工具，球员表现追踪</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">武大靖自曝退役后现状</div>
+                    <div class="direction">产品方向：运动员动态资讯，体育明星百科</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 社会奇闻 -->
+        <div class="category">
+            <div class="category-title">社会奇闻</div>
+            
+            <div class="priority-cards">
+                <div class="priority-card">
+                    <div class="hotword">女子举报退休领导母亲名下巨额财产</div>
+                    <div class="heat">热度: 187681</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>反腐线索举报引导工具，提供正规举报渠道汇总、举报流程指南、隐私保护建议</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>关注反腐的公民、潜在举报人、廉政建设参与者</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>网页工具：汇总各级纪检监察举报入口、举报信模板、常见问题解答，注意合规性</p>
+                    
+                    <span class="tag tag-medium">中</span>
+                </div>
+
+                <div class="priority-card">
+                    <div class="hotword">巴西女子嫁给布娃娃还连生4子</div>
+                    <div class="heat">热度: 181252</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>全球奇闻异事聚合内容产品，满足用户猎奇心理，提供饭后谈资</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>泛娱乐内容消费者、社交媒体活跃用户、好奇心强的群体</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>短视频账号或公众号，专注于搬运编译海外奇闻，内容猎奇但底线健康，建立流量后再变现</p>
+                    
+                    <span class="tag tag-medium">中</span>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">伊朗导弹击中以色列海法炼油厂</div>
+                    <div class="direction">产品方向：国际局势追踪工具，实时新闻聚合</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">小猴子石山玩耍不慎坠落身亡</div>
+                    <div class="direction">产品方向：动物保护议题内容产品，短视频科普</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 农业科技 -->
+        <div class="category">
+            <div class="category-title">农业科技</div>
+            
+            <div class="priority-cards">
+                <div class="priority-card">
+                    <div class="hotword">中国科学家培育出长寿水稻</div>
+                    <div class="heat">热度: 655639</div>
+                    
+                    <div class="section-title">产品创意</div>
+                    <p>农业科技前沿资讯平台，追踪国内外农业科研突破，提供农业技术科普</p>
+                    
+                    <div class="section-title">目标用户</div>
+                    <p>农业从业者、科研人员、对农业科技感兴趣的公众</p>
+                    
+                    <div class="section-title">MVP 建议</div>
+                    <p>公众号+短视频账号，用通俗语言解读农业科研成果，系列化输出农业科技前沿内容</p>
+                    
+                    <span class="tag tag-high">高</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div>数据来源：微博热搜</div>
+            <div class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考</div>
+        </footer>
+    </div>
+</body>
+</html>
