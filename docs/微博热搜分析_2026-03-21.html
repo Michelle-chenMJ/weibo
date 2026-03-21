@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* 统计概览 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90d9;
+            margin-bottom: 5px;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 分类区域 */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid #4a90d9;
+        }
+        
+        /* 重点话题卡片 */
+        .priority-topics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .priority-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        
+        .priority-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .priority-card .header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+        }
+        
+        .priority-card .header .hot-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        
+        .priority-card .body {
+            padding: 20px;
+        }
+        
+        .priority-card .hotword {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+        
+        .priority-card .section {
+            margin-bottom: 15px;
+        }
+        
+        .priority-card .section-title {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .priority-card .section-content {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .priority-card .mvp {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #555;
+            border-left: 3px solid #4a90d9;
+        }
+        
+        .priority-card .potential {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .potential-high {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .potential-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .potential-low {
+            background: #e2e3e5;
+            color: #6c757d;
+        }
+        
+        /* 次重点话题卡片 */
+        .secondary-topics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .secondary-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 15px;
+            border-left: 3px solid #e0e0e0;
+        }
+        
+        .secondary-card .hotword {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .secondary-card .direction {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .secondary-card .heat {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        footer .disclaimer {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #bbb;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .priority-topics {
+                grid-template-columns: 1fr;
+            }
+            
+            .secondary-topics {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年03月21日 14:30</p>
+        </header>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">8</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </div>
+        
+        <!-- 职场权益分类 -->
+        <div class="category">
+            <h2 class="category-title">职场权益</h2>
+            
+            <div class="priority-topics">
+                <div class="priority-card">
+                    <div class="header">
+                        <span class="hot-tag">重点</span>
+                        离职当天遇车祸获赔16万误工费
+                    </div>
+                    <div class="body">
+                        <div class="section">
+                            <div class="section-title">热度</div>
+                            <div class="section-content">1,056,101</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">产品创意</div>
+                            <div class="section-content">职场法律援助平台，提供离职交接期意外险及法律咨询</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">目标用户</div>
+                            <div class="section-content">准备离职的职场人、灵活用工群体</div>
+                        </div>
+                        <div class="section mvp">
+                            <strong>MVP建议：</strong>开发小程序，提供离职法律咨询、误工费计算器、短期意外险一键投保功能
+                        </div>
+                        <div class="section">
+                            <span class="potential potential-high">商业潜力：高</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="header">
+                        <span class="hot-tag">重点</span>
+                        睡觉被扣钱不服与领导冲突被辞
+                    </div>
+                    <div class="body">
+                        <div class="section">
+                            <div class="section-title">热度</div>
+                            <div class="section-content">1,302,820</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">产品创意</div>
+                            <div class="section-content">员工权益保护APP，记录考勤异常、工资扣款争议、留存沟通证据</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">目标用户</div>
+                            <div class="section-content">普通上班族、劳务派遣人员、蓝领工人</div>
+                        </div>
+                        <div class="section mvp">
+                            <strong>MVP建议：</strong>开发考勤打卡+工资条核对工具，支持截图存证、一键生成劳动仲裁材料
+                        </div>
+                        <div class="section">
+                            <span class="potential potential-high">商业潜力：高</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="header">
+                        <span class="hot-tag">重点</span>
+                        教培干久了连自己妈妈都找不到
+                    </div>
+                    <div class="body">
+                        <div class="section">
+                            <div class="section-title">热度</div>
+                            <div class="section-content">131,699</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">产品创意</div>
+                            <div class="section-content">职业倦怠心理测评与辅导平台，专注教培等行业从业者心理健康</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">目标用户</div>
+                            <div class="section-content">教培从业者、压力大行业的新职场人</div>
+                        </div>
+                        <div class="section mvp">
+                            <strong>MVP建议：</strong>推出职业倦怠自测问卷+AI情绪倾诉机器人，提供行业转型建议
+                        </div>
+                        <div class="section">
+                            <span class="potential potential-medium">商业潜力：中</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 消费维权分类 -->
+        <div class="category">
+            <h2 class="category-title">消费维权</h2>
+            
+            <div class="priority-topics">
+                <div class="priority-card">
+                    <div class="header">
+                        <span class="hot-tag">重点</span>
+                        直播间买10盒蓝莓到手每盒不足5颗
+                    </div>
+                    <div class="body">
+                        <div class="section">
+                            <div class="section-title">热度</div>
+                            <div class="section-content">779,162</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">产品创意</div>
+                            <div class="section-content">直播电商维权工具，一键截图取证、自动计算缺货赔偿</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">目标用户</div>
+                            <div class="section-content">直播购物消费者、冲动型买家</div>
+                        </div>
+                        <div class="section mvp">
+                            <strong>MVP建议：</strong>开发浏览器插件，直播购物自动录屏取证+AI识别缺斤短两+一键投诉
+                        </div>
+                        <div class="section">
+                            <span class="potential potential-high">商业潜力：高</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="header">
+                        <span class="hot-tag">重点</span>
+                        山姆回应所售鲜猪肉是数月前屠宰
+                    </div>
+                    <div class="body">
+                        <div class="section">
+                            <div class="section-title">热度</div>
+                            <div class="section-content">131,580</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">产品创意</div>
+                            <div class="section-content">生鲜食品溯源查询工具，扫描即查生产日期、仓储时长</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">目标用户</div>
+                            <div class="section-content">会员店消费者、家庭主妇、注重食品安全的用户</div>
+                        </div>
+                        <div class="section mvp">
+                            <strong>MVP建议：</strong>开发扫码溯源小程序，对接商超供应链数据，显示屠宰/生产日期和冷链时长
+                        </div>
+                        <div class="section">
+                            <span class="potential potential-medium">商业潜力：中</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="header">
+                        <span class="hot-tag">重点</span>
+                        金饰价一夜暴跌32元
+                    </div>
+                    <div class="body">
+                        <div class="section">
+                            <div class="section-title">热度</div>
+                            <div class="section-content">130,491</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">产品创意</div>
+                            <div class="section-content">贵金属价格预警APP，设置买入/卖出提醒，支持以旧换新比价</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">目标用户</div>
+                            <div class="section-content">黄金投资者、珠宝消费者、中老年投资群体</div>
+                        </div>
+                        <div class="section mvp">
+                            <strong>MVP建议：</strong>开发金价实时监控+历史走势看板+附近金店比价小程序
+                        </div>
+                        <div class="section">
+                            <span class="potential potential-medium">商业潜力：中</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-topics">
+                <div class="secondary-card">
+                    <div class="hotword">清明小长假火车购票日历</div>
+                    <div class="direction">出行购票辅助工具，一键生成抢票日历+候补提醒</div>
+                    <div class="heat">热度: 623,250</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">官方通报月经弄脏卧铺事件详情</div>
+                    <div class="direction">女性出行关怀产品，卫生用品应急配送+特殊时期出行指南</div>
+                    <div class="heat">热度: 131,150</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 科技汽车分类 -->
+        <div class="category">
+            <h2 class="category-title">科技汽车</h2>
+            
+            <div class="priority-topics">
+                <div class="priority-card">
+                    <div class="header">
+                        <span class="hot-tag">重点</span>
+                        Cursor副总裁向kimi道歉
+                    </div>
+                    <div class="body">
+                        <div class="section">
+                            <div class="section-title">热度</div>
+                            <div class="section-content">131,320</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">产品创意</div>
+                            <div class="section-content">AI工具对比评测平台，帮助开发者选择编程辅助工具</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">目标用户</div>
+                            <div class="section-content">程序员、AI工具爱好者、技术决策者</div>
+                        </div>
+                        <div class="section mvp">
+                            <strong>MVP建议：</strong>开发AI编程工具对比网站，提供功能评测、用户口碑、定价对比
+                        </div>
+                        <div class="section">
+                            <span class="potential potential-medium">商业潜力：中</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="priority-card">
+                    <div class="header">
+                        <span class="hot-tag">重点</span>
+                        领克07碳纤维尾翼版带感登场
+                    </div>
+                    <div class="body">
+                        <div class="section">
+                            <div class="section-title">热度</div>
+                            <div class="section-content">-</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">产品创意</div>
+                            <div class="section-content">新车发布资讯+配置对比工具，专注国产新能源车型</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">目标用户</div>
+                            <div class="section-content">购车用户、汽车爱好者</div>
+                        </div>
+                        <div class="section mvp">
+                            <strong>MVP建议：</strong>开发新车发布快讯推送+车型配置对比小程序
+                        </div>
+                        <div class="section">
+                            <span class="potential potential-low">商业潜力：低</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 社会海外分类 -->
+        <div class="category">
+            <h2 class="category-title">社会海外</h2>
+            
+            <div class="priority-topics">
+                <div class="priority-card">
+                    <div class="header">
+                        <span class="hot-tag">重点</span>
+                        在泰射击场中弹中国游客女儿发声
+                    </div>
+                    <div class="body">
+                        <div class="section">
+                            <div class="section-title">热度</div>
+                            <div class="section-content">131,414</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">产品创意</div>
+                            <div class="section-content">海外安全预警平台，提供热门目的地安全评分、应急联络</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">目标用户</div>
+                            <div class="section-content">出境游客、留学生、海外务工人员</div>
+                        </div>
+                        <div class="section mvp">
+                            <strong>MVP建议：</strong>开发目的地安全查询小程序，整合外交部领保信息+用户真实评价
+                        </div>
+                        <div class="section">
+                            <span class="potential potential-high">商业潜力：高</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 娱乐生活分类 -->
+        <div class="category">
+            <h2 class="category-title">娱乐生活</h2>
+            
+            <div class="secondary-topics">
+                <div class="secondary-card">
+                    <div class="hotword">白玉兰 老带新</div>
+                    <div class="direction">影视行业新人扶持平台，连接资深艺人+新人演员的机会</div>
+                    <div class="heat">热度: 197,329</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">中东土豪5分钟打赏团播100万</div>
+                    <div class="direction">直播打赏数据分析工具，洞察打赏行为趋势</div>
+                    <div class="heat">热度: 130,753</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">逐玉 反向入侵短剧</div>
+                    <div class="direction">短剧内容推荐平台，按题材/受众分类</div>
+                    <div class="heat">热度: 130,620</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">曝章子怡为新戏增肥20斤</div>
+                    <div class="direction">明星动态聚合工具，满足粉丝追踪需求</div>
+                    <div class="heat">热度: 353,622</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">好面料真的会走秀</div>
+                    <div class="direction">时尚面料知识科普内容平台</div>
+                    <div class="heat">热度: -</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">感觉迪丽热巴工作室换人了</div>
+                    <div class="direction">明星工作室动态追踪</div>
+                    <div class="heat">热度: 131,015</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>数据来源：微博热搜 | 统计时间：2026年03月21日</p>
+            <p class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考，不构成投资或决策建议</p>
+        </footer>
+    </div>
+</body>
+</html>
