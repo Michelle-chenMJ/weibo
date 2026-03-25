@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 页面头部 */
+        .header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b26f 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a90d9;
+        }
+
+        .stat-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* 分类板块 */
+        .category-section {
+            margin-bottom: 35px;
+        }
+
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #4a90d9;
+            display: inline-block;
+        }
+
+        /* 热门话题卡片 */
+        .hot-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border-left: 4px solid #4a90d9;
+        }
+
+        .hot-card .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hot-card .heat {
+            font-size: 13px;
+            color: #999;
+            font-weight: normal;
+        }
+
+        .hot-card .analysis-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .analysis-item {
+            margin-bottom: 10px;
+        }
+
+        .analysis-item strong {
+            color: #4a90d9;
+            font-size: 13px;
+        }
+
+        .analysis-item span {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag-high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .tag-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .tag-low {
+            background: #f5f5f5;
+            color: #757575;
+        }
+
+        /* 次重点卡片 */
+        .sub-card {
+            background: #fafbfc;
+            border-radius: 8px;
+            padding: 15px 18px;
+            margin-bottom: 10px;
+            border-left: 3px solid #bbb;
+        }
+
+        .sub-card .title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .sub-card .direction {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .cards-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        /* 标签样式 */
+        .hot-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #ffebee;
+            color: #c62828;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+
+        .new-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #e3f2fd;
+            color: #1565c0;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .footer .disclaimer {
+            margin-top: 8px;
+            color: #bbb;
+            font-size: 12px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            body {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 页面头部 -->
+        <div class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年03月25日 14:30</p>
+        </div>
+
+        <!-- 统计概要 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">9</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+
+        <!-- 健康生活板块 -->
+        <div class="category-section">
+            <h2 class="category-title">🔴 健康生活</h2>
+            
+            <div class="hot-card">
+                <div class="title">
+                    嘴唇发紫 心脏不好
+                    <span class="heat">热度: 1,127,290</span>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-item">
+                        <strong>产品创意：</strong>
+                        <span>「心脏健康自查」小程序/APP - 用户上传嘴唇照片，AI分析发紫程度，结合问卷评估心脏健康风险</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>目标用户：</strong>
+                        <span>中老年人群、职场高压人群、有心血管疾病家族史人群</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>MVP建议：</strong>
+                        <span>基础版：嘴唇照片上传 + AI图像分析 + 简单问卷，给出风险提示和就医建议；可引导至专业问诊</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>商业潜力：</strong>
+                        <span class="tag tag-high">高</span>
+                        <span style="color:#666; font-size:13px;"> 健康管理需求持续增长，轻量级自查工具获客成本低，后续可对接保险、健康服务变现</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hot-card">
+                <div class="title">
+                    心源性猝死救心丸无效
+                    <span class="heat">热度: 319,614</span>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-item">
+                        <strong>产品创意：</strong>
+                        <span>「急救科普+急救站地图」平台 - 聚合AED设备位置信息，叠加心肺复苏教学和急救知识普及</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>目标用户：</strong>
+                        <span>职场人群、运动爱好者、中老年人家属</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>MVP建议：</strong>
+                        <span>小程序接入AED设备商家数据，提供一键导航；嵌入3分钟短视频急救教学；可与红十字会合作</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>商业潜力：</strong>
+                        <span class="tag tag-medium">中</span>
+                        <span style="color:#666; font-size:13px;"> 公共急救是社会刚需，虽有社会公益属性，但可探索B端（企业、社区）培训服务变现</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hot-card">
+                <div class="title">
+                    颜如晶一年减重2.9斤
+                    <span class="heat">热度: 323,898</span>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-item">
+                        <strong>产品创意：</strong>
+                        <span>「慢节奏减重」社区APP - 针对“减重困难户”的长期健康管理工具，强调科学“四维一体”方案</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>目标用户：</strong>
+                        <span>BMI偏高人群、多次减肥失败者、追求健康生活方式的都市人群</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>MVP建议：</strong>
+                        <span>打卡记录工具 + 食谱推荐 + 运动跟练 + 心理激励四大模块；引入营养师一对一服务</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>商业潜力：</strong>
+                        <span class="tag tag-high">高</span>
+                        <span style="color:#666; font-size:13px;"> 减重市场超 千亿，核心差异化在于服务“难以坚持”的用户群体，会员订阅模式成熟</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-row">
+                <div class="sub-card">
+                    <div class="title">旧手机回收价暴涨五六倍 <span class="heat">(热度: 346,440)</span></div>
+                    <div class="direction">🚀 <strong>产品方向：</strong>「二手手机估价回收」一站式平台 - 接入多家回收商比价，支持上门取件、门店回收</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 科技互联网板块 -->
+        <div class="category-section">
+            <h2 class="category-title">💻 科技互联网</h2>
+            
+            <div class="hot-card">
+                <div class="title">
+                    这就是中国AI产业链的硬核实力
+                    <span class="heat">热度: 666,479</span>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-item">
+                        <strong>产品创意：</strong>
+                        <span>「AI能力测评助手」- 帮企业/开发者快速测评国内外AI模型能力，提供竞品对比分析报告</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>目标用户：</strong>
+                        <span>AI开发者、企业技术负责人、投资人、内容创作者</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>MVP建议：</strong>
+                        <span>聚合主流AI模型能力对比数据，做成可视化报告工具；接入API做模型能力评测SaaS服务</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>商业潜力：</strong>
+                        <span class="tag tag-high">高</span>
+                        <span style="color:#666; font-size:13px;"> AI选型市场需求旺盛，可按报告下载、企业定制化服务收费，B端付费意愿强</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-row">
+                <div class="sub-card">
+                    <div class="title">恋与深空 <span class="heat">(热度: 659,352)</span></div>
+                    <div class="direction">🚀 <strong>产品方向：</strong>乙女游戏周边电商 + 虚拟陪伴社交小程序，复刻IP生命力</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 娱乐板块 -->
+        <div class="category-section">
+            <h2 class="category-title">🎭 娱乐文化</h2>
+            
+            <div class="hot-card">
+                <div class="title">
+                    避谶 <span class="new-tag">新</span>
+                    <span class="heat">热度: 664,815</span>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-item">
+                        <strong>产品创意：</strong>
+                        <span>「玄学社交+内容科普」小程序 - 围绕“避谶”等传统文化概念，做泛玄学内容平台，接入塔罗、心理测试等</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>目标用户：</strong>
+                        <span>16-30岁年轻女性、对玄学好奇的互联网用户、寻求心理寄托人群</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>MVP建议：</strong>
+                        <span>先做「避谶」话题科普内容引流量；再叠加每日运势、星座运势等轻量功能，做私域变现</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>商业潜力：</strong>
+                        <span class="tag tag-medium">中</span>
+                        <span style="color:#666; font-size:13px;"> 玄学类内容在年轻群体中热度高，但需注意合规风险，可通过知识付费、带货变现</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-row">
+                <div class="sub-card">
+                    <div class="title">白日提灯OST官宣 <span class="new-tag">新</span> <span class="heat">(热度: 822,882)</span></div>
+                    <div class="direction">🚀 <strong>产品方向：</strong>影视OST音乐平台 - 聚合热门剧集原声带，支持一键发现、播放、设置铃声</div>
+                </div>
+                <div class="sub-card">
+                    <div class="title">周杰伦新歌从夯到拉排名 <span class="heat">(热度: 327,507)</span></div>
+                    <div class="direction">🚀 <strong>产品方向：</strong>音乐榜单分析工具 - 监测各平台歌曲热度走势，适合乐迷和自媒体创作者</div>
+                </div>
+                <div class="sub-card">
+                    <div class="title">以纯品牌代言人范丞丞 <span class="heat">(热度: -)</span></div>
+                    <div class="direction">🚀 <strong>产品方向：</strong>明星同款种草+比价小程序 - 一键查找明星穿搭同款，支持跨平台比价</div>
+                </div>
+                <div class="sub-card">
+                    <div class="title">霍启刚自曝为追求郭晶晶费尽心思 <span class="heat">(热度: 263,178)</span></div>
+                    <div class="direction">🚀 <strong>产品方向：</strong>名人故事/访谈聚合平台 - 深度人物特写，适合情感类和人物类内容创作者</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 社会民生板块 -->
+        <div class="category-section">
+            <h2 class="category-title">📰 社会民生</h2>
+            
+            <div class="hot-card">
+                <div class="title">
+                    张雪峰捐款千万资助贫困学生
+                    <span class="heat">热度: 329,922</span>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-item">
+                        <strong>产品创意：</strong>
+                        <span>「透明化助学」公益平台 - 资助信息全透明可追溯，支持一对一结对、进度追踪、成果展示</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>目标用户：</strong>
+                        <span>有助学意愿的爱心人士、企业CSR部门、公益组织</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>MVP建议：</strong>
+                        <span>展示受助学生成长故事 + 资助资金去向追踪 + 捐赠证书生成；可与基金会深度合作</span>
+                    </div>
+                    <div class="analysis-item">
+                        <strong>商业潜力：</strong>
+                        <span class="tag tag-medium">中</span>
+                        <span style="color:#666; font-size:13tips"> 公益属性强，但具备社会影响力，可探索企业服务费、公益营销服务等模式</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-row">
+                <div class="sub-card">
+                    <div class="title">张雪峰公司注册多枚女儿姓名商标 <span class="heat">(热度: 324,461)</span></div>
+                    <div class="direction">🚀 <strong>产品方向：</strong>商标注册一站式服务工具 - 简化流程，提供查询、申请、监控功能</div>
+                </div>
+                <div class="sub-card">
+                    <div class="title">美国与伊朗和谈方案曝光 <span class="new-tag">新</span> <span class="heat">(热度: 330,567)</span></div>
+                    <div class="direction">🚀 <strong>产品方向：</strong>国际局势快讯聚合 + 投资风险预警工具，面向出海企业和跨境投资者</div>
+                </div>
+                <div class="sub-card">
+                    <div class="title">中园石化加油站被立案调查 <span class="heat">(热度: 256,625)</span></div>
+                    <div class="direction">🚀 <strong>产品方向：</strong>商家口碑点评 + 维权入口小程序 - 聚合消费者评价和投诉渠道</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>数据来源：微博热搜 | 统计时间：2026年03月25日</p>
+            <p class="disclaimer">本报告由 AI 自动生成，仅供参考，不构成任何投资建议</p>
+        </div>
+    </div>
+</body>
+</html>
