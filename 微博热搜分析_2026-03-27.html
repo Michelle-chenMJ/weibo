@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            color: white;
+        }
+        
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+        
+        .overview-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card.priority {
+            border-left: 4px solid #667eea;
+        }
+        
+        .card.secondary {
+            border-left: 4px solid #cbd5e0;
+            background: #fafbfc;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .hotword {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+        
+        .heat {
+            font-size: 13px;
+            color: #999;
+            white-space: nowrap;
+            margin-left: 12px;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 11px;
+            border-radius: 4px;
+            margin-left: 8px;
+            background: #edf2f7;
+            color: #718096;
+        }
+        
+        .tag.new {
+            background: #e6fffa;
+            color: #2c7a7b;
+        }
+        
+        .tag.hot {
+            background: #fff5f5;
+            color: #c53030;
+        }
+        
+        .tag.movie {
+            background: #fef3e2;
+            color: #dd6b20;
+        }
+        
+        .tag.show {
+            background: #f0fff4;
+            color: #276749;
+        }
+        
+        .tag.drama {
+            background: #faf5ff;
+            color: #6b46c1;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 30px 0;
+        }
+        
+        .content-block {
+            margin-bottom: 16px;
+        }
+        
+        .content-block:last-child {
+            margin-bottom: 0;
+        }
+        
+        .content-label {
+            font-size: 12px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        
+        .content-value {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .content-value.idea {
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        .tag-potential {
+            display: inline-block;
+            padding: 3px 10px;
+            font-size: 12px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-potential.high {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .tag-potential.medium {
+            background: #feebc8;
+            color: #744210;
+        }
+        
+        .tag-potential.low {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #718096;
+            font-size: 13px;
+        }
+        
+        footer p {
+            margin-bottom: 6px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 22px;
+            }
+            
+            .overview-card .number {
+                font-size: 26px;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p>生成时间：2026年03月27日 14:30</p>
+        </header>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">6</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">社会民生</h2>
+            <div class="cards">
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">教育部发布20条严禁清单</span>
+                            <span class="tag">新</span>
+                        </div>
+                        <span class="heat">204,835</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">教育合规检查工具：为学校、培训机构提供政策合规自检SaaS服务</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">中小学校、培训机构、教育行政部门</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">Web端工具，输入学校基本信息，自动匹配严禁清单条款，生成合规报告</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential high">高</span>
+                        <span class="content-value">教育监管趋严，刚需明确，可向企业提供SaaS订阅服务</span>
+                    </div>
+                </div>
+                
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">郴州13名公职人员被处理</span>
+                        </div>
+                        <span class="heat">204,703</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">公务员诚信查询与预警系统</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">组织部、纪检监察机关、公众</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">整合公开处分信息，提供组织部门查询接口，支持预警推送</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential medium">中</span>
+                        <span class="content-value">政务市场空间有限，但数据整合后有长期价值</span>
+                    </div>
+                </div>
+                
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">日本东京发生命案</span>
+                        </div>
+                        <span class="heat">770,676</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">出境安全预警与求助小程序</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">出境游客、留学生、驻外企业</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">整合使领馆安全提醒、实时推送目的地风险、提供一键求助功能</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential medium">中</span>
+                        <span class="content-value">出境游复苏，安全性需求提升，可对接旅游平台</span>
+                    </div>
+                </div>
+                
+                <div class="card secondary">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">女子怀疑丈夫出轨扒货车车尾跟踪</span>
+                            <span class="tag">辟谣</span>
+                        </div>
+                        <span class="heat">204,491</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意方向</div>
+                        <div class="content-value">情感咨询与心理疏导平台，提供专业婚姻家庭指导</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">科技互联网</h2>
+            <div class="cards">
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">2026中国网络媒体论坛</span>
+                        </div>
+                        <span class="heat">639,457</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">正能量内容分发与舆情监测平台</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">央媒、政务新媒体、网信部门</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">提供热门正能量内容聚合、一键分发多平台、舆情监测预警</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential high">高</span>
+                        <span class="content-value">政策支持媒体融合发展，政务市场需求旺盛</span>
+                    </div>
+                </div>
+                
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">肯尼亚严重洪灾视频是AI生成</span>
+                        </div>
+                        <span class="heat">—</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">AI内容鉴真工具：检测视频/图片是否为AI生成</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">媒体机构、事实核查组织、平台方</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">上传图片/视频，API返回AI生成概率，提供置信度报告</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential high">高</span>
+                        <span class="content-value">深度伪造泛滥，媒体鉴真成为刚需，可按调用量收费</span>
+                    </div>
+                </div>
+                
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">罗技就侮辱性广告致歉</span>
+                        </div>
+                        <span class="heat">204,014</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">品牌声誉监测与危机预警系统</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">企业市场部、公关部门、品牌方</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">实时监控社交媒体品牌声量，异常波动自动预警，生成舆情报告</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential medium">中</span>
+                        <span class="content-value">企业服务市场大，但竞争激烈，需差异化定位</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">娱乐影视</h2>
+            <div class="cards">
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">大圣崛起定档</span>
+                            <span class="tag movie">电影</span>
+                        </div>
+                        <span class="heat">301,301</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">电影IP衍生品商城与粉丝社区</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">电影粉丝、动漫爱好者、收藏玩家</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">整合IP周边销售、预告片、幕后花絮、社区讨论功能</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential medium">中</span>
+                        <span class="content-value">国漫崛起，IP衍生品市场增长，可与片方联名合作</span>
+                    </div>
+                </div>
+                
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">央视新闻夸了张凌赫雉鸡翎造型</span>
+                            <span class="tag drama">剧集</span>
+                        </div>
+                        <span class="heat">202,819</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">影视造型同款采集与电商导流工具</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">剧集粉丝、电商商家、内容创作者</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">截图识别剧中造型，一键跳转同款购买，植入广告分成</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential high">高</span>
+                        <span class="content-value">种草经济强劲，影视同款转化率高，变现路径清晰</span>
+                    </div>
+                </div>
+                
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">李昀锐孟子义她在闹他在笑</span>
+                            <span class="tag">综艺</span>
+                        </div>
+                        <span class="heat">205,498</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">综艺名场面二创工具箱</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">综艺粉丝、up主、cp粉</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">提供综艺片段快速剪辑模板、字幕生成、配乐库</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential medium">中</span>
+                        <span class="content-value">二创需求旺盛，可通过会员/模板付费变现</span>
+                    </div>
+                </div>
+                
+                <div class="card secondary">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">王源官宣巡演</span>
+                            <span class="tag show">演出</span>
+                        </div>
+                        <span class="heat">265,191</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意方向</div>
+                        <div class="content-value">演唱会票务预约+黄牛识别工具</div>
+                    </div>
+                </div>
+                
+                <div class="card secondary">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">没认出来这是王子异</span>
+                            <span class="tag hot">热</span>
+                        </div>
+                        <span class="heat">202,850</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意方向</div>
+                        <div class="content-value">明星妆容仿妆教学+化妆品推荐</div>
+                    </div>
+                </div>
+                
+                <div class="card secondary">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">鹿晗片场状态比鲜啤还鲜活</span>
+                        </div>
+                        <span class="heat">191,781</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意方向</div>
+                        <div class="content-value">明星状态追踪App+粉丝社群</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">生活消费</h2>
+            <div class="cards">
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">金价</span>
+                            <span class="tag new">新</span>
+                        </div>
+                        <span class="heat">203,558</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">贵金属投资比价工具：聚合各大银行金价、实时提醒</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">黄金投资者、大妈群体、理财用户</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">接入银行API展示实时金价，设置价格提醒，推送投资建议</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential high">高</span>
+                        <span class="content-value">金价持续高位，投资者关注度高，可导流金店/银行</span>
+                    </div>
+                </div>
+                
+                <div class="card priority">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">为什么房间里那么多灰尘毛</span>
+                            <span class="tag new">新</span>
+                        </div>
+                        <span class="heat">257,366</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意</div>
+                        <div class="content-value idea">智能家居清洁建议：根据房屋情况推荐清洁方案</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">目标用户</div>
+                        <div class="content-value">家庭用户、租房群体、过敏人群</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">MVP建议</div>
+                        <div class="content-value">问答式交互，分析灰尘来源，推荐清洁工具和时间频率</div>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">商业潜力</div>
+                        <span class="tag-potential medium">中</span>
+                        <span class="content-value">与清洁电器品牌合作导流，可植入电商链接</span>
+                    </div>
+                </div>
+                
+                <div class="card secondary">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">地坛公园不再允许用明星姓名认领树</span>
+                        </div>
+                        <span class="heat">205,377</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意方向</div>
+                        <div class="content-value">公园树木认领数字化管理系统</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">体育运动</h2>
+            <div class="cards">
+                <div class="card secondary">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">蒙牛 孙颖莎</span>
+                        </div>
+                        <span class="heat">203,168</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意方向</div>
+                        <div class="content-value">运动员代言效果分析平台，为品牌提供投放决策</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">其他</h2>
+            <div class="cards">
+                <div class="card secondary">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">伊朗正式回应美国15点停火协议</span>
+                        </div>
+                        <span class="heat">202,488</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意方向</div>
+                        <div class="content-value">国际事件即时解读+地缘政治风险预警</div>
+                    </div>
+                </div>
+                
+                <div class="card secondary">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">国产伟哥2025年少卖近800万片</span>
+                            <span class="tag new">新</span>
+                        </div>
+                        <span class="heat">191,337</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意方向</div>
+                        <div class="content-value">男性健康科普+在线问诊平台</div>
+                    </div>
+                </div>
+                
+                <div class="card secondary">
+                    <div class="card-header">
+                        <div>
+                            <span class="hotword">寿司郎 SIM卡</span>
+                        </div>
+                        <span class="heat">1,091,817</span>
+                    </div>
+                    <div class="content-block">
+                        <div class="content-label">产品创意方向</div>
+                        <div class="content-value">餐饮+通信跨界联名会员体系</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p>免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
