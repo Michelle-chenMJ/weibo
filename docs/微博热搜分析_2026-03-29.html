@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Overview */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .overview-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .overview-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .overview-card .label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            padding: 12px 0;
+            border-bottom: 3px solid #667eea;
+            margin-bottom: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card.priority {
+            border-left: 4px solid #667eea;
+        }
+
+        .card.secondary {
+            border-left: 4px solid #a0aec0;
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-title .heat {
+            font-size: 13px;
+            color: #999;
+            font-weight: 400;
+        }
+
+        .card-content {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .card-content p {
+            margin-bottom: 8px;
+        }
+
+        .card-content strong {
+            color: #333;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .tag.high { background: #c6f6d5; color: #22543d; }
+        .tag.medium { background: #feebc8; color: #744210; }
+        .tag.low { background: #e2e8f0; color: #4a5568; }
+
+        /* Grid for secondary cards */
+        .secondary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .secondary-grid .card {
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .secondary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <div class="subtitle">生成时间：2026年03月29日 21:00</div>
+        </div>
+
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">6</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+
+        <!-- 国际/社会 -->
+        <div class="section">
+            <div class="section-title">国际 · 社会</div>
+            
+            <div class="card priority">
+                <div class="card-title">
+                    美国全国爆发反对特朗普政府集会
+                    <span class="heat">热度: 1,124,818</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>海外华人社群互助平台 + 政治舆情监控工具</p>
+                    <p><strong>目标用户：</strong>海外华人、留学生、关注国际形势的用户</p>
+                    <p><strong>MVP建议：</strong>聚合海外各地抗议活动信息，提供安全提醒、聚会导航、实时翻译功能；叠加舆情分析仪表盘，展示各地区关注度趋势</p>
+                    <p><strong>商业潜力：</strong><span class="tag high">高</span> 跨境服务需求大，可切入移民服务、海外房产等高价值领域</p>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-title">
+                    官方通报申请国家赔偿被中止办理
+                    <span class="heat">热度: 802,612</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>法律维权一站式服务平台</p>
+                    <p><strong>目标用户：</strong>需要申请国家赔偿的公民、中小企业主</p>
+                    <p><strong>MVP建议：</strong>提供国家赔偿申请流程指南、文书模板、进度查询；接入律师咨询，对接法律援助机构</p>
+                    <p><strong>商业潜力：</strong><span class="tag medium">中</span> 刚需低频，但可扩展至民告官、行政诉讼等更广泛法律服务</p>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-title">
+                    大国重器密集上新惊喜不断
+                    <span class="heat">热度: 660,036</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>中国科技成就内容聚合与科普平台</p>
+                    <p><strong>目标用户：</strong>科技爱好者、学生、军工航天迷</p>
+                    <p><strong>MVP建议：</strong>每日科技简报订阅、里程碑事件时间轴、可视化解读视频；社区打卡、成就系统提升粘性</p>
+                    <p><strong>商业潜力：</span><span class="tag high">高</span> 主旋律+科技内容双重流量，可对接科普教育、研学旅行变现</p>
+                </div>
+            </div>
+
+            <div class="secondary-grid">
+                <div class="card secondary">
+                    <div class="card-title">万斯获美共和党保守派阵营过半支持 <span class="heat">279,513</span></div>
+                    <div class="card-content">产品方向：美国政治人物追踪工具 + 政策立场分析库</div>
+                </div>
+                <div class="card secondary">
+                    <div class="card-title">美民众说反对美国正在发生的事 <span class="heat">219,126</span></div>
+                    <div class="card-content">产品方向：海外华人情绪抒发社区 + 跨文化讨论平台</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 社会安全 -->
+        <div class="section">
+            <div class="section-title">社会安全</div>
+            
+            <div class="card priority">
+                <div class="card-title">
+                    深夜遇哭泣女子带其回家遭仙人跳
+                    <span class="heat">热度: 227,960</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>男性安全防范教育小程序 + 场景化安全提示</p>
+                    <p><strong>目标用户：</strong>年轻男性、单身独居者、夜归人群</p>
+                    <p><strong>MVP建议：</strong>模拟危险场景测试、实操防骗指南；一键报警、位置共享功能；安全知识短视频系列</p>
+                    <p><strong>商业潜力：</span><span class="tag medium">中</span> 安全教育是长尾需求，可嵌入保险、安防产品导流</p>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-title">
+                    太原火灾已致3死23伤
+                    <span class="heat">热度: 172,089</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>社区火灾预警与应急响应平台</p>
+                    <p><strong>目标用户：</strong>社区居民、物业管理者、应急管理部门</p>
+                    <p><strong>MVP建议：</strong>社区隐患上报入口、周边消防资源地图、逃生路线规划；对接政府应急系统</p>
+                    <p><strong>商业潜力：</span><span class="tag high">高</span> 政策推动智慧消防，B端政府采购是主要收入来源</p>
+                </div>
+            </div>
+
+            <div class="card secondary">
+                <div class="card-title">男孩玩灭火毯全身扎满超细玻璃纤维 <span class="heat">191,532</span></div>
+                <div class="card-content">产品方向：儿童安全玩具推荐 + 家长安全教育工具</div>
+            </div>
+        </div>
+
+        <!-- 娱乐 -->
+        <div class="section">
+            <div class="section-title">娱乐</div>
+            
+            <div class="card priority">
+                <div class="card-title">
+                    杨紫说自己来乘风是拆台的
+                    <span class="heat">热度: 319,510</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>综艺片段二创工具 + 粉丝社群运营平台</p>
+                    <p><strong>目标用户：</strong>综艺粉丝、内容创作者、站姐</p>
+                    <p><strong>MVP建议：</strong>提供综艺cut一键生成、金句提取、配图模板；粉丝打榜、应援、控评工具集</p>
+                    <p><strong>商业潜力：</span><span class="tag high">高</span> 饭圈经济成熟，付费会员、周边电商、品牌合作空间大</p>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-title">
+                    逐玉 庆功宴
+                    <span class="heat">热度: 211,655</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>影视宣发物料聚合平台 + 粉丝打卡工具</p>
+                    <p><strong>目标用户：</strong>剧集粉丝、影视宣发方</p>
+                    <p><strong>MVP建议：</strong>一站式获取剧集花絮、壁纸、表情包；拍摄地打卡攻略、剧评社区</p>
+                    <p><strong>商业潜力：</span><span class="tag medium">中</span> 绑定影视宣发预算，但依赖版权合作</p>
+                </div>
+            </div>
+
+            <div class="secondary-grid">
+                <div class="card secondary">
+                    <div class="card-title">张凌赫素颜顺毛路透 <span class="heat">224,557</span></div>
+                    <div class="card-content">产品方向：明星路透聚合工具 + 粉丝接机导航</div>
+                </div>
+                <div class="card secondary">
+                    <div class="card-title">汪苏泷祝福徐良 <span class="heat">202,571</span></div>
+                    <div class="card-content">产品方向：音乐人动态追踪 + 演出资讯聚合</div>
+                </div>
+                <div class="card secondary">
+                    <div class="card-title">删除汪苏泷名字让徐良又生气又煎熬 <span class="heat">163,992</span></div>
+                    <div class="card-content">产品方向：音乐综艺reaction视频工具</div>
+                </div>
+                <div class="card secondary">
+                    <div class="card-title">何老师维嘉好六哭了 <span class="heat">198,129</span></div>
+                    <div class="card-content">产品方向：综艺名场面集锦 + 泪目时刻合集</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 体育 -->
+        <div class="section">
+            <div class="section-title">体育</div>
+            
+            <div class="card priority">
+                <div class="card-title">
+                    全红婵称床上摆满了乌龟玩偶
+                    <span class="heat">热度: 219,579</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>运动员粉丝经济变现工具 + 周边众筹平台</p>
+                    <p><strong>目标用户：</strong>运动员粉丝、周边产品商家</p>
+                    <p><strong>MVP建议：</strong>运动员同款/周边聚合、粉丝社群、众筹定制服务；运动员官方账号运营SaaS</p>
+                    <p><strong>商业潜力：</span><span class="tag high">高</span> 全红婵热度极高，运动员个人IP变现市场潜力大</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 生活 -->
+        <div class="section">
+            <div class="section-title">生活</div>
+            
+            <div class="card priority">
+                <div class="card-title">
+                    当你吃了一整天健康食物
+                    <span class="heat">热度: 267,648</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>健康饮食打卡小程序 + 轻食推荐平台</p>
+                    <p><strong>目标用户：</strong>注重健康饮食的年轻群体、健身人群</p>
+                    <p><strong>MVP建议：</strong>健康餐打卡记录、卡路里追踪、饮食日记；推荐健康餐厅、搭配食谱</p>
+                    <p><strong>商业潜力：</span><span class="tag high">高</span> 健康饮食是长期趋势，可对接生鲜电商、轻食代餐品牌</p>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-title">
+                    长期不吃主食身体的8个变化
+                    <span class="heat">热度: 202,160</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>健康知识科普小程序 + AI营养师</p>
+                    <p><strong>目标用户：</strong>关注健康的普通用户、减肥人群</p>
+                    <p><strong>MVP建议：</strong>图文健康科普、饮食建议生成、常见误区辟谣；接入营养师付费咨询</p>
+                    <p><strong>商业潜力：</span><span class="tag medium">中</span> 流量大但变现路径长，适合做健康类内容矩阵入口</p>
+                </div>
+            </div>
+
+            <div class="secondary-grid">
+                <div class="card secondary">
+                    <div class="card-title">感觉型人格 <span class="heat">174,629</span></div>
+                    <div class="card-content">产品方向：MBTI/人格测试小程序 + 性格匹配工具</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>数据来源：微博热搜 | 本报告由 AI 自动生成，仅供参考</p>
+        </div>
+    </div>
+</body>
+</html>
