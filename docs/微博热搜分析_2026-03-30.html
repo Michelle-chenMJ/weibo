@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            border-radius: 12px;
+            color: white;
+        }
+        header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .overview-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .overview-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a90d9;
+        }
+        .overview-card .label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 4px solid #4a90d9;
+        }
+        .priorities {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        .priority-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .priority-card .hotword {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        .priority-card .hotnum {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+        .priority-card .label {
+            font-size: 12px;
+            background: #e8f4fc;
+            color: #4a90d9;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        .priority-card .analysis {
+            margin-bottom: 10px;
+        }
+        .priority-card .analysis-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 4px;
+        }
+        .priority-card .analysis-content {
+            font-size: 13px;
+            color: #666;
+        }
+        .priority-card .mvp {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 6px;
+        }
+        .priority-card .mvp-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a90d9;
+            margin-bottom: 4px;
+        }
+        .priority-card .mvp-content {
+            font-size: 12px;
+            color: #666;
+        }
+        .priority-card .potential {
+            margin-top: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .priority-card .potential.high {
+            color: #27ae60;
+        }
+        .priority-card .potential.medium {
+            color: #e67e22;
+        }
+        .priority-card .potential.low {
+            color: #95a5a6;
+        }
+        .secondary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .secondary-card {
+            background: white;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        .secondary-card .hotword {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+        .secondary-card .hotnum {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 6px;
+        }
+        .secondary-card .direction {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+        footer p {
+            margin-bottom: 4px;
+        }
+        @media (max-width: 768px) {
+            .overview, .priorities, .secondary {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年03月30日 14:30</p>
+        </header>
+
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">15</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">娱乐综艺</h2>
+            <div class="priorities">
+                <div class="priority-card">
+                    <div class="hotword">五哈6阵容官宣</div>
+                    <div class="hotnum">热度: 1,142,655</div>
+                    <span class="label">综艺</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">综艺热度追踪与互动小程序</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">综艺爱好者、年轻用户</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">节目阵容卡片展示 + 成员互动问答小测试</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">周翊然用张子枫的画当了8年头像</div>
+                    <div class="hotnum">热度: 397,158</div>
+                    <span class="label">新</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">明星同款头像生成器</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">粉丝群体、年轻用户</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">接入明星公开画作/照片，一键生成头像图片</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">薛之谦因下雨演唱会免费</div>
+                    <div class="hotnum">热度: 238,782</div>
+                    <span class="label">演出</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">演出变动通知工具</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">演唱会观众、演出爱好者</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">演出信息聚合 + 极端天气自动提醒功能</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+            </div>
+            <div class="secondary">
+                <div class="secondary-card">
+                    <div class="hotword">时代少年团 卫龙</div>
+                    <div class="hotnum">热度: 180,492</div>
+                    <div class="direction">产品方向：品牌联名追踪工具，监测明星与品牌合作动态</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">李荣浩说不需要赔偿</div>
+                    <div class="hotnum">热度: 435,452</div>
+                    <div class="direction">产品方向：娱乐事件脉络梳理工具，还原热点全过程</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">全红婵说接受不了这么胖的自己</div>
+                    <div class="hotnum">热度: 407,777</div>
+                    <div class="direction">产品方向：运动员动态追踪 + 体育赛事信息服务</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">剧集音乐</h2>
+            <div class="priorities">
+                <div class="priority-card">
+                    <div class="hotword">杨幂新剧演冯太后</div>
+                    <div class="hotnum">热度: 628,667</div>
+                    <span class="label">剧集</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">新剧追更助手</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">追剧党、粉丝</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">剧集更新日历 + 演员作品库 + 播放源聚合</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">白日提灯播放指数超逐玉</div>
+                    <div class="hotnum">热度: 586,874</div>
+                    <span class="label">新</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">剧集热度排行榜与对比工具</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">剧集爱好者、内容从业者</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">多平台热度数据聚合 + 实时榜单展示 + 对比图表</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">江山大同阵容官宣</div>
+                    <div class="hotnum">热度: 375,169</div>
+                    <span class="label">剧集</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">新剧阵容信息聚合页</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">追剧党、选剧参考用户</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">新剧发布信息流 + 演员阵容卡片展示</div>
+                    </div>
+                    <div class="potential low">商业潜力：低</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">科技数码</h2>
+            <div class="priorities">
+                <div class="priority-card">
+                    <div class="hotword">全新QQ3上市王者归来一部到位</div>
+                    <div class="hotnum">热度: 586,874</div>
+                    <span class="label">数码</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">新品上市追踪与历史回顾</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">科技爱好者、QQ老用户</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">QQ版本演进时间线 + 新功能解读图文</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">Word和PDF已成境外组织窃密利器</div>
+                    <div class="hotnum">热度: 521,121</div>
+                    <span class="label">新</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">办公安全科普与防护工具</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">企业用户、职场人士</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">文档安全自查工具 + 防护建议图文</div>
+                    </div>
+                    <div class="potential high">商业潜力：高</div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">2026中国网络媒体论坛</div>
+                    <div class="hotnum">热度: 676,659</div>
+                    <span class="label">行业</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">行业论坛资讯聚合与干货提炼</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">媒体从业者、互联网从业者</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">论坛议程汇总 + 嘉宾金句提取 + 核心观点摘要</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+            </div>
+            <div class="secondary">
+                <div class="secondary-card">
+                    <div class="hotword">身份证号的X到底咋读</div>
+                    <div class="hotnum">热度: 823,546</div>
+                    <div class="direction">产品方向：冷知识科普内容，小程序"涨知识"百科</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">社会民生</h2>
+            <div class="priorities">
+                <div class="priority-card">
+                    <div class="hotword">女子打赏男主播后觉得下头要退钱</div>
+                    <div class="hotnum">热度: 176,915</div>
+                    <span class="label">社会</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">主播信用查询与评价平台</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">直播打赏用户、消费者</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">主播黑名单聚合 + 投诉案例库 + 退款攻略</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">保姆上门当日病人死亡被索赔130万</div>
+                    <div class="hotnum">热度: 656,117</div>
+                    <span class="label">社会</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">家政服务保险与评价平台</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">雇佣家政的家庭、保险公司</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">阿姨评价查询 + 纠纷案例库 + 保险推荐</div>
+                    </div>
+                    <div class="potential high">商业潜力：高</div>
+                </div>
+                <div class="priority-card">
+                    <div class="hotword">金匠寿司道歉</div>
+                    <div class="hotnum">热度: 482,102</div>
+                    <span class="label">餐饮</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">餐饮品牌舆情监测工具</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">消费者、餐饮品牌方</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">品牌道歉合集 + 餐饮安全预警 + 口碑榜单</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+            </div>
+            <div class="secondary">
+                <div class="secondary-card">
+                    <div class="hotword">广州暴雨</div>
+                    <div class="hotnum">热度: 150,611</div>
+                    <div class="direction">产品方向：实时天气预警应用，精准到区的降雨预报</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">游戏</h2>
+            <div class="priorities">
+                <div class="priority-card">
+                    <div class="hotword">王者荣耀大乔新皮肤</div>
+                    <div class="hotnum">热度: 262,954</div>
+                    <span class="label">游戏</span>
+                    <div class="analysis">
+                        <div class="analysis-title">产品创意</div>
+                        <div class="analysis-content">游戏皮肤资讯与比价工具</div>
+                    </div>
+                    <div class="analysis">
+                        <div class="analysis-title">目标用户</div>
+                        <div class="analysis-content">王者荣耀玩家、手游爱好者</div>
+                    </div>
+                    <div class="mvp">
+                        <div class="mvp-label">MVP建议</div>
+                        <div class="mvp-content">新皮肤展示 + 上线提醒 + 性价比分析</div>
+                    </div>
+                    <div class="potential medium">商业潜力：中</div>
+                </div>
+            </div>
+            <div class="secondary">
+                <div class="secondary-card">
+                    <div class="hotword">伊朗称美停战建议涉伊朗基本权利</div>
+                    <div class="hotnum">热度: 567,475</div>
+                    <div class="direction">产品方向：国际热点即时追踪，多语言资讯聚合</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p>免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
