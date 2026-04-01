@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .overview-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #3182ce;
+            margin-bottom: 4px;
+        }
+        
+        .overview-label {
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #3182ce;
+        }
+        
+        .highlight-section {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .highlight-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border-left: 4px solid #3182ce;
+        }
+        
+        .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 4px;
+        }
+        
+        .hotword-num {
+            font-size: 13px;
+            color: #a0aec0;
+            margin-bottom: 12px;
+        }
+        
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #3182ce;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        .analysis-item {
+            margin-bottom: 10px;
+        }
+        
+        .analysis-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .analysis-content {
+            font-size: 14px;
+            color: #2d3748;
+        }
+        
+        .potential-tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .potential-high {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .potential-medium {
+            background: #feebc8;
+            color: #744210;
+        }
+        
+        .potential-low {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .secondary-section {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .secondary-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+            border-left: 3px solid #cbd5e0;
+        }
+        
+        .secondary-card .hotword {
+            font-size: 16px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #a0aec0;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .highlight-card, .secondary-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月01日</p>
+        </header>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <div class="overview-number">20</div>
+                <div class="overview-label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-number">4</div>
+                <div class="overview-label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-number">9</div>
+                <div class="overview-label">重点分析话题</div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">娱乐</h2>
+            
+            <div class="highlight-section">
+                <div class="highlight-card">
+                    <div class="hotword">李荣浩否认抄袭</div>
+                    <div class="hotword-num">热度: 9,139,831</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">版权抄袭比对工具——上传音频/歌词自动比对相似度，提供版权风险预警</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">音乐创作者、短视频博主、MCN机构</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">Web端工具，支持MP3/WAV文件上传，3秒内返回与现有曲库的相似度报告</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-high">高</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">音乐版权市场爆发，付费会员+企业版有清晰商业模式</span>
+                    </div>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="hotword">月鳞绮纪开播</div>
+                    <div class="hotword-num">热度: 1,063,015</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">影视二创解说模板生成器——根据剧集自动生成带时间轴的解说文案+AI配音</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">影视解说博主、UP主、内容创作者</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">输入剧名，自动提取剧情简介+生成3分钟解说脚本模板，会员可定制音色</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-high">高</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">中长视频平台火热，二创内容需求旺盛，订阅制变现清晰</span>
+                    </div>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="hotword">邓超称4月4日五哈播不了了</div>
+                    <div class="hotword-num">热度: 446,325</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">综艺开播提醒+内容片段集锦——订阅综艺节目，开播前提醒+自动生成精彩片段cut</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">综艺观众、粉丝群体、内容剪辑需求者</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">支持主流综艺订阅，开播前1小时推送提醒，可设置"错过回看"自动剪辑服务</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-medium">中</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">粉丝经济驱动，增值剪辑服务+广告导流有变现空间</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-section">
+                <div class="secondary-card">
+                    <div class="hotword">从指甲看主角是真穷</div>
+                    <div class="hotword-num">热度: 337,111</div>
+                    <div class="analysis-content" style="color:#4a5568;font-size:14px;">产品方向：影视细节分析工具——截图识别服化道细节，输出"穷"or"富"鉴定报告</div>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">张凌赫改了自动回复</div>
+                    <div class="hotword-num">热度: 334,147</div>
+                    <div class="analysis-content" style="color:#4a5568;font-size:14px;">产品方向：明星动态+自动回复定制——明星粉丝群专属机器人，节日自动祝福+互动</div>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">够爱作词人拒绝授权曾沛慈演唱</div>
+                    <div class="hotword-num">热度: 333,401</div>
+                    <div class="analysis-content" style="color:#4a5568;font-size:14px;">产品方向：音乐版权授权撮合平台——词曲作者与演唱者信息对接+授权需求发布</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">科技</h2>
+            
+            <div class="highlight-section">
+                <div class="highlight-card">
+                    <div class="hotword">男子靠AI开一人公司年营收达150万</div>
+                    <div class="hotword-num">热度: 336,708</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">AI一人公司搭建工具——提供企业注册+AI员工招聘(数字人)+自动化业务流程搭建</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">副业创业者、自由职业者、小微企业家</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">SaaS平台，输入业务类型，自动推荐AI工具组合(客服+文案+デザイン)，7天免费试用</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-high">高</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">AI普惠大势所趋，订阅制SaaS模式清晰，企业服务市场巨大</span>
+                    </div>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="hotword">甲骨文凌晨6点突发裁员3万人</div>
+                    <div class="hotword-num">热度: 551,331</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">大厂裁员预警+职场技能评估——监控科技公司动态，评估员工技能市场竞争力，匹配内推机会</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">互联网从业者、面临裁员风险的职场人</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">接入招聘API，裁员消息实时推送+技能雷达图+同类岗位薪资对比，会员解锁内推</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-high">高</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">35岁焦虑+裁员常态化，猎头服务费+会员付费意愿强</span>
+                    </div>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="hotword">雄安大脑赋能智慧城市</div>
+                    <div class="hotword-num">热度: 588,811</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">智慧城市数据可视化中台——为中小企业提供城市数据API接入+可视化看板搭建</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">需要城市数据的应用开发者、智慧城市解决方案商</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">封装公开城市数据(交通/气象/人流)，提供RESTful API+React可视化组件库</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-medium">中</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">ToB市场，API调用付费+定制化服务，周期较长但客单价高</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-section">
+                <div class="secondary-card">
+                    <div class="hotword">内存条价格大跳水</div>
+                    <div class="hotword-num">热度: 332,960</div>
+                    <div class="analysis-content" style="color:#4a5568;font-size:14px;">产品方向：硬件价格走势监控——监控内存/显卡等硬件价格趋势，推送最佳入手时机</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">社会</h2>
+            
+            <div class="highlight-section">
+                <div class="highlight-card">
+                    <div class="hotword">伊朗愿意结束战争</div>
+                    <div class="hotword-num">热度: 352,219</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">国际局势简报聚合——聚合多源国际新闻，自动生成带时间线的局势简报</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">国际业务从业者、外贸企业、留学生家长</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">订阅特定国家/地区，每天早8点推送3条简报+影响评估，会员可语音播报</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-low">低</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">需求分散，付费意愿弱，主要靠企业服务+广告变现</span>
+                    </div>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="hotword">刷取餐码出了地铁站</div>
+                    <div class="hotword-num">热度: 337,200</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">地铁+餐饮联动取餐——基于LBS自动匹配地铁站周边餐厅，到站前提前下单</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">通勤上班族、地铁出行高频用户</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">接入地铁线路API，输入站点自动推荐沿线餐厅，支持到站前30分钟下单</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-high">高</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">高频刚需场景，餐饮抽佣+会员配送费，场景非常清晰</span>
+                    </div>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="hotword">美国一架F35战机坠毁</div>
+                    <div class="hotword-num">热度: 333,731</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">军事装备故障数据库——收录各国军事装备事故数据，提供故障分析报告</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">军事爱好者、军工行业分析师、安全研究员</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">按装备类型+国家分类展示事故记录，支持PDF导出，会员可下载原始数据</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-low">低</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">小众市场，数据获取难度大，付费意愿有限</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">生活</h2>
+            
+            <div class="highlight-section">
+                <div class="highlight-card">
+                    <div class="hotword">打耳洞时先戴上耳机</div>
+                    <div class="hotword-num">热度: 335,156</div>
+                    <div class="section-label">深度分析</div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">产品创意</div>
+                        <div class="analysis-content">疼痛转移辅助工具——通过耳机播放白噪音/ASMR减轻打耳洞、抽血等场景的疼痛感知</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">目标用户</div>
+                        <div class="analysis-content">怕痛人群、医疗美容消费者、亲子场景</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">MVP建议</div>
+                        <div class="analysis-content">提供多种"疼痛转移"音效套餐，按场景(医美/抽血/纹身)分类，会员可自定义播放列表</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">商业潜力</div>
+                        <span class="potential-tag potential-medium">中</span>
+                        <span style="font-size:13px;color:#718096;margin-left:8px;">细分场景，医美机构合作+会员订阅有变现空间，但天花板有限</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-section">
+                <div class="secondary-card">
+                    <div class="hotword">王者新赛季竟然可以种田</div>
+                    <div class="hotword-num">热度: -</div>
+                    <div class="analysis-content" style="color:#4a5568;font-size:14px;">产品方向：游戏生活平衡指南——游戏内种田玩法攻略+现实解压小游戏推荐</div>
+                </div>
+                
+                <div class="secondary-card">
+                    <div class="hotword">浙创投为张雪机车投资9000万</div>
+                    <div class="hotword-num">热度: 761,022</div>
+                    <div class="analysis-content" style="color:#4a5568;font-size:14px;">产品方向：机车/电单车配件订阅——针对女性骑手的改装配件盒/月度装备更新</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>数据来源：微博热搜 | 免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
