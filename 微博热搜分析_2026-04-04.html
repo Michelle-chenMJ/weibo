@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #718096;
+        }
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .overview-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .overview-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #3182ce;
+        }
+        .overview-card .label {
+            font-size: 14px;
+            color: #718096;
+            margin-top: 4px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 4px solid #3182ce;
+        }
+        .highlight-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .highlight-card {
+            border-left: 4px solid #3182ce;
+        }
+        .highlight-card .topic {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+        .highlight-card .heat {
+            font-size: 13px;
+            color: #a0aec0;
+            margin-bottom: 12px;
+        }
+        .highlight-card .category-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #3182ce;
+            margin-bottom: 8px;
+        }
+        .highlight-card p {
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .highlight-card .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .tag-high {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        .tag-medium {
+            background: #feebc8;
+            color: #744210;
+        }
+        .tag-low {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        .sub-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+        .sub-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 14px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .sub-card .topic {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        .sub-card .direction {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 4px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #a0aec0;
+            font-size: 13px;
+        }
+        @media (max-width: 600px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            .highlight-cards, .sub-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月04日 16:00</p>
+        </header>
+        
+        <section class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">9</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">社会 · 消费维权</h2>
+            <div class="highlight-cards">
+                <div class="card highlight-card">
+                    <div class="topic">与辉同行宣布全额退款</div>
+                    <div class="heat">热度: 768531</div>
+                    <p class="category-title">产品创意</p>
+                    <p>直播电商售后保障工具——消费者一键发起退款、追踪售后进度的聚合平台</p>
+                    <p class="category-title">目标用户</p>
+                    <p>直播购物消费者、电商主播、MCN机构</p>
+                    <p class="category-title">MVP建议</p>
+                    <p>开发微信小程序，集成抖音/快手/淘宝直播退款入口，支持订单截图上传、自动填写售后信息、进度追踪提醒</p>
+                    <span class="tag tag-high">高</span>
+                </div>
+                <div class="card highlight-card">
+                    <div class="topic">优思益称无力售后</div>
+                    <div class="heat">热度: 239439</div>
+                    <p class="category-title">产品创意</p>
+                    <p>跨境电商售后对接平台——连接海外品牌与国内消费者的正规售后通道</p>
+                    <p class="category-title">目标用户</p>
+                    <p>海淘消费者、跨境电商卖家、代购商家</p>
+                    <p class="category-title">MVP建议</p>
+                    <p>搭建SAAS平台，提供海外品牌授权售后对接服务，标准化售后流程，支持退货物流追踪</p>
+                    <span class="tag tag-medium">中</span>
+                </div>
+                <div class="card highlight-card">
+                    <div class="topic">19岁少女柬埔寨失联事件迎反转</div>
+                    <div class="heat">热度: 213076</div>
+                    <p class="category-title">产品创意</p>
+                    <p>海外华人安全预警App——实时推送目的地安全提醒、提供紧急联络一键报警功能</p>
+                    <p class="category-title">目标用户</p>
+                    <p>海外华人、留学生、跨境务工人员</p>
+                    <p class="category-title">MVP建议</p>
+                    <p>开发App，集成中国驻外使领馆联系方式、当地报警电话，支持地理位置实时分享给家人</p>
+                    <span class="tag tag-high">高</span>
+                </div>
+            </div>
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="topic">美军2架黑鹰直升机被伊朗击中</div>
+                    <div class="direction">产品方向：国际局势资讯聚合平台</div>
+                </div>
+                <div class="sub-card">
+                    <div class="topic">伊朗被曝实施打了就跑战术</div>
+                    <div class="direction">产品方向：地缘政治分析工具</div>
+                </div>
+                <div class="sub-card">
+                    <div class="topic">美国教师为性侵学生与其母亲交往</div>
+                    <div class="direction">产品方向：海外背景调查服务</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">生活 · 节日文化</h2>
+            <div class="highlight-cards">
+                <div class="card highlight-card">
+                    <div class="topic">属于中国人的清明仪式感</div>
+                    <div class="heat">热度: 638968</div>
+                    <p class="category-title">产品创意</p>
+                    <p>清明节数字祭扫平台——线上纪念馆、家族族谱管理、代祭服务预约</p>
+                    <p class="category-title">目标用户</p>
+                    <p>异地华人、扫墓不便的上班族、海外华人群体</p>
+                    <p class="category-title">MVP建议</p>
+                    <p>开发小程序，提供先人纪念馆创建、在线献花祭拜、代扫墓服务预约及直播观看功能</p>
+                    <span class="tag tag-high">高</span>
+                </div>
+                <div class="card highlight-card">
+                    <div class="topic">华裔女子西安刚下飞机就被历史暴击</div>
+                    <div class="heat">热度: 248414</div>
+                    <p class="category-title">产品创意</p>
+                    <p>入境城市文化体验导览——AI识别用户位置，推送所在城市的历史故事和文化景点</p>
+                    <p class="category-title">目标用户</p>
+                    <p>入境游客、华裔探亲人群、文化爱好者</p>
+                    <p class="category-title">MVP建议</p>
+                    <p>开发App，基于LBS自动识别位置，推送周边历史文化讲解，支持AR实景导览</p>
+                    <span class="tag tag-medium">中</span>
+                </div>
+            </div>
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="topic">男子拔掉祖坟旁槟榔苗被判刑</div>
+                    <div class="direction">产品方向：传统习俗法律科普</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">职场 · 副业</h2>
+            <div class="highlight-cards">
+                <div class="card highlight-card">
+                    <div class="topic">因为自制力差一下午赚了七千</div>
+                    <div class="heat">热度: 257655</div>
+                    <p class="category-title">产品创意</p>
+                    <p>自律搞钱工具——结合时间管理与副业接单的效率工具，帮助用户利用碎片时间创收</p>
+                    <p class="category-title">目标用户</p>
+                    <p>想搞副业的上班族、大学生、灵活就业者</p>
+                    <p class="category-title">MVP建议</p>
+                    <p>开发Web端工具，集成时间块规划、短期任务接单平台、专注计时器，提醒用户利用零散时间完成任务</p>
+                    <span class="tag tag-high">高</span>
+                </div>
+                <div class="card highlight-card">
+                    <div class="topic">终于知道销冠为什么是销冠了</div>
+                    <div class="heat">热度: 128783</div>
+                    <p class="category-title">产品创意</p>
+                    <p>销冠经验学院——收集整理各行业销冠案例，提供销售技巧培训和话术库</p>
+                    <p class="category-title">目标用户</p>
+                    <p>销售新人、销售管理者、企业培训负责人</p>
+                    <p class="category-title">MVP建议</p>
+                    <p>搭建公众号+小程序，收集真实销售案例，提供话术模板、销售场景模拟练习</p>
+                    <span class="tag tag-medium">中</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">娱乐 · 影视</h2>
+            <div class="highlight-cards">
+                <div class="card highlight-card">
+                    <div class="topic">金典和浪姐分手</div>
+                    <div class="heat">热度: 283230</div>
+                    <p class="category-title">产品创意</p>
+                    <p>明星动态粉丝社区——聚合明星官方物料、行程、粉丝讨论的垂直社区</p>
+                    <p class="category-title">目标用户</p>
+                    <p>明星粉丝、饭圈运营者、娱记</p>
+                    <p class="category-title">MVP建议</p>
+                    <p>开发Web端粉丝站，聚合明星行程、官方微博、贴吧讨论，支持粉丝团打卡</p>
+                    <span class="tag tag-low">低</span>
+                </div>
+            </div>
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="topic">月鳞绮纪疑似不足1广</div>
+                    <div class="direction">产品方向：影视评分社区</div>
+                </div>
+                <div class="sub-card">
+                    <div class="topic">孙俪新剧就这样官宣了</div>
+                    <div class="direction">产品方向：新剧预告订阅</div>
+                </div>
+                <div class="sub-card">
+                    <div class="topic">阿娇首部短剧</div>
+                    <div class="direction">产品方向：短剧发现平台</div>
+                </div>
+                <div class="sub-card">
+                    <div class="topic">范闲 你也给祺贵人打电话吗</div>
+                    <div class="direction">产品方向：剧集讨论社区</div>
+                </div>
+                <div class="sub-card">
+                    <div class="topic">唐艺昕因皮肤原因4年未拍戏</div>
+                    <div class="direction">产品方向：明星健康话题聚合</div>
+                </div>
+                <div class="sub-card">
+                    <div class="topic">阚清子说很感谢倪萍</div>
+                    <div class="direction">产品方向：综艺话题社区</div>
+                </div>
+                <div class="sub-card">
+                    <div class="topic">何宣林是孟子义的大学班主任</div>
+                    <div class="direction">产品方向：明星私生活百科</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">体育</h2>
+            <div class="highlight-cards">
+                <div class="card highlight-card">
+                    <div class="topic">王艺迪vs温特</div>
+                    <div class="heat">热度: 232129</div>
+                    <p class="category-title">产品创意</p>
+                    <p>乒乓球赛事即时服务平台——提供赛事数据、直播、球员数据对比分析</p>
+                    <p class="category-title">目标用户</p>
+                    <p>乒乓球爱好者、体彩用户、体育媒体</p>
+                    <p class="category-title">MVP建议</p>
+                    <p>小程序/Web端，聚合国乒比赛赛程、提供实时比分直播、球员历史对战数据</p>
+                    <span class="tag tag-medium">中</span>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p>免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
