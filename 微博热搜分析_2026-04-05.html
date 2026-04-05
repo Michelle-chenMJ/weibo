@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f8fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .overview-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .overview-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a90d9;
+        }
+
+        .overview-card .label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .category {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f0f7;
+        }
+
+        .focus-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .focus-card {
+            background: linear-gradient(145deg, #f8fbff 0%, #edf4fb 100%);
+            border: 1px solid #dceaf5;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .focus-card .hotword {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .focus-card .heat {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .focus-card .label-group {
+            margin-bottom: 12px;
+        }
+
+        .focus-card .label-item {
+            display: inline-block;
+            background: #e8f0f7;
+            color: #4a90d9;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+
+        .focus-card .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a90d9;
+            margin: 12px 0 6px;
+        }
+
+        .focus-card .section-content {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .tag-high {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .tag-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .tag-low {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .secondary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .secondary-card {
+            background: #fafbfc;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .secondary-card .hotword {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .secondary-card .direction {
+            font-size: 12px;
+            color: #666;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-size: 12px;
+        }
+
+        footer .disclaimer {
+            margin-top: 8px;
+            color: #aaa;
+        }
+
+        @media (max-width: 600px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .focus-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .secondary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月05日 16:00</p>
+        </header>
+
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">6</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">娱乐综艺</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">谢娜的话筒一直是在冲着李小冉的</div>
+                    <div class="heat">热度: 232,198</div>
+                    <div class="label-group">
+                        <span class="label-item">综艺</span>
+                        <span class="label-item">新</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">综艺节目互动cut智能剪辑工具，自动识别并标记节目中的关键互动片段</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">综艺粉丝、剪刀手UP主、节目官方运营</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">接入视频AI识别，提取人脸和对话片段，一键生成明星互动CP合集</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-high">高</span>
+                    <span class="section-content" style="display:inline;">粉丝剪辑需求强烈，变现模式清晰（会员/广告）</span>
+                </div>
+                <div class="focus-card">
+                    <div class="hotword">郝蕾说张昊唯废了</div>
+                    <div class="heat">热度: 138,031</div>
+                    <div class="label-group">
+                        <span class="label-item">综艺</span>
+                        <span class="label-item">新</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">综艺金句百科+语录分享小程序，收集节目中的名言名场面</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">综艺观众、社交媒体用户</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">每日推送节目金句图，支持一键分享朋友圈/微博</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-medium">中</span>
+                    <span class="section-content" style="display:inline;">社交传播性强，变现依赖广告和IP合作</span>
+                </div>
+                <div class="focus-card">
+                    <div class="hotword">黄婷婷没去浪姐去了演综</div>
+                    <div class="heat">热度: 166,544</div>
+                    <div class="label-group">
+                        <span class="label-item">综艺</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">艺人行程追踪+选秀机会发现工具，实时更新艺人参加综艺的去向</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">粉丝、选秀节目制作方</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">聚合艺人社交媒体动态，智能推算其参加综艺的意向时间</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-low">低</span>
+                    <span class="section-content" style="display:inline;">细分垂直市场，用户规模有限</span>
+                </div>
+            </div>
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">张月曾沛慈 评级人数</div>
+                    <div class="heat">热度: 380,653</div>
+                    <div class="direction">产品方向：选秀选手数据追踪平台</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">何炅没开口维嘉就哭了</div>
+                    <div class="heat">热度: 168,428</div>
+                    <div class="direction">产品方向：综艺名场面一键生成器</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">李小冉曾自曝给谢娜收拾脱的脏衣服</div>
+                    <div class="heat">热度: 141,719</div>
+                    <div class="direction">产品方向：明星关系图谱可视化</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">社会民生</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">女孩2岁确诊孤独症父母花100万求医</div>
+                    <div class="heat">热度: 255,131</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">孤独症儿童家长互助社区+医疗资源对接平台</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">孤独症儿童家长、相关医疗从业者</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">整合全国孤独症康复医院/医生信息，提供家长经验分享论坛</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-high">高</span>
+                    <span class="section-content" style="display:inline;">刚需市场，医疗服务变现空间大</span>
+                </div>
+                <div class="focus-card">
+                    <div class="hotword">给老祖宗上坟熊孩子把钱顺回来了</div>
+                    <div class="heat">热度: 233,566</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">清明祭扫礼仪教育+亲子互动小游戏</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">有孩子的家庭、传统文化教育机构</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发祭扫礼仪简化版互动H5，帮助家长教育孩子尊重传统文化</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-low">低</span>
+                    <span class="section-content" style="display:inline;">节令性需求，变现模式有限</span>
+                </div>
+                <div class="focus-card">
+                    <div class="hotword">原来软柿子在人群里这么明显</div>
+                    <div class="heat">热度: 244,417</div>
+                    <div class="label-group">
+                        <span class="label-item">热</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">职场性格测试+社交场景模拟工具，帮助用户认知自身社交属性</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">职场新人、HR部门、心理咨询用户</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">基于MBTI延伸的性格测试H5，测试你在职场/社交中的"硬度"定位</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-medium">中</span>
+                    <span class="section-content" style="display:inline;">社交话题性强，适合病毒传播</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">国际动态</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">美5名顶尖科学家离奇失踪或死亡</div>
+                    <div class="heat">热度: 1,051,622</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">国际科技事件快讯聚合+深度解读平台</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">科技爱好者、留学生、跨境从业者</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">定时推送国际科技要闻，配AI摘要解读</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-high">高</span>
+                    <span class="section-content" style="display:inline;">热度最高，受众广泛，会员订阅可期</span>
+                </div>
+                <div class="focus-card">
+                    <div class="hotword">以色列被曝正等待美国开绿灯</div>
+                    <div class="heat">热度: 191,608</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">国际局势可视化地图+事件时间线工具</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">国际关系学生、新闻从业者、普通读者</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">将国际热点以地图+时间线形式呈现，降低理解门槛</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-medium">中</span>
+                    <span class="section-content" style="display:inline;">教育属性强，适合进校园/G2B模式</span>
+                </div>
+                <div class="focus-card">
+                    <div class="hotword">美国前参议员表示特朗普已经住院</div>
+                    <div class="heat">热度: 183,985</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">政治人物健康状态追踪+消息真伪辨别工具</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">新闻消费者、投资者、留学生</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">聚合多方消息源，用颜色标记消息可信度</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-medium">中</span>
+                    <span class="section-content" style="display:inline;">话题关注度高，工具属性强</span>
+                </div>
+            </div>
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">伊媒称美军试图炸死在伊失联飞行员</div>
+                    <div class="heat">热度: 128,695</div>
+                    <div class="direction">产品方向：地缘政治事件推演工具</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">生活消费</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">清明假期新业态解锁新体验</div>
+                    <div class="heat">热度: 588,574</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">节假日新消费场景发现+打卡攻略平台</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">年轻游客、亲子家庭、本地探店达人</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">聚合节假日新开店铺/活动，提供一键导航和预约</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-high">高</span>
+                    <span class="section-content" style="display:inline;">假期经济强相关，导流变现明确</span>
+                </div>
+                <div class="focus-card">
+                    <div class="hotword">刘雨鑫探店莫氏鸡煲视频点赞超130万</div>
+                    <div class="heat">热度: 111,855</div>
+                    <div class="label-group">
+                        <span class="label-item">新</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">探店视频聚合+美食打卡地图</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">吃货群体、美食博主、餐饮商家</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">按城市/品类聚合探店视频，支持一键跳转到店</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-medium">中</span>
+                    <span class="section-content" style="display:inline;">本地生活导流，佣金变现</span>
+                </div>
+            </div>
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">网友爸爸曾在昆明石林偶遇张国荣</div>
+                    <div class="heat">热度: 124,348</div>
+                    <div class="direction">产品方向：明星同款打卡地推荐</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">体育</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">孙颖莎vs温特</div>
+                    <div class="heat">热度: 186,785</div>
+                    <div class="label-group">
+                        <span class="label-item">新</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">赛事直播提醒+运动员数据追踪工具</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">体育迷、竞猜玩家</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">运动员主页显示赛程、历史战绩、实时数据API</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-high">高</span>
+                    <span class="section-content" style="display:inline;">体育赛事关注度高，付费会员可期</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">财经</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">黄金大买家狂抛</div>
+                    <div class="heat">热度: 154,799</div>
+                    <div class="label-group">
+                        <span class="label-item">新</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">大宗交易信号追踪+市场情绪预警工具</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">投资者、财经自媒体、分析师</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">追踪黄金/外汇大单动向，推送异常波动提醒</div>
+                    <div class="section-title">商业潜力</div>
+                    <span class="tag tag-high">高</span>
+                    <span class="section-content" style="display:inline;">投资刚需，付费工具+会员模式清晰</span>
+                </div>
+            </div>
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">张雪回应一个子儿没有言论</div>
+                    <div class="heat">热度: 742,245</div>
+                    <div class="direction">产品方向：财经观点辩论聚合平台</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p class="disclaimer">本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
