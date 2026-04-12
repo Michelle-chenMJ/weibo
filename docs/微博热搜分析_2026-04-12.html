@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #1a365d;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #3182ce;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #718096;
+            margin-top: 4px;
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 20px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3182ce;
+        }
+
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .highlight-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 4px solid #3182ce;
+        }
+
+        .highlight-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .highlight-meta {
+            font-size: 13px;
+            color: #718096;
+            margin-bottom: 16px;
+        }
+
+        .highlight-section {
+            margin-bottom: 12px;
+        }
+
+        .highlight-section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 4px;
+        }
+
+        .highlight-section-content {
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag-high {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .tag-medium {
+            background: #feebc8;
+            color: #744210;
+        }
+
+        .tag-low {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .brief-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .brief-card {
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 3px solid #a0aec0;
+        }
+
+        .brief-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+
+        .brief-direction {
+            font-size: 13px;
+            color: #4a5568;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .highlight-grid, .brief-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月12日 14:30</p>
+        </header>
+
+        <div class="overview">
+            <div class="stat-card">
+                <div class="stat-number">20</div>
+                <div class="stat-label">今日热搜总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">分析分类数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">重点分析话题</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🌿 环保与自然</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="highlight-title">野生母狼怀孕后主动到保护站待产</div>
+                    <div class="highlight-meta">热度: 1,078,479</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">野生动物AI追踪监测App - 通过图像识别和GPS定位，实时监测保护区内的野生动物活动轨迹，支持濒危物种自动识别预警</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">野生动物保护志愿者、自然保护区工作人员、环保组织、Nature摄影爱好者</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">基于公开的野生动物监测数据集，训练一个轻量级图像识别模型，用户拍照即可识别并记录野生动物种类和位置</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> <span style="font-size:13px;color:#718096;">可对接政府环保项目，但变现周期较长</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brief-grid">
+                <div class="brief-card">
+                    <div class="brief-title">采茶女</div>
+                    <div class="brief-direction">产品方向：农产品溯源小程序，扫描即可查看茶叶采摘时间、地点、农户信息</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🎬 娱乐与综艺</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="highlight-title">胡先煦十日终焉被曝1天杀青</div>
+                    <div class="highlight-meta">热度: 678,928</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">剧集花絮自动剪辑工具 - 利用AI自动从长视频中提取精彩片段，生成短视频花絮，一键分发多平台</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">影视制作公司、综艺节目组、短视频博主、粉丝站</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">开发一个短视频批量上传工具，支持AI自动识别高能片段并添加字幕和音效</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> <span style="font-size:13px;color:#718096;">短视频市场需求旺盛，可收取订阅费或按剪辑条数收费</span>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-title">谢娜成都演唱会票价</div>
+                    <div class="highlight-meta">热度: 306,097</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">演唱会票价对比小程序 - 聚合全网演唱会票务信息，支持价格提醒、座位视角模拟、溢价分析</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">演唱会观众、粉丝、黄牛（合理引导）、票务代理</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">先做一个黄牛价格监控工具，当票价低于市场均价时推送提醒</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> <span style="font-size:13px;color:#718096;">票务差价和黄牛市场需求大，可对接票务平台获取佣金</span>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-title">浪姐 剧本</div>
+                    <div class="highlight-meta">热度: 166,500</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">综艺剧情预测社区 - 用户可对综艺走向进行预测投票，输出观点卡片，适合综艺宣发合作</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">综艺观众、品牌方、综艺制作方</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">做一个综艺走向预测H5页面，用户选择后生成个人预测海报分享社交媒体</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> <span style="font-size:13px;color:#718096;">可与综艺合作宣发，但创意容易被复制</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brief-grid">
+                <div class="brief-card">
+                    <div class="brief-title">心愿便利贴 万通筋骨贴</div>
+                    <div class="brief-direction">产品方向：综艺同款周边电商小程序，聚合综艺节目提到的商品一键购买</div>
+                </div>
+                <div class="brief-card">
+                    <div class="brief-title">孙怡阚清子直播零互动</div>
+                    <div class="brief-direction">产品方向：直播互动数据分析工具，帮助主播分析观众互动率并给出优化建议</div>
+                </div>
+                <div class="brief-card">
+                    <div class="brief-title">王濛 色令智昏</div>
+                    <div class="brief-direction">产品方向：综艺金句生成器，AI生成类似的搞笑热梗供用户社交媒体使用</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🚀 科技与产业</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="highlight-title">中国船舶出品真的一屏放不下</div>
+                    <div class="highlight-meta">热度: 701,246</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">大国重工3D展示小程序 - 用WebGL技术展示船只、飞机等大国重器的3D模型，支持AR查看和参数配置</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">青少年科普教育、国防教育机构、科技爱好者、军工企业</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">先展示中国船舶的代表性产品线，以全景图集形式呈现，用户滑动查看不同视角</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> <span style="font-size:13px;color:#718096;">爱国流量大，但商业化需要与央企合作，周期较长</span>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-title">宇树机器人百米冲刺10米每秒</div>
+                    <div class="highlight-meta">热度: 172,004</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">机器人对比测评平台 - 聚合各品牌机器人参数，提供选购建议和竞品对比图解</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">科技爱好者、机器人采购企业、研究机构</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">做一个机器人参数数据库网站，支持筛选和对比功能</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> <span style="font-size:13px;color:#718096;">机器人市场快速增长，可做B2B佣金或广告变现</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🏠 社会与民生</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="highlight-title">奥迪逃单加油站员工垫付4天工资</div>
+                    <div class="highlight-meta">热度: 173,011</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">车主信用评分小程序 - 对接加油站数据，车主逃单后扣信用分，其他加油站可查询规避风险</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">加油站连锁品牌、车主、保险公司</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">先做一个加油站逃单举报平台，收集用户匿名举报信息</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> <span style="font-size:13px;color:#718096;">需要加油站配合推广，变现模式待探索</span>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-title">女孩追星被骗爸爸受伤家有4个孩子</div>
+                    <div class="highlight-meta">热度: 169,141</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">粉丝防骗教育平台 - 汇总明星粉丝群诈骗案例，提供身份验证工具和防骗指南</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">粉丝群体、未成年人家长、明星工作室</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">做一个明星官方账号验证小程序，输入明星名字即可查询官方渠道</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> <span style="font-size:13px;color:#718096;">社会价值高，可与公益组织合作，商业化较难</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brief-grid">
+                <div class="brief-card">
+                    <div class="brief-title">熊孩子掉废弃房屋饿成皮包骨不实</div>
+                    <div class="brief-direction">产品方向：谣言辟谣小程序，一键查询热搜事件真实性，降低谣言传播</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🍜 生活与消费</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="highlight-title">不要穿浅色去做妆造</div>
+                    <div class="highlight-meta">热度: 307,758</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">穿搭场景推荐小程序 - 根据用户的场合（面试、约会、拍照等）和肤色，推荐适合的穿搭方案</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">穿搭小白、约拍用户、面试求职者</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">做一个简单的场景选择问答，根据用户的输入给出穿搭建议和颜色推荐</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> <span style="font-size:13px;color:#718096;">穿搭市场规模大，可对接服装电商导流变现</span>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-title">莫氏鸡煲老板原本是中医</div>
+                    <div class="highlight-meta">热度: 172,503</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">餐厅故事探店地图 - 挖掘有故事的餐饮老板，展示餐厅背后的文化故事，适合文旅融合</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">探店达人、文旅爱好者、餐饮商家</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">先做一个餐饮故事图文账号，积累一定粉丝后开发小程序</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-medium">中</span> <span style="font-size:13px;color:#718096;">可与餐饮商家合作推广，但规模化较难</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🏆 体育与电竞</h2>
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <div class="highlight-title">LPL和LCK变天了</div>
+                    <div class="highlight-meta">热度: 166,867</div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">产品创意</div>
+                        <div class="highlight-section-content">电竞赛事数据看板 - 实时展示战队排名、选手数据、赛事赔率，支持自定义关注的选手和战队</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">目标用户</div>
+                        <div class="highlight-section-content">电竞粉丝、菠菜用户、赛事解说</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">MVP建议</div>
+                        <div class="highlight-section-content">先做一个赛事结果推送订阅工具，用户订阅战队后自动推送比赛结果</div>
+                    </div>
+                    <div class="highlight-section">
+                        <div class="highlight-section-title">商业潜力</div>
+                        <span class="tag tag-high">高</span> <span style="font-size:13px;color:#718096;">电竞用户活跃且年轻，可对接菠菜平台或广告变现</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p>免责声明：本报告由 AI 自动生成，仅供参考，不构成任何投资建议</p>
+        </footer>
+    </div>
+</body>
+</html>
