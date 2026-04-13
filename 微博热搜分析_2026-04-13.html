@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* 顶部区域 */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* 总览区域 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .overview-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d5a87;
+        }
+        
+        .overview-card .label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* 分类板块 */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e3a5f;
+            padding-left: 15px;
+            border-left: 4px solid #2d5a87;
+            margin-bottom: 20px;
+        }
+        
+        /* 重点热搜卡片 */
+        .focus-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .focus-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 3px solid #2d5a87;
+        }
+        
+        .focus-card .topic {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .focus-card .heat {
+            font-size: 0.85rem;
+            color: #888;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+        
+        .focus-card .product-creative {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+        
+        .focus-card .product-creative .label {
+            font-size: 0.8rem;
+            color: #2d5a87;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .focus-card .product-creative .content {
+            font-size: 0.95rem;
+            color: #333;
+        }
+        
+        .focus-card .info-row {
+            display: flex;
+            gap: 20px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .focus-card .info-item {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .focus-card .info-item .label {
+            font-size: 0.75rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .focus-card .info-item .content {
+            font-size: 0.9rem;
+            color: #333;
+            margin-top: 2px;
+        }
+        
+        .focus-card .business-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .tag-high {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .tag-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .tag-low {
+            background: #e2e3e5;
+            color: #6c757d;
+        }
+        
+        /* 次重点卡片 */
+        .sub-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .sub-card {
+            background: white;
+            border-radius: 10px;
+            padding: 16px 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sub-card .bullet {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #cbd5e0;
+            flex-shrink: 0;
+        }
+        
+        .sub-card .topic {
+            flex: 1;
+            font-size: 0.95rem;
+            color: #444;
+        }
+        
+        .sub-card .heat {
+            font-size: 0.8rem;
+            color: #999;
+            white-space: nowrap;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #888;
+            font-size: 0.85rem;
+            margin-top: 40px;
+        }
+        
+        .footer .disclaimer {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .focus-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .focus-card .info-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月13日</p>
+        </header>
+        
+        <section class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">10</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </section>
+        
+        <section class="category">
+            <h2 class="category-title">娱乐</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>陈赫 短剧</span>
+                        <span class="heat">热度: 813,899</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">陈赫微短剧一键追更小程序：聚合明星短剧，AI推荐+弹幕互动+一键预约更新提醒</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">短剧爱好者、粉丝群体</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-high">高</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">微信小程序：首页展示近期热门短剧列表→点击进入详情页可订阅→更新提醒推送。首期接入5部短剧验证用户活跃度</div>
+                    </div>
+                </div>
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>逐玉庆功宴</span>
+                        <span class="heat">热度: 322,644</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">热播剧集官方粉丝互动平台：剧集资讯+主演动态+庆功宴直播一键直达</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">剧集粉丝、CP粉群体</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-medium">中</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">微信小程序：热播剧集单页→主演介绍、预告、花絮视频→粉丝讨论区。绑定剧方提供官方物料</div>
+                    </div>
+                </div>
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>灯花笑 田曦薇</span>
+                        <span class="heat">热度: 227,394</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">新剧角色热度追踪工具：实时监测角色话题热度，生成角色人气榜单</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">剧方营销团队、粉丝数据党</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-low">低</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">小程序工具：输入剧名→自动抓取微博话题→生成角色热度排行榜单+增长曲线图</div>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <span class="bullet"></span>
+                    <span class="topic">张凌赫逐玉庆功宴路透</span>
+                    <span class="heat">23.8万</span>
+                </div>
+                <div class="sub-card">
+                    <span class="bullet"></span>
+                    <span class="topic">何猷君晒与何超蕸合照</span>
+                    <span class="heat">23.9万</span>
+                </div>
+                <div class="sub-card">
+                    <span class="bullet"></span>
+                    <span class="topic">霍思燕最争气的是她自己</span>
+                    <span class="heat">23.5万</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category">
+            <h2 class="category-title">科技数码</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>华为PuraXMax</span>
+                        <span class="heat">热度: 244,517</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">新机抢购攻略小助手：华为新机发布倒计时+参数对比+黄牛价格监控+抢购提醒</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">花粉、数码产品爱好者</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-high">高</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">微信小程序：新品参数页面→开售时间提醒设置→购买攻略指南。接入京东/天猫抢购链接导流</div>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <span class="bullet"></span>
+                    <span class="topic">比亚迪财务总监年薪1013万元</span>
+                    <span class="heat">82万</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category">
+            <h2 class="category-title">社会民生</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>女子单独坐过夜火车被乘警拉进群</span>
+                        <span class="heat">热度: 335,898</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">夜间出行安全守护小程序：火车/长途旅客一键报警+同行旅客群组+实时位置共享给家人</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">夜间长途出行女性、担忧子女安全的家长</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-high">高</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">微信小程序：输入车次→生成专属分享链接给家人→一键报警按钮→紧急联系人自动通知。首批与铁路公安合作试点</div>
+                    </div>
+                </div>
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>9岁男孩偷偷给爷爷带肉</span>
+                        <span class="heat">热度: 1,115,147</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">隔代关爱代购平台：子女为父母下单送菜送肉，驿站代取+处理+送到家一站式服务</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">在外工作无法陪伴老人的子女、行动不便老人</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-high">高</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">小程序：子女选菜下单→驿站处理（如切块）→配送上门→老人收货确认+做菜指导视频</div>
+                    </div>
+                </div>
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>产妇遭医院擅自二次开腹致女儿脑瘫</span>
+                        <span class="heat">热度: 230,735</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">医疗纠纷维权指南服务：医疗事故法律援助+案例库+律师匹配+维权流程指引</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">医疗事故受害者及家属</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-medium">中</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">公众号+小程序：医疗纠纷知识库→AI初步评估案情→专业律师对接服务</div>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <span class="bullet"></span>
+                    <span class="topic">商家标语引争议</span>
+                    <span class="heat">20.1万</span>
+                </div>
+                <div class="sub-card">
+                    <span class="bullet"></span>
+                    <span class="topic">61岁男子手术后在飞机上身亡</span>
+                    <span class="heat">22.6万</span>
+                </div>
+                <div class="sub-card">
+                    <span class="bullet"></span>
+                    <span class="topic">文章上海面馆价格</span>
+                    <span class="heat">24.2万</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category">
+            <h2 class="category-title">国际</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>特朗普称今晚10点封锁伊朗</span>
+                        <span class="heat">热度: 603,496</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">国际局势实时追踪看板：地缘政治事件时间线+影响分析+相关资产行情联动</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">金融从业者、关心国际形势的用户</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-medium">中</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">小程序：事件时间轴展示→自动关联相关市场反应（如油价、金价）→订阅推送重要更新</div>
+                    </div>
+                </div>
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>美将封锁霍尔木兹海峡</span>
+                        <span class="heat">热度: 347,486</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">原油运输通道监测工具：海峡封锁动态影响分析+替代路线+油价走势预测</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">能源行业从业者、投资者</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-low">低</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">小程序工具：海峡通航数据→历史封锁影响案例→专业分析报告订阅</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category">
+            <h2 class="category-title">体育</h2>
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="topic">
+                        <span>超级巨星孙颖莎</span>
+                        <span class="heat">热度: 203,079</span>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">产品创意</div>
+                        <div class="content">运动员专属粉丝社群小程序：孙颖莎比赛赛程+精彩瞬间+粉丝团活动+官方资讯聚合</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="label">目标用户</div>
+                            <div class="content">孙颖莎粉丝、体育爱好者</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">商业潜力</div>
+                            <span class="business-tag tag-medium">中</span>
+                        </div>
+                    </div>
+                    <div class="product-creative">
+                        <div class="label">MVP建议</div>
+                        <div class="content">微信小程序：运动员主页→比赛赛程提醒→精彩视频集锦→粉丝互动社区</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer">
+            <p>数据来源：微博热搜</p>
+            <p class="disclaimer">本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
