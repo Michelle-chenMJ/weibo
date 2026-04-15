@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Overview */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90d9;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Category */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            padding-left: 15px;
+            border-left: 4px solid #4a90d9;
+            margin-bottom: 20px;
+        }
+        
+        /* Priority Cards */
+        .priority-section {
+            margin-bottom: 15px;
+        }
+        
+        .priority-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #888;
+            margin-bottom: 12px;
+        }
+        
+        .priority-cards {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .priority-cards.priority-high {
+            grid-template-columns: repeat(1, 1fr);
+        }
+        
+        .priority-cards.priority-normal {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .card.priority-high {
+            border-left: 4px solid #4a90d9;
+        }
+        
+        .card.priority-normal {
+            padding: 15px;
+            background: #fafbfc;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .card-heat {
+            font-size: 12px;
+            color: #999;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+        
+        .card-content {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .card-content section {
+            margin-top: 12px;
+        }
+        
+        .card-content .field-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .card-content .field-value {
+            color: #333;
+        }
+        
+        .card-content.mvp .field-value {
+            font-size: 13px;
+        }
+        
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .tag-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .tag-low {
+            background: #f5f5f5;
+            color: #757575;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #999;
+            font-size: 13px;
+            margin-top: 40px;
+        }
+        
+        .footer p {
+            margin-bottom: 8px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .overview-card {
+                padding: 15px;
+            }
+            
+            .overview-card .number {
+                font-size: 24px;
+            }
+            
+            .priority-cards.priority-normal {
+                grid-template-columns: 1fr;
+            }
+            
+            .card.priority-normal {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月15日 10:30</p>
+        </div>
+        
+        <!-- Overview -->
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+        
+        <!-- Category: 社会 -->
+        <div class="category">
+            <h2 class="category-title">社会</h2>
+            
+            <div class="priority-section">
+                <p class="priority-label">重点热搜 ×3</p>
+                <div class="priority-cards priority-high">
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">军工人员泄密事件</span>
+                            <span class="card-heat">热度 1,157,313</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">企业内部泄密预警与合规培训平台</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">军工/涉密企业HR、安全部门</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">开发泄密风险自测小程序，含案例库、保密协议签署、年度合规考试功能</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-high">高</span>
+                                <span class="field-value"> 政企安全市场规模大，付费意愿强</span>
+                            </section>
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">驻外人员出卖国家秘密</span>
+                            <span class="card-heat">热度 863,949</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">驻外人员安全监护与境外风险预警系统</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">政府外事部门、跨国企业HR</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">境外安全手册APP，含使领馆联系方式、当地法律速查、异常行为上报入口</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-medium">中</span>
+                                <span class="field-value"> B端政府采购为主，市场规模有限</span>
+                            </section>
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">卫生院用杆秤称新生儿</span>
+                            <span class="card-heat">热度 186,095</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">基层医疗机构设备合规采购与监管平台</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">基层卫生院、卫健委监管部门</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">建立合格医疗设备目录库，提供采购指引 + 举报小程序，收集基层医疗违规线索</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-medium">中</span>
+                                <span class="field-value"> 医疗合规需求稳定，可对接政府采购</span>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="priority-section">
+                <p class="priority-label">次重点热搜 ×3</p>
+                <div class="priority-cards priority-normal">
+                    <div class="card priority-normal">
+                        <span class="card-title">你以为吃的是素菜其实全是油脂</span>
+                        <span class="card-heat">热度 582,800</span>
+                        <div class="card-content" style="margin-top:8px">
+                            <strong>产品方向：</strong>食品健康成分识别工具
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-normal">
+                        <span class="card-title">女子生产坚持不打无痛</span>
+                        <span class="card-heat">热度 370,719</span>
+                        <div class="card-content" style="margin-top:8px">
+                            <strong>产品方向：</strong>产妇分娩知识科普与陪产指南
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-normal">
+                        <span class="card-title">教体局称猥亵女孩老师已降最低等级</span>
+                        <span class="card-heat">热度 186,313</span>
+                        <div class="card-content" style="margin-top:8px">
+                            <strong>产品方向：</strong>校园安全投诉与追踪平台
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Category: 科技 -->
+        <div class="category">
+            <h2 class="category-title">科技</h2>
+            
+            <div class="priority-section">
+                <p class="priority-label">重点热搜 ×2</p>
+                <div class="priority-cards priority-high">
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">千问AI眼镜S1现货开售</span>
+                            <span class="card-heat">热度 未知</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">AI眼镜配件与生态产品</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">AI眼镜用户、数码爱好者</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">开发AI眼镜场景化应用插件商店，提供翻译、会议记录、导航等增值功能</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-high">高</span>
+                                <span class="field-value"> AI硬件增速快，生态配件需求大</span>
+                            </section>
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">第十三届中国网络视听大会</span>
+                            <span class="card-heat">热度 676,948</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">短视频/直播行业趋势分析与资源对接平台</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">MCN机构、内容创作者、广告主</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">行业会议信息导航 + 展区AR导览 + 展商对接小程序</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-medium">中</span>
+                                <span class="field-value"> 垂直细分赛道，可持续运营</span>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="priority-section">
+                <p class="priority-label">次重点热搜 ×2</p>
+                <div class="priority-cards priority-normal">
+                    <div class="card priority-normal">
+                        <span class="card-title">苹果官方发文提醒</span>
+                        <span class="card-heat">热度 184,979</span>
+                        <div class="card-content" style="margin-top:8px">
+                            <strong>产品方向：</strong>苹果生态用户社群工具
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-normal">
+                        <span class="card-title">美团会员无限次骑行</span>
+                        <span class="card-heat">热度 未知</span>
+                        <div class="card-content" style="margin-top:8px">
+                            <strong>产品方向：</strong>共享单车会员权益比较工具
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Category: 体育 -->
+        <div class="category">
+            <h2 class="category-title">体育</h2>
+            
+            <div class="priority-section">
+                <p class="priority-label">重点热搜 ×2</p>
+                <div class="priority-cards priority-high">
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">三球附加赛加时绝杀热火</span>
+                            <span class="card-heat">热度 186,995</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">NBA赛事数据与球员动态追踪App</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">篮球球迷、体育博彩用户</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">赛事提醒 + 关键时刻集锦 + 球员数据对比工具</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-high">高</span>
+                                <span class="field-value"> 球迷粘性高，付费会员/广告价值大</span>
+                            </section>
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">孙颖莎代言白象</span>
+                            <span class="card-heat">热度 182,180</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">运动员代言效果监测与品牌匹配平台</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">品牌方、体育经纪公司</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">运动员商业价值评估工具，含热度趋势、粉丝画像、代言历史分析</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-medium">中</span>
+                                <span class="field-value"> B端付费，市场较窄但客单价高</span>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="priority-section">
+                <p class="priority-label">次重点热搜 ×1</p>
+                <div class="priority-cards priority-normal">
+                    <div class="card priority-normal">
+                        <span class="card-title">交警质问是张雪机车给你打鸡血了</span>
+                        <span class="card-heat">热度 284,774</span>
+                        <div class="card-content" style="margin-top:8px">
+                            <strong>产品方向：</strong>机车安全驾驶提醒工具
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Category: 娱乐 -->
+        <div class="category">
+            <h2 class="category-title">娱乐</h2>
+            
+            <div class="priority-section">
+                <p class="priority-label">重点热搜 ×3</p>
+                <div class="priority-cards priority-high">
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">神仙肉 剧集</span>
+                            <span class="card-heat">热度 580,833</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">影视剧周边产品与角色同款电商平台</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">剧集粉丝、影视周边消费者</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">同步追剧工具 + 角色同款带货小程序 + 剧情讨论社区</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-high">高</span>
+                                <span class="field-value"> 粉丝经济成熟，变现路径清晰</span>
+                            </section>
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">于正为吴谨言许凯宣传新剧</span>
+                            <span class="card-heat">热度 455,731</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">剧宣效果监测与CP营销工具</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">影视公司、艺人工作室</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">热播剧集话题热度监测 + 艺人CP热度排行榜 + 宣发效果报告生成</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-medium">中</span>
+                                <span class="field-value"> 影视行业数字化需求增长</span>
+                            </section>
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">田馥甄回应拒绝浪姐邀约</span>
+                            <span class="card-heat">热度 181,101</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">综艺选手邀约决策辅助工具</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">综艺制作方、经纪人</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">艺人档期管理 + 邀约成功率预测 + 综艺匹配度分析</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-low">低</span>
+                                <span class="field-value"> 小众需求，依赖人脉资源</span>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="priority-section">
+                <p class="priority-label">次重点热搜 ×2</p>
+                <div class="priority-cards priority-normal">
+                    <div class="card priority-normal">
+                        <span class="card-title">何润东逐玉的红利</span>
+                        <span class="card-heat">热度 183,058</span>
+                        <div class="card-content" style="margin-top:8px">
+                            <strong>产品方向：</strong>演员IP长尾价值管理工具
+                        </div>
+                    </div>
+                    
+                    <div class="card priority-normal">
+                        <span class="card-title">10年前的孟子义</span>
+                        <span class="card-heat">热度 184,125</span>
+                        <div class="card-content" style="margin-top:8px">
+                            <strong>产品方向：</strong>明星成长轨迹对比工具
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Category: 生活 -->
+        <div class="category">
+            <h2 class="category-title">生活</h2>
+            
+            <div class="priority-section">
+                <p class="priority-label">重点热搜 ×1</p>
+                <div class="priority-cards priority-high">
+                    <div class="card priority-high">
+                        <div class="card-header">
+                            <span class="card-title">云南泼水节车前喷水小鸡袭击路人</span>
+                            <span class="card-heat">热度 225,271</span>
+                        </div>
+                        <div class="card-content">
+                            <section>
+                                <span class="field-label">产品创意</span>
+                                <span class="field-value">节庆活动安全预警与游玩攻略</span>
+                            </section>
+                            <section>
+                                <span class="field-label">目标用户</span>
+                                <span class="field-value">游客、景区管理方</span>
+                            </section>
+                            <section>
+                                <span class="field-label">MVP建议</span>
+                                <span class="field-value">节庆活动安全须知 + 人流预警 + 趣味玩法地图</span>
+                            </section>
+                            <section>
+                                <span class="field-label">商业潜力</span>
+                                <span class="tag tag-medium">中</span>
+                                <span class="field-value"> 可对接景区和OTA平台</span>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>数据来源：微博热搜</p>
+            <p>免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </div>
+    </div>
+</body>
+</html>
