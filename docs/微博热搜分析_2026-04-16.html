@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* 顶部区域 */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* 总览区域 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        /* 分类区域 */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 16px;
+            border-left: 4px solid #667eea;
+        }
+        
+        /* 重点热搜卡片 */
+        .focus-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .focus-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 4px solid #667eea;
+        }
+        
+        .focus-card .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .focus-card .hotword .heat {
+            font-size: 13px;
+            font-weight: 400;
+            color: #999;
+        }
+        
+        .focus-card .section {
+            margin-top: 16px;
+        }
+        
+        .focus-card .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        
+        .focus-card .section-content {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .focus-card .tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-user {
+            background: #e8f4ff;
+            color: #1677ff;
+        }
+        
+        .tag-mvp {
+            background: #f6ffed;
+            color: #52c41a;
+        }
+        
+        .tag-potential {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .potential-high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .potential-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .potential-low {
+            background: #f5f5f5;
+            color: #757575;
+        }
+        
+        /* 次重点卡片 */
+        .secondary-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .secondary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .secondary-card .hotword {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .secondary-card .heat {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .secondary-card .direction {
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        .footer .disclaimer {
+            margin-top: 8px;
+            color: #bbb;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .secondary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .focus-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部区域 -->
+        <div class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月16日 15:30</p>
+        </div>
+        
+        <!-- 总览区域 -->
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">9</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </div>
+        
+        <!-- 娱乐综艺类 -->
+        <div class="category">
+            <h2 class="category-title">娱乐综艺</h2>
+            
+            <!-- 重点热搜 -->
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">
+                        赵子琪张慧雯吵架是怎么剪辑出来的
+                        <span class="heat">热度: 375,458</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">综艺节目争议片段智能分析工具，自动识别剪辑手法并生成舆情报告</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">综艺节目制作方、品牌公关、影视MCN机构</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">开发网页端工具，支持用户上传综艺片段，自动分析剪辑点、话题制造手法，生成可视化报告</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">B端工具</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-medium">商业潜力中</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">
+                        芒果化妆师把陶昕然化成王鸥了
+                        <span class="heat">热度: 216,099</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">AI妆容迁移App，用户上传照片可体验明星同款妆容，支持美妆教程生成</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">年轻女性用户、美妆爱好者、化妆初学者</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">开发小程序，支持拍照或上传照片，一键生成明星同款妆容，提供化妆品清单和教程</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-high">商业潜力高</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">
+                        赵子琪为上浪姐下了血本
+                        <span class="heat">热度: 142,907</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">综艺选手参赛准备服务平台，提供形象包装、才艺培训、公关策略一站式服务</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">综艺选秀参赛者、练习生、MCN签约艺人</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">搭建对接平台，连接化妆师、形体老师、摄影师等资源，为参赛者提供打包服务</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">B端服务</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-medium">商业潜力中</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 次重点热搜 -->
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">丝芭总裁王子杰去世</div>
+                    <div class="heat">热度: 9,506,524</div>
+                    <div class="direction">方向：粉丝社群管理工具、偶像公司动态监测平台</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">向华强女儿说向太拿烟头烫她</div>
+                    <div class="heat">热度: 151,085</div>
+                    <div class="direction">方向：名人舆情监测工具、家庭关系调解服务</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">小黄豆自曝在泼水节被喷未知液体</div>
+                    <div class="heat">热度: 149,458</div>
+                    <div class="direction">方向：女性安全预警App、活动安全指南平台</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 社会民生类 -->
+        <div class="category">
+            <h2 class="category-title">社会民生</h2>
+            
+            <!-- 重点热搜 -->
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">
+                        警方通报骑车遭开门杀被碾压身亡
+                        <span class="heat">热度: 146,815</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">开门警示App，结合GPS和骑行车速数据，在后方来车时提醒开车门注意安全</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">骑行者、快递员、外卖配送员等日常骑车通勤人群</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">开发手机App，通过手机传感器检测后方来车距离，语音提醒用户开车门时注意</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-high">商业潜力高</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">
+                        外籍人员境内违规捕蝶被钓鱼者识破
+                        <span class="heat">热度: 126,374</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">生态违法行为举报平台，接入GPS定位和物种识别AI，鼓励公众参与生态保护</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">环保志愿者、户外爱好者、普通市民</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">开发小程序，支持拍照上传违规行为，自动识别物种并定位，连接相关执法部门</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-medium">商业潜力中</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 次重点热搜 -->
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">河南一景区露脚踝大象系演员扮演</div>
+                    <div="heat">热度: 156,003</div>
+                    <div class="direction">方向：景区AR互动体验、文旅内容科普平台</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">同心所向白象支持中国航天事业</div>
+                    <div class="heat">热度: 待获取</div>
+                    <div class="direction">方向：品牌联名监测平台、航天科普内容合作</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="hotword">小狗叼东西证明自己不咬人</div>
+                    <div class="heat">热度: 178,175</div>
+                    <div class="direction">方向：宠物行为训练App、宠物社交平台</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 健康类 -->
+        <div class="category">
+            <h2 class="category-title">健康</h2>
+            
+            <!-- 重点热搜 -->
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">
+                        医生回应35岁孕妇吃冰箱剩菜后去世
+                        <span class="heat">热度: 1,874,190</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">孕期食品安全助手，帮助孕妇识别食物风险，提供冰箱储存指南和过期提醒</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">孕妇、备孕女性、家有孕妇的家庭成员</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">开发孕期饮食顾问小程序，扫描食品条码显示孕妇是否能吃，提供冰箱食物储存建议</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-high">商业潜力高</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">
+                        浙江癌症发病率死亡率首位均为肺癌
+                        <span class="heat">热度: 155,083</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">地区化健康风险评估平台，结合本地癌症数据提供个性化体检建议和预防方案</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">25岁以上体检人群、亚健康上班族、关注健康的家庭</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">搭建地区健康数据查询网站，用户输入地区和基本信息，获取针对性体检建议</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-high">商业潜力高</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">
+                        丙午年 心脏
+                        <span class="heat">热度: 1,146,350</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">传统养生知识现代化解读平台，用中医理论结合现代医学提供心脏调养方案</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">关注中医养生的中老年人群、亚健康职场人士</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">开发养生知识公众号和小程序，每天推送根据节气养生的图文和视频内容</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-medium">商业潜力中</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 科技汽车类 -->
+        <div class="category">
+            <h2 class="category-title">科技汽车</h2>
+            
+            <!-- 重点热搜 -->
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">
+                        易烊千玺 华为
+                        <span class="heat">热度: 144,663</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">明星代言产品全网比价及购买攻略工具，聚合各渠道价格并提供入手时机建议</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">粉丝群体、3C产品消费者、追求性价比的购物者</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">开发比价小程序，录入明星代言产品，实时抓取各电商平台价格，提供优惠提醒</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-high">商业潜力高</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">
+                        小米史上最大电池手机曝光
+                        <span class="heat">热度: 133,193</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">新机参数对比与选购建议平台，聚合各品牌新机配置，提供个性化推荐</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">计划购机用户、手机参数爱好者、科技数码粉丝</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">搭建手机参数数据库网站，用户输入预算和需求，输出推荐机型清单及评测链接</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-medium">商业潜力中</span>
+                    </div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">
+                        4月16日埃安N60新品时尚大秀
+                        <span class="heat">热度: 待获取</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">新车发布日历与配置预测平台，聚合造车新势力新车信息，提供行业趋势分析</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">关注新能源车的消费者、汽车行业从业者、投资者</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">开发汽车资讯小程序，按品牌整理新车发布时间表，提供配置对比和价格预测</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-medium">商业潜力中</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 次重点热搜 -->
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">全国工程建设小阳春</div>
+                    <div class="heat">热度: 1,443,341</div>
+                    <div class="direction">方向：工程信息平台、建筑行业招聘、建材比价</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 体育类 -->
+        <div class="category">
+            <h2 class="category-title">体育</h2>
+            
+            <!-- 重点热搜 -->
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">
+                        勇士vs快船
+                        <span class="heat">热度: 152,871</span>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">产品创意</div>
+                        <div class="section-content">赛事提醒与战报生成工具，支持自定义关注球队，推送比赛动态和即时战报</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">目标用户</div>
+                        <div class="section-content">NBA球迷、体育爱好者、竞猜用户</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">MVP 建议</div>
+                        <div class="section-content">开发赛事提醒小程序，用户关注球队后推送比赛时间和战报，支持小组讨论功能</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag tag-user">C端用户</span>
+                        <span class="tag tag-mvp">MVP可做</span>
+                        <span class="tag-potential potential-medium">商业潜力中</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>数据来源：微博热搜</p>
+            <p class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </div>
+    </div>
+</body>
+</html>
