@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f8fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 顶部区域 */
+        .header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b26f 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* 总览区域 */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90d9;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* 分类区域 */
+        .category {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        
+        .category-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #4a90d9;
+            display: inline-block;
+        }
+        
+        /* 重点热搜卡片 */
+        .priority-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-label::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: #e74c3c;
+            border-radius: 2px;
+        }
+        
+        .priority-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .priority-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .priority-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .hot-keyword {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            flex: 1;
+        }
+        
+        .hot-value {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .card-section {
+            margin-bottom: 15px;
+        }
+        
+        .card-section-title {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        
+        .card-section-content {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .tag-high {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .tag-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .tag-low {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        /* 次重点卡片 */
+        .secondary-section {
+            margin-top: 20px;
+        }
+        
+        .secondary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .secondary-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 18px;
+            border-left: 4px solid #adb5bd;
+        }
+        
+        .secondary-keyword {
+            font-size: 15px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+        
+        .secondary-direction {
+            font-size: 13px;
+            color: #6c757d;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        .footer .disclaimer {
+            margin-top: 10px;
+            color: #bbb;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .priority-cards, .secondary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 -->
+        <div class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月18日 20:00</p>
+        </div>
+        
+        <!-- 总览 -->
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </div>
+        
+        <!-- 科技数码 -->
+        <div class="category">
+            <h2 class="category-title">科技数码</h2>
+            
+            <div class="priority-section">
+                <div class="section-label">重点热搜</div>
+                <div class="priority-cards">
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">雷军不建议有司机的大老板买小米</div>
+                            <div class="hot-value">113万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">开发小米汽车企业版专属服务，提供车队管理、司机调度、企业账户管控等功能</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">企业高管、专职司机群体、公司车队管理者</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先推出企业购车入口，提供企业资质认证、批量采购询价、专属客服通道，收集需求后再迭代功能</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-high">高</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">企业采购决策链长但单笔成交额高，是切入B端市场的良机</span>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">雷军回应YU7二排比迈巴赫多一度</div>
+                            <div class="hot-value">47万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">车内温度对比可视化工具，展示小米YU7空调性能优势，可作为销售辅助工具</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">汽车评测媒体、意向购车用户、产品对比爱好者</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">开发一个简单的车内温度对比H5页面，集成竞品参数对比、用户投票互动功能</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-medium">中</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">营销属性强，适合作为产品发布会的亮点素材</span>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">中国新能源产品成了海外抢手货</div>
+                            <div class="hot-value">65万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">出海品牌选品工具，聚合海外电商平台热销中国商品数据，帮助商家发现出海机会</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">跨境电商卖家、外贸企业、品牌出海服务商</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先爬取亚马逊、速卖通等平台数据，按品类和国家展示热销中国品牌榜单，提供简单的趋势分析</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-high">高</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">跨境电商持续升温，工具类SaaS需求旺盛，可收取订阅费</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-section">
+                <div class="section-label" style="color:#666;">次重点热搜</div>
+                <div class="secondary-cards">
+                    <div class="secondary-card">
+                        <div class="secondary-keyword">奥迪海外第一个智能电动技术中心</div>
+                        <div class="secondary-direction">产品方向：智能汽车技术方案输出平台，为海外车企提供电动化、智能化技术合作</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 娱乐综艺 -->
+        <div class="category">
+            <h2 class="category-title">娱乐综艺</h2>
+            
+            <div class="priority-section">
+                <div class="section-label">重点热搜</div>
+                <div class="priority-cards">
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">花少8姐姐三句不离小鲜肉</div>
+                            <div class="hot-value">61万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">综艺二创内容生成工具，自动提取节目精彩片段，生成不同风格的金句海报和短视频</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">综艺粉丝、剪刀手UP主、节目组宣发团队、CP向内容创作者</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">接入视频AI能力，自动识别节目中的高能片段和热门CP互动，一键生成可分享的短视频和表情包</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-high">高</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">综艺宣发刚需，可与平台合作收取内容分成或工具订阅费</span>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">谢娜爆料浪姐录制时厕所门是锁的</div>
+                            <div class="hot-value">56万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">综艺幕后故事聚合平台，收集整理各综艺的幕后花絮、爆料、衍生话题</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">综艺深度用户、粉丝社群运营者、娱乐自媒体</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先做一个综艺爆料聚合小程序，爬取各平台综艺相关热搜和话题，按节目分类展示</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-medium">中</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">用户粘性高，适合做粉丝社区，接广告和会员变现</span>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">时代少年团抢票</div>
+                            <div class="hot-value">41万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">演唱会抢票辅助工具，提供开票提醒、多设备同步抢票、订单管理等功能</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">明星粉丝、演出爱好者、黄牛受害者联盟</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">开发浏览器插件，实现演出开票提醒、多账号同时监控、自动填单功能</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-high">高</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">强刚需产品，演唱会经济爆发，粉丝付费意愿强</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-section">
+                <div class="section-label" style="color:#666;">次重点热搜</div>
+                <div class="secondary-cards">
+                    <div class="secondary-card">
+                        <div class="secondary-keyword">魏晨躲在张杰背后笑</div>
+                        <div class="secondary-direction">产品方向：演出高能瞬间GIF生成工具，自动识别演唱会精彩画面生成表情包</div>
+                    </div>
+                    <div class="secondary-card">
+                        <div class="secondary-keyword">李沁苏州活动晚宴生图</div>
+                        <div class="secondary-direction">产品方向：明星生图对比工具，展示明星真实状态vs精修图的差异</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 社会生活 -->
+        <div class="category">
+            <h2 class="category-title">社会生活</h2>
+            
+            <div class="priority-section">
+                <div class="section-label">重点热搜</div>
+                <div class="priority-cards">
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">饮食清淡真的会失去很多</div>
+                            <div class="hot-value">57万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">重口味美食探索App，记录用户饮食偏好，推送附近重口味美食店铺，美食博主推荐</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">吃货群体、美食探店达人、饮食博主、想要尝试重口味但不知道选什么的用户</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先做一个美食测评小程序，按照"重口味程度"给餐厅打标签，用户可以按口味筛选附近餐厅</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-medium">中</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">本地生活服务可与点评平台竞争，差异化切入有市场空间</span>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">403元凉拌土鸡放20多勺糖</div>
+                            <div class="hot-value">47万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">餐厅菜品糖度查询工具，用户可查询各餐厅菜品的含糖量，帮助健康饮食人群避坑</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">健身人群、减脂人群、糖尿病患者、关注健康饮食的消费者</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先做一个众包数据库，用户可以提交餐厅菜品的糖度检测数据，形成口碑榜单</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-low">低</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">用户需求较细分，工具属性强，变现模式需要探索</span>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">泰国泼水节亲历者发声</div>
+                            <div class="hot-value">44万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">出境游实时攻略社区，聚合当地华人/游客的实时见闻、预警信息、注意事项</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">出境游游客、海外华人、留学生、旅行博主</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">按目的地创建实时话题，用户可发布带位置标记的见闻，其他用户可参考和互动</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-medium">中</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">出境游复苏后需求旺盛，可对接旅游平台做导流变现</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-section">
+                <div class="section-label" style="color:#666;">次重点热搜</div>
+                <div class="secondary-cards">
+                    <div class="secondary-card">
+                        <div class="secondary-keyword">全网最会做鸡的三个人齐聚广东</div>
+                        <div class="secondary-direction">产品方向：地域美食文化纪录片IP，可开发成美食地图、食材溯源等周边产品</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 社会事件 -->
+        <div class="category">
+            <h2 class="category-title">社会事件</h2>
+            
+            <div class="priority-section">
+                <div class="section-label">重点热搜</div>
+                <div class="priority-cards">
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">女子跳楼被男友拽5分钟后坠亡</div>
+                            <div class="hot-value">47万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">心理健康求助工具，提供心理危机自测、在线倾诉、紧急求助通道等功能</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">心理亚健康人群、抑郁症患者及家属、危机干预志愿者</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先做一个心理自测小程序，配合心理援助热线一键呼叫功能，与专业机构合作提供咨询服务</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-high">高</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">社会意义大，可争取政府购买服务，企业CSR项目也愿意合作</span>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">女孩偷偷领结婚证爷爷得知心痛落泪</div>
+                            <div class="hot-value">54万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">家庭关系调解平台，提供婚恋沟通指南、家庭矛盾咨询、长辈沟通技巧等内容服务</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">即将结婚的新人、面临婚恋家庭矛盾的年轻人、中老年婚恋用户</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先做一个婚恋沟通知识库，整理常见婆媳关系、彩礼、婚礼筹备等问题的解决方案</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-medium">中</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">中国式家庭关系是痛点，内容付费和咨询变现可行</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-section">
+                <div class="section-label" style="color:#666;">次重点热搜</div>
+                <div class="secondary-cards">
+                    <div class="secondary-card">
+                        <div class="secondary-keyword">伊朗发布霍尔木兹海峡船舶通行新规</div>
+                        <div class="secondary-direction">产品方向：海运物流合规查询工具，帮助航运企业了解各国海峡、运河通行规定</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 明星 -->
+        <div class="category">
+            <h2 class="category-title">明星</h2>
+            
+            <div class="priority-section">
+                <div class="section-label">重点热搜</div>
+                <div class="priority-cards">
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">张雪机车排名一路狂飙</div>
+                            <div class="hot-value">83万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">明星同款机车/装备种草平台，聚合明星骑行装备、穿搭同款，提供购买链接</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">机车爱好者、明星粉丝、潮流装备买家</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先做一个微博话题同款聚合工具，自动抓取明星穿搭、装备相关话题的商品信息</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-medium">中</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">粉丝经济转化路径清晰，可做电商导购变现</span>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">孙怡回应和阚清子关系</div>
+                            <div class="hot-value">46万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">明星关系图谱可视化工具，展示明星之间的工作关系、好友关系、CP关系</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">八卦爱好者、CP粉、娱圈从业人员</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先做一个明星关系数据库，可视化展示明星合作作品、共同活动等信息</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-low">低</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">娱乐属性过强，变现模式有限，适合作为流量入口</span>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-card">
+                        <div class="card-header">
+                            <div class="hot-keyword">何润东和老婆结婚10年没生孩子</div>
+                            <div class="hot-value">45万</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">产品创意</div>
+                            <div class="card-section-content">明星生活方式讨论社区，围绕明星的婚姻观、生育观、消费观等话题展开讨论</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">目标用户</div>
+                            <div class="card-section-content">八卦社区用户、情感话题讨论者</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">MVP建议</div>
+                            <div class="card-section-content">先做一个明星婚恋话题聚合讨论区，引导用户围绕婚恋观念展开理性讨论</div>
+                        </div>
+                        <div class="card-section">
+                            <div class="card-section-title">商业潜力</div>
+                            <span class="tag tag-low">低</span>
+                            <span style="font-size:13px;color:#666;margin-left:8px;">社区属性强但商业化路径长，适合与其他业务整合</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-section">
+                <div class="section-label" style="color:#666;">次重点热搜</div>
+                <div class="secondary-cards">
+                    <div class="secondary-card">
+                        <div class="secondary-keyword">网友拍日出拍到了易烊千玺</div>
+                        <div class="secondary-direction">产品方向：明星偶遇地图，标记粉丝偶遇明星的热门地点</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>数据来源：微博热搜</p>
+            <p class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </div>
+    </div>
+</body>
+</html>
