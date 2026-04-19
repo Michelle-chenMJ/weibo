@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .overview-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90d9;
+        }
+        
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 16px;
+            border-left: 4px solid #4a90d9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .card-highlight {
+            border-left: 4px solid #4a90d9;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .card-title .heat {
+            font-size: 12px;
+            color: #999;
+            font-weight: 400;
+            margin-left: 8px;
+        }
+        
+        .card-content {
+            margin-top: 12px;
+        }
+        
+        .card-content p {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .card-content strong {
+            color: #4a90d9;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-green {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .tag-orange {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .tag-gray {
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        .cards-secondary {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .card-secondary {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        
+        .card-secondary .card-title {
+            font-size: 14px;
+        }
+        
+        .card-secondary .card-desc {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        footer p {
+            margin-bottom: 6px;
+        }
+        
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .cards-secondary {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月19日 18:30</p>
+        </header>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">科技前沿</h2>
+            
+            <div class="card card-highlight">
+                <div class="card-title">
+                    宇树机器人打破人类1500米世界纪录
+                    <span class="heat">热度: 847217</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>机器人极限性能测试平台</p>
+                    <p><strong>目标用户：</strong>机器人研发团队、硬件厂商、评测机构</p>
+                    <p><strong>MVP建议：</strong>搭建一个在线展示机器人各项极限性能数据的平台，支持不同型号机器人横向对比，提供测试视频和数据报告下载服务</p>
+                    <p><strong>商业潜力：</strong><span class="tag tag-green">高</span> 机器人行业爆发期，这类评测平台具有稀缺性和行业影响力</p>
+                </div>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title">
+                    宇树H1机器人被担架抬离赛道
+                    <span class="heat">热度: 644983</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>硬件压力测试服务+故障数据库</p>
+                    <p><strong>目标用户：</strong>硬件厂商、供应链企业、保险公司</p>
+                    <p><strong>MVP建议：</strong>记录并分析机器人在极限环境下的故障数据，形成行业故障案例库，提供付费的可靠性测试认证服务</p>
+                    <p><strong>商业潜力：</span> <span class="tag tag-orange">中</span> 细分市场，但随着机器人普及，企业对可靠性测试需求会增加</p>
+                </div>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title">
+                    宇树H1机器人半马赛场终点累倒
+                    <span class="heat">热度: 333110</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>机器人续航与补能解决方案</p>
+                    <p><strong>目标用户：</strong>机器人厂商、赛事主办方</p>
+                    <p><strong>MVP建议：</strong>开发适用于机器人快速充电/换电的硬件模组，以及调度管理系统</p>
+                    <p><strong>商业潜力：</strong><span class="tag tag-orange">中</span> 配套服务，随着机器人应用场景扩展有增长空间</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">生活健康</h2>
+            
+            <div class="card card-highlight">
+                <div class="card-title">
+                    睡觉时被空调砸到头了
+                    <span class="heat">热度: 675492</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>智能家居安全监测App</p>
+                    <p><strong>目标用户：</strong>普通家庭用户、租房群体</p>
+                    <p><strong>MVP建议：</strong>开发一个连接智能空调/家居设备的App，监测设备运行状态和异常震动，支持远程提醒和自动报修功能</p>
+                    <p><strong>商业潜力：</strong><span class="tag tag-green">高</span> 家庭安全隐患是普遍痛点，智能家居渗透率提升让这类产品有广阔市场</p>
+                </div>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title">
+                    低精力 杏仁核长期应激
+                    <span class="heat">热度: 520373</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>压力与精力管理小程序</p>
+                    <p><strong>目标用户：</strong>职场人士、学生、高压力人群</p>
+                    <p><strong>MVP建议：</strong>开发一个基于心理学理论的压力自测工具，结合冥想、呼吸训练等功能，提供每日精力管理建议</p>
+                    <p><strong>商业潜力：</strong><span class="tag tag-green">高</span> 心理健康问题关注度持续上升，这类轻量化工具容易传播和变现</p>
+                </div>
+            </div>
+            
+            <div class="cards-secondary">
+                <div class="card-secondary">
+                    <div class="card-title">五一列车增开 <span class="heat">热度: 709282</span></div>
+                    <div class="card-desc"><strong>产品方向：</strong>智能出行规划工具，聚合官方增开信息并提供抢票提醒</div>
+                </div>
+                <div class="card-secondary">
+                    <div class="card-title">谁家猫怀孕都怀到脖子上了 <span class="heat">热度: 383640</span></div>
+                    <div class="card-desc"><strong>产品方向：</strong>宠物健康监测App，支持异常体态识别和兽医预约</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">社会热点</h2>
+            
+            <div class="card card-highlight">
+                <div class="card-title">
+                    酒店回访电话暴露开房致女子离婚
+                    <span class="heat">热度: 348746</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>隐私保护通话解决方案</p>
+                    <p><strong>目标用户：</strong>酒店、保险公司、任何需要外呼的企业</p>
+                    <p><strong>MVP建议：</strong>开发企业隐私号通话系统，支持虚拟号码、语音加密、通话记录自动销毁功能，防止客户隐私泄露</p>
+                    <p><strong>商业潜力：</strong><span class="tag tag-green">高</span> 隐私保护是强需求，企业合规要求推动市场增长</p>
+                </div>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title">
+                    医院举牌免费住宿女子遭恶意揣测
+                    <span class="heat">热度: 324327</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>产品创意：</strong>醫患關懷服務平台</p>
+                    <p><strong>目标用户：</strong>重症患者家属、异地就医群体</p>
+                    <p><strong>MVP建议：</strong>对接医院和附近社区资源，为异地就医患者提供免费住宿信息对接和身份认证服务，减少误解和恶意揣测</p>
+                    <p><strong>商业潜力：</strong><span class="tag tag-orange">中</span> 社会意义大，商业化路径可通过医院合作和公益基金会</p>
+                </div>
+            </div>
+            
+            <div class="cards-secondary">
+                <div class="card-secondary">
+                    <div class="card-title">解放军凌晨4点管控日舰过航 <span class="heat">热度: 328096</span></div>
+                    <div class="card-desc"><strong>产品方向：</strong>国际事务信息聚合工具，提供客观的军事动态解读</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">娱乐综艺</h2>
+            
+            <div class="cards-secondary">
+                <div class="card-secondary">
+                    <div class="card-title">花少8 南美 <span class="heat">热度: 1259942</span></div>
+                    <div class="card-desc"><strong>产品方向：</strong>综艺同款旅游路线推荐平台</div>
+                </div>
+                <div class="card-secondary">
+                    <div class="card-title">谢娜晒和马嘉祺聊天记录 <span class="heat">热度: 688780</span></div>
+                    <div class="card-desc"><strong>产品方向：</strong>明星互动数据分析工具</div>
+                </div>
+                <div class="card-secondary">
+                    <div class="card-title">曝歌手2026阵容 <span class="heat">热度: 369341</span></div>
+                    <div class="card-desc"><strong>产品方向：</strong>综艺阵容预测+粉丝讨论社区</div>
+                </div>
+                <div class="card-secondary">
+                    <div class="card-title">逐玉播出后最爆的是何润东 <span class="heat">热度: 341233</span></div>
+                    <div class="card-desc"><strong>产品方向：</strong>演员热度追踪+商务合作匹配平台</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">体育赛事</h2>
+            
+            <div class="cards-secondary">
+                <div class="card-secondary">
+                    <div class="card-title">湖人战胜火箭 <span class="heat">热度: 577955</span></div>
+                    <div class="card-desc"><strong>产品方向：</strong>赛事实时推送+数据统计App</div>
+                </div>
+                <div class="card-secondary">
+                    <div class="card-title">杜兰特 火箭 <span class="heat">热度: 332429</span></div>
+                    <div class="card-desc"><strong>产品方向：</strong>球星动态追踪+Fantasy体育游戏</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p>免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
