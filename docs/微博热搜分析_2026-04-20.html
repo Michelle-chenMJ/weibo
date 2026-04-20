@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Overview Stats */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a90d9;
+            margin-bottom: 4px;
+        }
+        
+        .stat-card .label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Category Section */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4a90d9;
+            display: inline-block;
+        }
+        
+        /* Priority Cards */
+        .priority-cards {
+            display: grid;
+            gap: 16px;
+        }
+        
+        /* Primary Cards (3) */
+        .primary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 4px solid #4a90d9;
+        }
+        
+        .primary-card .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .primary-card .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222;
+        }
+        
+        .primary-card .heat {
+            font-size: 14px;
+            color: #888;
+            background: #f5f7fa;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+        
+        .primary-card .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a90d9;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .primary-card .section-content {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 16px;
+        }
+        
+        .primary-card .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-high { background: #d4edda; color: #155724; }
+        .tag-medium { background: #fff3cd; color: #856404; }
+        .tag-low { background: #e2e3e5; color: #383d41; }
+        
+        .product-detail {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+        
+        .detail-item {
+            font-size: 13px;
+        }
+        
+        .detail-item strong {
+            color: #555;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .detail-item span {
+            color: #444;
+        }
+        
+        /* Secondary Cards */
+        .secondary-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .secondary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        
+        .secondary-card .topic {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .secondary-card .heat {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .secondary-card .direction {
+            font-size: 13px;
+            color: #4a90d9;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #eee;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-size: 13px;
+            margin-top: 40px;
+        }
+        
+        .footer .disclaimer {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .secondary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年04月20日 18:25</p>
+        </header>
+        
+        <section class="overview">
+            <div class="stat-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">4</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">8</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </section>
+        
+        <section class="category">
+            <h2 class="category-title">生活 · 健康</h2>
+            <div class="priority-cards">
+                <div class="primary-card">
+                    <div class="topic-header">
+                        <span class="hotword">买点便宜衣服穿就显年轻了</span>
+                        <span class="heat">851,807</span>
+                    </div>
+                    <div class="section-title">深度分析</div>
+                    <div class="section-content">
+                        中老年群体对穿搭的心理需求被忽视，抖音、快手平台上中老年服装市场规模快速增长，存在信息不对称和搭配指导缺口。
+                    </div>
+                    <div class="product-detail">
+                        <div class="detail-item">
+                            <strong>产品创意</strong>
+                            <span>中老年穿搭社区"穿出年轻态"，提供体型适配推荐、平价好店导航、搭配教程</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>目标用户</strong>
+                            <span>45-70岁注重形象的中老年人群，三四线城市为主</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>MVP建议</strong>
+                            <span>公众号+小程序，核心功能：穿搭测评、体型推荐、爆款平价服装推荐</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>商业潜力</strong>
+                            <span class="tag tag-high">高</span>
+                            <span> 中老年消费升级，垂直社区稀缺，电商导流变现明确</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="primary-card">
+                    <div class="topic-header">
+                        <span class="hotword">这句话让我决定每天多喝水了</span>
+                        <span class="heat">714,205</span>
+                    </div>
+                    <div class="section-title">深度分析</div>
+                    <div class="section-content">
+                        健康习惯养成类内容引发广泛共鸣，反映了现代人对健康管理的行为需求，饮水追踪是一个成熟但仍有增长空间的需求。
+                    </div>
+                    <div class="product-detail">
+                        <div class="detail-item">
+                            <strong>产品创意</strong>
+                            <span>「喝水打卡」小程序，基于社交证明的饮水习惯养成工具</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>目标用户</strong>
+                            <span>办公族、 学生群体，注重健康但缺乏自律的年轻人</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>MVP建议</strong>
+                            <span>微信小程序，核心功能：定时提醒、趣味打卡、喝水排行榜、战队挑战</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>商业潜力</strong>
+                            <span class="tag tag-medium">中</span>
+                            <span> 需求真实但竞品多，需差异化社交玩法切入</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="topic">河北当地回应红色地下水灌溉麦田</div>
+                    <div class="heat">379,569</div>
+                    <div class="direction">产品方向：水质检测工具/污染监督举报平台</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="topic">泰女子泼水节昏迷体内检出听话水</div>
+                    <div class="heat">412,593</div>
+                    <div class="direction">产品方向：女性安全预警APP/陌生人饮品检测</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category">
+            <h2 class="category-title">社会 · 时事</h2>
+            <div class="priority-cards">
+                <div class="primary-card">
+                    <div class="topic-header">
+                        <span class="hotword">涉密单位人员下班闲聊致泄密</span>
+                        <span class="heat">887,829</span>
+                    </div>
+                    <div class="section-title">深度分析</div>
+                    <div class="section-content">
+                        政府和涉密企业对信息安全管理越来越重视，员工泄密事件频发，反映了內部通信规范化管理的需求缺口。
+                    </div>
+                    <div class="product-detail">
+                        <div class="detail-item">
+                            <strong>产品创意</strong>
+                            <span>企业敏感信息通信平台「密聊」，限定范围的阅后即焚沟通工具</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>目标用户</strong>
+                            <span>政府机构、金融企业、科技公司涉密部门</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>MVP建议</strong>
+                            <span>B端SaaS产品，核心功能：敏感词过滤、截图警告、消息撤回追踪、设备绑定</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>商业潜力</strong>
+                            <span class="tag tag-high">高</span>
+                            <span> 数据安全政策趋严，企业级市场需求明确，付费能力强</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="primary-card">
+                    <div class="topic-header">
+                        <span class="hotword">伊朗油轮突破美国海上封锁</span>
+                        <span class="heat">844,261</span>
+                    </div>
+                    <div class="section-title">深度分析</div>
+                    <div class="section-content">
+                        国际地缘政治事件引发广泛关注，反映了用户对国际财经、能源信息的获取需求，制裁与反制裁话题持续热门。
+                    </div>
+                    <div class="product-detail">
+                        <div class="detail-item">
+                            <strong>产品创意</strong>
+                            <span>「能源财经快讯」小程序，聚焦国际制裁、能源供应链情报</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>目标用户</strong>
+                            <span>外贸企业主、跨境电商从业者、金融分析师</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>MVP建议</strong>
+                            <span>公众号+小程序，核心功能：制裁清单查询、风险预警、供应链新闻聚合</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>商业潜力</strong>
+                            <span class="tag tag-medium">中</span>
+                            <span> 垂直领域专业性强，需要内容壁垒，付费会员模式可行</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="topic">入职第一周vs入职一年</div>
+                    <div class="heat">724,940</div>
+                    <div class="direction">产品方向：职场成长记录工具/新人融入社区</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="topic">万千气象看湖南</div>
+                    <div class="heat">854,129</div>
+                    <div class="direction">产品方向：城市形象推广平台/文旅内容聚合</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="topic">全部暴露 孩子归谁</div>
+                    <div class="heat">501,174</div>
+                    <div class="direction">产品方向：离婚纠纷法律咨询/财产分割工具</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category">
+            <h2 class="category-title">科技 · 互联网</h2>
+            <div class="priority-cards">
+                <div class="primary-card">
+                    <div class="topic-header">
+                        <span class="hotword">iOS27全新Siri界面</span>
+                        <span class="heat">412,352</span>
+                    </div>
+                    <div class="section-title">深度分析</div>
+                    <div class="section-content">
+                        iOS系统更新持续引发关注，Siri作为苹果AI核心入口全面升级。安卓厂商也将跟进，AI助手赛道迎来新竞争格局。
+                    </div>
+                    <div class="product-detail">
+                        <div class="detail-item">
+                            <strong>产品创意</strong>
+                            <span>跨平台AI助手对比测评工具，帮助用户选择最适合的AI语音助手</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>目标用户</strong>
+                            <span>科技爱好者、数码产品用户、追求效率的白领</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>MVP建议</strong>
+                            <span>公众号内容+网页工具，核心功能：能力对比测评、指令库分享、最佳实践推荐</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>商业潜力</strong>
+                            <span class="tag tag-medium">中</span>
+                            <span> 内容型产品，需要持续运营，商业化路径为广告+会员</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="primary-card">
+                    <div class="topic-header">
+                        <span class="hotword">程序员追不上机器人干脆开电瓶车跟</span>
+                        <span class="heat">601,242</span>
+                    </div>
+                    <div class="section-title">深度分析</div>
+                    <div class="section-content">
+                        程序员自嘲式话题引发共鸣，反映了码农群体的职场幽默文化。这类内容在技术社区有很高传播度。
+                    </div>
+                    <div class="product-detail">
+                        <div class="detail-item">
+                            <strong>产品创意</strong>
+                            <span>程序员梗图社区+表情包生成器「代码也疯狂」</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>目标用户</strong>
+                            <span>程序员、互联网从业者、技术爱好者</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>MVP建议</strong>
+                            <span>小程序+公众号，核心功能：模板生成、一键套用、程序员日历</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>商业潜力</strong>
+                            <span class="tag tag-low">低</span>
+                            <span> 娱乐属性强，变现空间有限，适合作为引流产品</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category">
+            <h2 class="category-title">娱乐 · 影视</h2>
+            <div class="priority-cards">
+                <div class="primary-card">
+                    <div class="topic-header">
+                        <span class="hotword">綦美合潮牌</span>
+                        <span class="heat">519,874</span>
+                    </div>
+                    <div class="section-title">深度分析</div>
+                    <div class="section-content">
+                        明星自创品牌持续引发关注，粉丝经济变现模式成熟。粉丝对明星同款、联名产品有强烈购买欲，但正品渠道信息分散。
+                    </div>
+                    <div class="product-detail">
+                        <div class="detail-item">
+                            <strong>产品创意</strong>
+                            <span>「明星同款」聚合平台，追踪明星穿搭、代言、潮牌上新</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>目标用户</strong>
+                            <span>18-35岁粉丝群体，追求明星同款的消费者</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>MVP建议</strong>
+                            <span>公众号+小程序，核心功能：明星穿搭追踪、正品渠道聚合、粉丝福利社</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>商业潜力</strong>
+                            <span class="tag tag-high">高</span>
+                            <span> 粉丝消费市场庞大，电商导流变现路径清晰</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="topic">佳偶天成定档</div>
+                    <div class="heat">1,493,627</div>
+                    <div class="direction">产品方向：影视宣发平台/弹幕互动工具</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="topic">金像奖爆冷</div>
+                    <div class="heat">773,330</div>
+                    <div class="direction">产品方向：电影节前瞻预测/获奖预测社区</div>
+                </div>
+                <div class="secondary-card">
+                    <div class="topic">雾里青官宣</div>
+                    <div class="heat">474,199</div>
+                    <div class="direction">产品方向：剧集追更助手/OST音乐平台</div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer">
+            <p>数据来源：微博热搜 | 天行API</p>
+            <p class="disclaimer">本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
