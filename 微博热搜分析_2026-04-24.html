@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微博热搜产品创意分析报告</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+  background: #f0f4f8;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #2c5282 0%, #3182ce 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 40px 36px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 20px rgba(44, 82, 130, 0.3);
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.header .subtitle {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* Overview */
+.overview {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 36px;
+  margin-bottom: 32px;
+  display: flex;
+  gap: 40px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  flex-wrap: wrap;
+}
+
+.overview-item {
+  text-align: center;
+  min-width: 140px;
+}
+
+.overview-item .num {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c5282;
+}
+
+.overview-item .label {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* Section */
+.section {
+  margin-bottom: 36px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c5282;
+  margin-bottom: 20px;
+  padding-left: 16px;
+  border-left: 4px solid #3182ce;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title .tag {
+  font-size: 12px;
+  background: #e8f0fe;
+  color: #2c5282;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Priority Cards (重点) */
+.priority-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-left: 5px solid #2c5282;
+  transition: box-shadow 0.2s;
+}
+
+.priority-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+}
+
+.priority-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.priority-card .hot-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a202c;
+  line-height: 1.4;
+}
+
+.priority-card .heat {
+  font-size: 13px;
+  color: #e53e3e;
+  font-weight: 600;
+  white-space: nowrap;
+  background: #fff5f5;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.priority-card .card-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.priority-card .field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #3182ce;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.priority-card .field-value {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.potential-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-top: 12px;
+}
+
+.potential-high { background: #c6f6d5; color: #276749; }
+.potential-mid { background: #feebc8; color: #9c4221; }
+.potential-low { background: #e2e8f0; color: #4a5568; }
+
+/* Secondary Cards (次重点) */
+.secondary-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px 22px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+  border-left: 4px solid #a0aec0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.secondary-card .hot-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d3748;
+  flex: 1;
+  min-width: 200px;
+}
+
+.secondary-card .direction {
+  font-size: 13px;
+  color: #718096;
+  font-style: italic;
+  flex: 2;
+  min-width: 200px;
+}
+
+.secondary-sub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 24px;
+  color: #aaa;
+  font-size: 12px;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 40px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  body { padding: 12px; }
+  .header { padding: 24px 20px; }
+  .header h1 { font-size: 22px; }
+  .overview { padding: 20px; gap: 20px; }
+  .overview-item .num { font-size: 28px; }
+  .priority-card { padding: 18px; }
+  .priority-card .card-body { grid-template-columns: 1fr; }
+  .secondary-sub-grid { grid-template-columns: 1fr; }
+  .section-title { font-size: 17px; }
+}
+
+@media (min-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cards:has(.priority-card:first-child:nth-last-child(odd)) .priority-card:first-child {
+    grid-column: 1 / -1;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>微博热搜产品创意分析报告</h1>
+  <div class="subtitle">生成时间：2026年04月24日 · 14:00</div>
+</div>
+
+<!-- Overview -->
+<div class="overview">
+  <div class="overview-item">
+    <div class="num">20</div>
+    <div class="label">今日热搜总数</div>
+  </div>
+  <div class="overview-item">
+    <div class="num">5</div>
+    <div class="label">分析分类数</div>
+  </div>
+  <div class="overview-item">
+    <div class="num">12</div>
+    <div class="label">重点分析话题</div>
+  </div>
+  <div class="overview-item">
+    <div class="num">6</div>
+    <div class="label">次重点分析话题</div>
+  </div>
+</div>
+
+<!-- 科技 -->
+<div class="section">
+  <div class="section-title">
+    科技前沿
+    <span class="tag">3个重点 · 2个次重点</span>
+  </div>
+  <div class="cards">
+
+    <!-- 重点1 -->
+    <div class="priority-card">
+      <div class="card-header">
+        <div class="hot-title">🔥 DeepSeek V4 发布</div>
+        <div class="heat">🔥 595,055</div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="field-label">产品创意</div>
+          <div class="field-value">基于百万级上下文窗口，打造「超长记忆」AI助手，可分析完整项目代码库或长篇文档，支持跨章节溯源与逻辑推演。</div>
+        </div>
+        <div>
+          <div class="field-label">目标用户</div>
+          <div class="field-value">开发者、律师、分析师、学术研究人员</div>
+        </div>
+        <div>
+          <div class="field-label">MVP 建议</div>
+          <div class="field-value">Web 版对话助手，支持 PDF/代码上传，核心能力：上下文窗口内任意位置的信息关联检索 + 生成摘要。</div>
+        </div>
+        <div>
+          <div class="field-label">商业潜力</div>
+          <div class="field-value"><span class="potential-badge potential-high">高</span> 技术代差明显，企业级 API 调用 + SaaS 订阅模式清晰，开发者生态是核心壁垒。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 重点2 -->
+    <div class="priority-card">
+      <div class="card-header">
+        <div class="hot-title">DeepSeek v4 百万上下文</div>
+        <div class="heat">🔥 384,244</div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="field-label">产品创意</div>
+          <div class="field-value">「长文本理解浏览器插件」：帮助用户在阅读超长新闻合集、行业报告时自动提炼核心观点，对比不同章节立场变化。</div>
+        </div>
+        <div>
+          <div class="field-label">目标用户</div>
+          <div class="field-value">媒体从业者、内容策展人、知识付费用户</div>
+        </div>
+        <div>
+          <div class="field-label">MVP 建议</div>
+          <div class="field-value">Chrome 插件，输入一篇长文的 URL，输出结构化摘要 + 关键立场标签，支持导出。</div>
+        </div>
+        <div>
+          <div class="field-label">商业潜力</div>
+          <div class="field-value"><span class="potential-badge potential-high">高</span> 差异化强，与浏览器场景天然结合，付费会员 + 企业版授权双通道变现。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 重点3 -->
+    <div class="priority-card">
+      <div class="card-header">
+        <div class="hot-title">小米 YU7 GT 发布</div>
+        <div class="heat">🔥 1,171,543</div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="field-label">产品创意</div>
+          <div class="field-value">「小米汽车对比选配工具」：用户输入预算和偏好，自动对比YU7各版本配置差异，生成个性化购车建议报告并推送当地优惠。</div>
+        </div>
+        <div>
+          <div class="field-label">目标用户</div>
+          <div class="field-value">计划购买新能源汽车的消费者、小米生态用户</div>
+        </div>
+        <div>
+          <div class="field-label">MVP 建议</div>
+          <div class="field-value">H5 页面，收集用户选配偏好，输出对比卡片图（支持分享），接入经销商线索收集表单。</div>
+        </div>
+        <div>
+          <div class="field-label">商业潜力</div>
+          <div class="field-value"><span class="potential-badge potential-mid">中</span> 汽车消费决策链路长，线索转化价值高，但竞争激烈，需要差异化内容运营。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 次重点 -->
+    <div class="secondary-sub-grid">
+      <div class="secondary-card">
+        <div class="hot-title">快手低龄化伪成人内容</div>
+        <div class="direction">→ 产品方向：未成年人内容识别与家长管控工具，AI驱动的内容分级系统，嵌入短视频平台风控体系。</div>
+      </div>
+      <div class="secondary-card">
+        <div class="hot-title">第11个中国航天日</div>
+        <div class="direction">→ 产品方向：航天主题知识科普小程序/游戏，AR航天器展陈，航天日限定内容电商周边。</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 生活 -->
+<div class="section">
+  <div class="section-title">
+    生活消费
+    <span class="tag">2个重点 · 2个次重点</span>
+  </div>
+  <div class="cards">
+
+    <!-- 重点1 -->
+    <div class="priority-card">
+      <div class="card-header">
+        <div class="hot-title">建议装修一定要去家务化</div>
+        <div class="heat">🔥 1,048,610</div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="field-label">产品创意</div>
+          <div class="field-value">「懒人装修方案生成器」：输入户型图和预算，自动生成去家务化装修清单，包含智能家电选型、动线优化建议和采购链接。</div>
+        </div>
+        <div>
+          <div class="field-label">目标用户</div>
+          <div class="field-value">首套房业主、追求生活效率的年轻家庭、装修小白</div>
+        </div>
+        <div>
+          <div class="field-label">MVP 建议</div>
+          <div class="field-value">小程序，用户上传户型图，选择家庭成员数量，输出包含清洁工具推荐、动线图的 PDF 方案册。</div>
+        </div>
+        <div>
+          <div class="field-label">商业潜力</div>
+          <div class="field-value"><span class="potential-badge potential-high">高</span> 装修决策需求刚性强，内容种草+家具家电 CPS 分佣模式成熟，流量获取成本低。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 重点2 -->
+    <div class="priority-card">
+      <div class="card-header">
+        <div class="hot-title">爱喝无糖饮料的人天塌了</div>
+        <div class="heat">🔥 341,478</div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="field-label">产品创意</div>
+          <div class="field-value">「无糖饮料成分安全查询」工具：扫描瓶身条形码，识别阿斯巴甜/三氯蔗糖等代糖种类，显示健康评级和每日建议摄入量，附带替代品推荐。</div>
+        </div>
+        <div>
+          <div class="field-label">目标用户</div>
+          <div class="field-value">关注健康的年轻消费者、健身人群、糖尿病患者及家属</div>
+        </div>
+        <div>
+          <div class="field-label">MVP 建议</div>
+          <div class="field-value">小程序 + APP，用手机摄像头扫描配料表，弹出成分解读卡片，建立个人饮品偏好档案。</div>
+        </div>
+        <div>
+          <div class="field-label">商业潜力</div>
+          <div class="field-value"><span class="potential-badge potential-mid">中</span> 健康赛道持续扩容，但需要持续内容运营维护成分数据库，与品牌合作可实现数据变现。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 次重点 -->
+    <div class="secondary-sub-grid">
+      <div class="secondary-card">
+        <div class="hot-title">爷爷得知孙女怀孕立刻搭了个鸡窝</div>
+        <div class="direction">→ 产品方向：祖辈情感记录工具/家庭相册 App，支持多代际共享相册，挖掘亲情内容消费场景。</div>
+      </div>
+      <div class="secondary-card">
+        <div class="hot-title">过度坦诚会失去吸引力</div>
+        <div class="direction">→ 产品方向：两性沟通话术助手 AI，模拟不同场景的沟通策略建议，情感咨询付费课程导流。</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 娱乐 -->
+<div class="section">
+  <div class="section-title">
+    娱乐文创
+    <span class="tag">1个重点 · 1个次重点</span>
+  </div>
+  <div class="cards">
+
+    <!-- 重点1 -->
+    <div class="priority-card">
+      <div class="card-header">
+        <div class="hot-title">范思哲携手北京国际电影节</div>
+        <div class="heat">🔥 品牌联名</div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="field-label">产品创意</div>
+          <div class="field-value">「电影节周边一站式购买」聚合平台：整合北京国际电影节官方授权周边、联名款预约、票务与活动日历，支持限时抢购提醒。</div>
+        </div>
+        <div>
+          <div class="field-label">目标用户</div>
+          <div class="field-value">电影爱好者、时尚消费者、Z世代文化玩家</div>
+        </div>
+        <div>
+          <div class="field-label">MVP 建议</div>
+          <div class="field-value">微信公众号 + 小程序，展示联名产品图册，接入官方商城跳转，限时活动 Push 推送。</div>
+        </div>
+        <div>
+          <div class="field-label">商业潜力</div>
+          <div class="field-value"><span class="potential-badge potential-mid">中</span> 电影节 IP 价值高但时效性强，适合作为品牌联名营销的案例工具，长期价值取决于运营深度。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 次重点 -->
+    <div class="secondary-sub-grid">
+      <div class="secondary-card">
+        <div class="hot-title">尚界品牌代言人肖战</div>
+        <div class="direction">→ 产品方向：明星代言产品聚合搜索工具，用户输入明星名，快速查找其所有代言品牌及新品，驱动粉丝消费转化。</div>
+      </div>
+      <div class="secondary-card">
+        <div class="hot-title">女歌手因恐飞取消北京巡演</div>
+        <div class="direction">→ 产品方向：粉丝社群票务补偿工具，支持演出取消后的退票/换票自动化处理，减少粉丝与主办方的纠纷。</div>
+      </div>
+      <div class="secondary-card">
+        <div class="hot-title">侯明昊演唱会舞美被指抄袭檀健次</div>
+        <div class="direction">→ 产品方向：演唱会/舞台创意对比数据库，用视觉相似度算法帮助粉丝理性讨论，也供行业人士参考。</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 社会 -->
+<div class="section">
+  <div class="section-title">
+    社会观察
+    <span class="tag">0个重点 · 1个次重点</span>
+  </div>
+  <div class="cards">
+    <div class="secondary-sub-grid">
+      <div class="secondary-card">
+        <div class="hot-title">伊朗末代国王长子巴列维在德国遇袭</div>
+        <div class="direction">→ 产品方向：国际新闻深度解读订阅产品，提供事件背景梳理、多方立场分析和地缘影响评估，面向高净值知识用户。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  数据来源：微博热搜 · API 接口<br>
+  免责声明：本报告由 AI 自动生成，仅供参考，不构成任何投资或商业建议
+</div>
+
+</div>
+</body>
+</html>
