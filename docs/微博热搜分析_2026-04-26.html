@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f8fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* 顶部区域 */
+        .header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* 统计卡片 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a90d9;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 分类区域 */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid #4a90d9;
+        }
+        
+        /* 重点卡片 */
+        .highlight-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .highlight-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e8eef3;
+        }
+        
+        .highlight-card .hotword {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .highlight-card .hotword .heat {
+            font-size: 12px;
+            color: #999;
+            font-weight: 400;
+        }
+        
+        .highlight-card .section-title {
+            font-size: 12px;
+            color: #4a90d9;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .highlight-card .section-content {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 12px;
+        }
+        
+        .highlight-card .section-content strong {
+            color: #333;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-high {
+            background: #e6f7ed;
+            color: #2d8a4e;
+        }
+        
+        .tag-medium {
+            background: #fff4e6;
+            color: #d97706;
+        }
+        
+        .tag-low {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        /* 次重点卡片 */
+        .sub-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .sub-card {
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .sub-card .hotword {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sub-card .hotword .heat {
+            font-size: 12px;
+            color: #999;
+            font-weight: 400;
+        }
+        
+        .sub-card .direction {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid #e5e5e5;
+            margin-top: 40px;
+        }
+        
+        .footer .disclaimer {
+            margin-top: 8px;
+            font-size: 12px;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .highlight-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .sub-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 -->
+        <div class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <div class="subtitle">生成时间：2026年04月26日 17:30</div>
+        </div>
+        
+        <!-- 统计概览 -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">20</div>
+                <div class="stat-label">今日热搜总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">分析分类数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">重点分析话题</div>
+            </div>
+        </div>
+        
+        <!-- 分类1: 科技/电商/商业 -->
+        <div class="category">
+            <div class="category-title">科技/电商/商业</div>
+            
+            <!-- 重点 -->
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="hotword">
+                        东方甄选4名主播同日宣布离职
+                        <span class="heat">热度: 621,300</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">主播人才价值评估与对接平台</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">MCN机构、直播电商平台、头部主播</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发一套主播数据评估系统，量化主播的粉丝增长、带货GMV、互动率等指标，为MCN和品牌方提供人才对接服务</div>
+                    <div class="section-title">商业潜力</div>
+                    <div class="section-content"><span class="tag tag-high">高</span> 直播电商持续火热，专业人才缺口大，佣金模式可持续</div>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="hotword">
+                        俞敏洪回应多位主播离职
+                        <span class="heat">热度: 436,321</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">直播电商行业资讯与舆情监测工具</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">电商从业者、投资者、媒体从业者</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">聚合主要直播平台（东方甄选、董宇辉、疯狂小杨哥等）的动态信息，提供离职、融资、合作等重大事件的实时推送</div>
+                    <div class="section-title">商业潜力</div>
+                    <div class="section-content"><span class="tag tag-medium">中</span> 垂直领域资讯需求明确，可通过会员订阅和广告变现</div>
+                </div>
+            </div>
+            
+            <!-- 次重点 -->
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">
+                        东风奕派携华为乾崑年内上新3车
+                        <span class="heat">热度: --</span>
+                    </div>
+                    <div class="direction">产品方向：智能汽车配置对比工具，帮助用户选车决策</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">
+                        29.98万起大众9X真香
+                        <span class="heat">热度: --</span>
+                    </div>
+                    <div class="direction">产品方向：汽车价格走势提醒与竞品比价小程序</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分类2: 生活/健康/消费 -->
+        <div class="category">
+            <div class="category-title">生活/健康/消费</div>
+            
+            <!-- 重点 -->
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="hotword">
+                        南方又一轮降雨降温
+                        <span class="heat">热度: 741,340</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">智能穿衣搭配天气应用</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">南方地区日常通勤用户、爱美女性</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">基于天气预报数据，结合用户偏好（风格、场合），推荐每日穿搭方案，解决"明天穿什么"的日常痛点</div>
+                    <div class="section-title">商业潜力</div>
+                    <div class="section-content"><span class="tag tag-high">高</span> 南方梅雨季长，刚需高频，可对接服装电商导流</div>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="hotword">
+                        得知胎儿色盲孕晚期女子称害了孩子
+                        <span class="heat">热度: 335,861</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">孕期健康科普与心理支持平台</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">准父母、孕期女性及家庭成员</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">针对孕期常见异常情况（产检指标异常、胎儿发育问题等），提供权威医学解读和心理疏导，缓解准父母焦虑</div>
+                    <div class="section-title">商业潜力</div>
+                    <div class="section-content"><span class="tag tag-high">高</span> 育儿赛道持续火热，孕期焦虑是真实痛点，可对接妇幼健康服务</div>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="hotword">
+                        阚清子说自己胖了干啥都心酸
+                        <span class="heat">热度: 385,311</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">女性身材焦虑疏导与正向心理社区</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">关注体重和身材的年轻女性</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">打造"拒绝身材焦虑"的内容社区，提供健身打卡、身体正向激励等功能，区别于传统减肥APP的焦虑营销</div>
+                    <div class="section-title">商业潜力</div>
+                    <div class="section-content"><span class="tag tag-medium">中</span> 女性心理健康赛道增长快，可通过课程和社群变现</div>
+                </div>
+            </div>
+            
+            <!-- 次重点 -->
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">
+                        粉色榴莲
+                        <span class="heat">热度: 342,637</span>
+                    </div>
+                    <div class="direction">产品方向：网红水果测评与新奇食材电商推荐</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">
+                        看上去很贵实际便宜又好玩的城市
+                        <span class="heat">热度: 468,753</span>
+                    </div>
+                    <div class="direction">产品方向：性价比旅游目的地推荐与攻略平台</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">
+                        一袋糯米 全部暴露
+                        <span class="heat">热度: 731,376</span>
+                    </div>
+                    <div class="direction">产品方向：网络热梗解读与社交媒体营销素材库</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分类3: 体育 -->
+        <div class="category">
+            <div class="category-title">体育</div>
+            
+            <!-- 重点 -->
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="hotword">
+                        羽毛球取消21分制
+                        <span class="heat">热度: 960,685</span>
+                    </div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">体育规则解读与计分工具小程序</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">羽毛球爱好者、业余赛事组织者、体育老师</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">制作羽毛球新规则（15分制等）解读图文/视频，同时提供简化的计分工具，支持业余比赛使用</div>
+                    <div class="section-title">商业潜力</div>
+                    <div class="section-content"><span class="tag tag-medium">中</span> 羽毛球国内受众广，可通过器材电商和培训导流变现</div>
+                </div>
+            </div>
+            
+            <!-- 次重点 -->
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">
+                        约基奇打架
+                        <span class="heat">热度: 676,469</span>
+                    </div>
+                    <div class="direction">产品方向：NBA/篮球赛事深度报道与球星专题内容</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分类4: 娱乐/游戏 -->
+        <div class="category">
+            <div class="category-title">娱乐/游戏</div>
+            
+            <!-- 次重点 -->
+            <div class="sub-cards">
+                <div class="sub-card">
+                    <div class="hotword">
+                        王者荣耀
+                        <span class="heat">热度: 337,298</span>
+                    </div>
+                    <div class="direction">产品方向：游戏攻略社区与战绩数据分析工具</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">
+                        齐思钧表情
+                        <span class="heat">热度: 417,603</span>
+                    </div>
+                    <div class="direction">产品方向：综艺名场面表情包工具与二创素材平台</div>
+                </div>
+                <div class="sub-card">
+                    <div class="hotword">
+                        张若昀评论区
+                        <span class="heat">热度: 687,163</span>
+                    </div>
+                    <div class="direction">产品方向：明星动态聚合与粉丝社群工具</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <div>数据来源：微博热搜</div>
+            <div class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考</div>
+        </div>
+    </div>
+</body>
+</html>
