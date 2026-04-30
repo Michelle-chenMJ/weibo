@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .overview-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+        .overview-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #4a90d9;
+        }
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .category {
+            margin-bottom: 40px;
+        }
+        .category-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 12px;
+            border-left: 4px solid #4a90d9;
+        }
+        .highlight-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .highlight-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 3px solid #4a90d9;
+        }
+        .highlight-card .topic {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        .highlight-card .heat {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+        .highlight-card .section-title {
+            font-size: 12px;
+            color: #4a90d9;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .highlight-card p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 12px;
+        }
+        .highlight-card .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .tag.high { background: #e6f7e9; color: #2d8a3e; }
+        .tag.medium { background: #fff7e6; color: #d97706; }
+        .tag.low { background: #f3f4f6; color: #6b7280; }
+        
+        .brief-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .brief-card {
+            background: white;
+            border-radius: 10px;
+            padding: 16px 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .brief-card .topic {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        .brief-card .heat {
+            font-size: 12px;
+            color: #888;
+        }
+        .brief-card .direction {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-size: 13px;
+        }
+        footer .disclaimer {
+            margin-top: 8px;
+            color: #aaa;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            header { padding: 24px 20px; }
+            header h1 { font-size: 22px; }
+            .overview { grid-template-columns: 1fr; gap: 12px; }
+            .highlight-cards { grid-template-columns: 1fr; }
+            .brief-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <div class="subtitle">生成时间：2026年04月30日 14:30</div>
+        </header>
+        
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">6</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">社会民生</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="topic">年轻人出门越来越极简了</div>
+                    <div class="heat">热度: 656,673</div>
+                    <div class="section-title">产品创意</div>
+                    <p>极简出行装备订阅服务 - 为年轻用户提供轻量化出行装备月度订阅，包含折叠包、多功能小物的租赁订阅方案</p>
+                    <div class="section-title">目标用户</div>
+                    <p>22-35岁追求生活效率的都市年轻人、经常短途出行/通勤的上班族</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>上线"极简出行套装"订阅，首批提供3款基础套装，月付99元，涵盖折叠背包+充电宝+晴雨伞基础组合</p>
+                    <span class="tag high">高</span>
+                </div>
+                <div class="highlight-card">
+                    <div class="topic">5月起未经同意不得发送商业短信</div>
+                    <div class="heat">热度: 1,170,791</div>
+                    <div class="section-title">产品创意</div>
+                    <p>企业短信合规检测工具 - 帮助企业检测营销短信是否合规，提供一键生成退订指令、敏感词检测功能</p>
+                    <div class="section-title">目标用户</div>
+                    <p>企业市场部人员、短信营销服务商、法务合规部门</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>推出网页版短信合规检测工具，支持单条/批量检测，自动识别违规内容并给出修改建议</p>
+                    <span class="tag high">高</span>
+                </div>
+            </div>
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="topic">义乌不断有新纪录</div>
+                    <div class="heat">热度: 662,551</div>
+                    <div class="direction">产品方向：小商品趋势数据平台，提供义乌市场爆款商品预测分析</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">体育赛事</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="topic">火箭vs湖人</div>
+                    <div class="heat">热度: 869,295</div>
+                    <div class="section-title">产品创意</div>
+                    <p>NBA赛事实时互动竞猜 - 用户在看直播时可参与实时投票竞猜，预测比赛走势，赢取虚拟积分兑换周边</p>
+                    <div class="section-title">目标用户</div>
+                    <p>NBA球迷、体育爱好者、竞猜娱乐用户</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>开发小程序端互动看球工具，每节比赛设置3个预测题，用户答题可获积分奖励</p>
+                    <span class="tag high">高</span>
+                </div>
+                <div class="highlight-card">
+                    <div class="topic">骑士3比2猛龙</div>
+                    <div class="heat">热度: 463,005</div>
+                    <div class="section-title">产品创意</div>
+                    <p>篮球赛事数据追踪助手 - 为球迷提供个性化的NBA球员/球队数据推送，设置提醒查看关键数据</p>
+                    <div class="section-title">目标用户</div>
+                    <p>深度NBA球迷Fantasy篮球玩家、篮球数据爱好者</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>上线MVP赛事数据追踪功能，支持自选关注的球队/球员，实时推送关键数据变化</p>
+                    <span class="tag medium">中</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">科技数码</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="topic">苹果印度生产线陷入停摆</div>
+                    <div class="heat">热度: 466,954</div>
+                    <div class="section-title">产品创意</div>
+                    <p>供应链风险预警系统 - 为企业提供供应链风险监测服务，实时追踪供应商所在区域动态，提供预警</p>
+                    <div class="section-title">目标用户</div>
+                    <p>制造业采购经理、供应链管理者、企业风控部门</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>推出SaaS版供应链预警平台，支持企业录入供应商信息，自动监测公开风险事件并推送警报</p>
+                    <span class="tag high">高</span>
+                </div>
+                <div class="highlight-card">
+                    <div class="topic">电脑涨价20%市场人流空荡荡</div>
+                    <div class="heat">热度: 442,110</div>
+                    <div class="section-title">产品创意</div>
+                    <p>数码产品价格走势查询工具 - 聚合主流电商平台的数码产品价格，提供历史价格走势查询和降价提醒</p>
+                    <div class="section-title">目标用户</div>
+                    <p>消费者、数码产品测评博主、代购商家</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>上线微信小程序，支持主流笔记本/台式机型号价格查询，设置降价提醒</p>
+                    <span class="tag medium">中</span>
+                </div>
+            </div>
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="topic">赛力斯一季度净利润7.54亿元</div>
+                    <div class="heat">热度: 445,774</div>
+                    <div class="direction">产品方向：新能源车财报分析工具，追踪车企财务数据</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">娱乐游戏</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="topic">恋与深空 秦彻</div>
+                    <div class="heat">热度: 455,813</div>
+                    <div class="section-title">产品创意</div>
+                    <p>二次元角色同人内容社区 - 围绕游戏角色建立粉丝创作社区，提供同人小说/绘画/Cosplay等内容发布与交流平台</p>
+                    <div class="section-title">目标用户</div>
+                    <p>恋与深空玩家、二次元内容创作者、IP粉丝</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>上线角色专区小程序，支持角色相关UGC内容发布-tag打榜、创作激励计划</p>
+                    <span class="tag high">高</span>
+                </div>
+            </div>
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="topic">伊能静回应与秦昊婚姻状态</div>
+                    <div class="heat">热度: 467,140</div>
+                    <div class="direction">产品方向：明星动态订阅工具，定制化推送关注的明星新闻</div>
+                </div>
+                <div class="brief-card">
+                    <div class="topic">吴宣仪母亲与乐华谈判视频首曝光</div>
+                    <div class="heat">热度: 458,902</div>
+                    <div class="direction">产品方向：娱乐新闻聚合平台，深度解读明星事件</div>
+                </div>
+                <div class="brief-card">
+                    <div class="topic">陈坤晒北电表演系96班30年合照</div>
+                    <div class="heat">热度: 457,711</div>
+                    <div class="direction">产品方向：校友社交平台，同学会活动组织工具</div>
+                </div>
+                <div class="brief-card">
+                    <div class="topic">韩汶栩删16级粉丝解散粉丝群</div>
+                    <div class="heat">热度: 450,477</div>
+                    <div class="direction">产品方向：粉丝社群管理工具，提供粉丝运营SaaS服务</div>
+                </div>
+                <div class="brief-card">
+                    <div class="topic">vlog品类主理人独家访谈</div>
+                    <div class="heat">热度: -</div>
+                    <div class="direction">产品方向：Vlog创作者服务平台，提供内容策划支持</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">生活方式</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="topic">中1000w彩票冷知识</div>
+                    <div class="heat">热度: 658,292</div>
+                    <div class="section-title">产品创意</div>
+                    <p>彩票知识科普小程序 - 用趣味方式科普彩票玩法、中奖概率等知识，提供模拟选号功能</p>
+                    <div class="section-title">目标用户</div>
+                    <p>彩票小白、好奇用户、购彩爱好者</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>上线"彩票冷知识"系列科普内容，配以趣味问答互动，模拟选号功能</p>
+                    <span class="tag low">低</span>
+                </div>
+            </div>
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="topic">青岛偶遇关晓彤</div>
+                    <div class="heat">热度: 448,244</div>
+                    <div class="direction">产品方向：明星偶遇分享社区，用户PO图打卡</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2 class="category-title">国际时事</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="topic">霍尔木兹海峡部分被困船员已遇难</div>
+                    <div class="heat">热度: 651,477</div>
+                    <div class="section-title">产品创意</div>
+                    <p>海外安全风险查询工具 - 为出境用户提供目的地安全评估，包括实时新闻、使馆提醒、安全建议</p>
+                    <div class="section-title">目标用户</div>
+                    <p>出境游客、海外务工人员、跨国企业员工</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>上线海外安全小工具，支持按国家查询安全指数、近期事件、使馆联系方式</p>
+                    <span class="tag medium">中</span>
+                </div>
+                <div class="highlight-card">
+                    <div class="topic">美媒称特朗普将听取打击伊朗新方案</div>
+                    <div class="heat">热度: 460,818</div>
+                    <div class="section-title">产品创意</div>
+                    <p>国际热点事件追踪器 - 聚合国际重大事件，提供时间线、影响分析、专家解读</p>
+                    <div class="section-title">目标用户</div>
+                    <p>国际新闻关注者、留学生家长、外贸从业者</p>
+                    <div class="section-title">MVP 建议</div>
+                    <p>上线国际热点追踪订阅号，重大事件推送简报+解读</p>
+                    <span class="tag medium">中</span>
+                </div>
+            </div>
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="topic">中国空间站快要住不下了</div>
+                    <div class="heat">热度: 443,473</div>
+                    <div class="direction">产品方向：航天知识科普内容平台，航天迷社区</div>
+                </div>
+                <div class="brief-card">
+                    <div class="topic">金银大跌</div>
+                    <div class="heat">热度: 453,778</div>
+                    <div class="direction">产品方向：贵金属价格走势分析工具，投资决策辅助</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div>数据来源：微博热搜</div>
+            <div class="disclaimer">本报告由 AI 自动生成，仅供参考</div>
+        </footer>
+    </div>
+</body>
+</html>
