@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 28px;
+            color: #1a73e8;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .overview-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .overview-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .category {
+            margin-bottom: 40px;
+        }
+        .category-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 4px solid #1a73e8;
+        }
+        .focus-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .focus-card {
+            border-left: 4px solid #1a73e8;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .hotword {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .hotnum {
+            font-size: 13px;
+            color: #888;
+            white-space: nowrap;
+            margin-left: 8px;
+        }
+        .card-section {
+            margin-bottom: 12px;
+        }
+        .card-section-title {
+            font-size: 12px;
+            color: #1a73e8;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .card-section-content {
+            font-size: 14px;
+            color: #444;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .tag-high {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .tag-medium {
+            background: #feefc3;
+            color: #b06000;
+        }
+        .tag-low {
+            background: #f1f3f4;
+            color: #666;
+        }
+        .secondary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+        .secondary-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        .secondary-card .hotword {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .secondary-card .hotnum {
+            font-size: 12px;
+        }
+        .secondary-card .direction {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            font-size: 13px;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        @media (max-width: 600px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            .focus-cards {
+                grid-template-columns: 1fr;
+            }
+            .secondary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年05月01日 14:00</p>
+        </header>
+
+        <div class="overview">
+            <div class="overview-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">4</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="number">9</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">科技数码 · 汽车</h2>
+            
+            <div class="focus-cards">
+                <div class="card focus-card">
+                    <div class="card-header">
+                        <div class="hotword">北京车展谁能跑赢时间</div>
+                        <div class="hotnum"></div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">车展智能导览App：基于AI实时解答车型问题、提供比价和配置对比功能</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">计划购车的消费者、车展访客</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP建议</div>
+                        <div class="card-section-content">微信小程序，集成展馆地图、看车问答、预约试驾三功能</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="tag tag-medium">中</div>
+                        <span style="font-size:13px;color:#666;margin-left:8px;">可通过车企付费推广和线索收集盈利</span>
+                    </div>
+                </div>
+
+                <div class="card focus-card">
+                    <div class="card-header">
+                        <div class="hotword">苹果创始人站台追觅旗下手机</div>
+                        <div class="hotnum">热度: 340,461</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content"> CEO/创始人站台背书数据库：以结构化方式呈现科技产品"创始人背书"现象，辅助用户判断品牌可信度</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">关注科技产品的消费者、品牌研究者</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP建议</div>
+                        <div class="card-section-content">网页工具，搜索品牌+创始人背书信息，提供历史背书案例汇总</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="tag tag-low">低</div>
+                        <span style="font-size:13px;color:#666;margin-left:8px;">工具型产品，变现路径较窄</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">labubu冰箱秒空</div>
+                    <div class="hotnum">热度: 382,383</div>
+                    <div class="direction">产品方向：限量商品抢购助手、防黄牛机制工具</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">社会民生</h2>
+            
+            <div class="focus-cards">
+                <div class="card focus-card">
+                    <div class="card-header">
+                        <div class="hotword">男子突遭重大变故车内连睡7天</div>
+                        <div class="hotnum">热度: 469,168</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">"临时落脚点"服务地图：标记支持短时休息的场所（洗车店、咖啡厅、网咖等），解决临时住宿或休息需求</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">遭遇突发情况的临时落脚需求者、长途自驾旅行者</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP建议</div>
+                        <div class="card-section-content">微信小程序，标注可短时休息的场所、提供导航和营业时间查询</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="tag tag-high">高</div>
+                        <span style="font-size:13px;color:#666;margin-left:8px;">真实刚需，可对接商家优惠券变现</span>
+                    </div>
+                </div>
+
+                <div class="card focus-card">
+                    <div class="card-header">
+                        <div class="hotword">深圳地铁去年亏超371亿元</div>
+                        <div class="hotnum">热度: 338,237</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">城市地铁经营分析工具：可视化呈现各地铁公司运营数据，辅助用户理解票价调整和服务质量关系</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">城市研究者、财经爱好者、Policy关注者</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP建议</div>
+                        <div class="card-section-content">数据图文网页，汇总主要城市地铁公司财报关键指标</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="tag tag-low">低</div>
+                        <span style="font-size:13px;color:#666;margin-left:8px;">内容型产品，To B方向有限</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">女孩溺亡邻居被判赔66万后求再审</div>
+                    <div class="hotnum">热度: 336,057</div>
+                    <div class="direction">产品方向：法律案例查询工具、侵权责任科普</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">消费维权</h2>
+            
+            <div class="focus-cards">
+                <div class="card focus-card">
+                    <div class="card-header">
+                        <div class="hotword">labubu冰箱被炒至19999元</div>
+                        <div class="hotnum">热度: 874,370</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">限量商品价格监测工具：监控热门限量商品二手市场价格波动，提醒合理价位，识别异常炒作</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">潮玩爱好者、普通消费者（避免被黄牛坑）</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP建议</div>
+                        <div class="card-section-content">微信小程序，监控闲鱼/得物等平台热门商品价格，推送价格合理区间提醒</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="tag tag-high">高</div>
+                        <span style="font-size:13px;color:#666;margin-left:8px;">黄牛炒作问题普遍，工具需求强，可接入电商导流</span>
+                    </div>
+                </div>
+
+                <div class="card focus-card">
+                    <div class="card-header">
+                        <div class="hotword">酒店249元一晚涨到1600元被吐槽</div>
+                        <div class="hotnum">热度: 340,864</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">酒店价格预警工具：采集热门酒店历史价格，在旺季/假期前提醒价格异常上涨，设置价格提醒</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">出行较多的消费者、旅游旺季订酒店用户</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP建议</div>
+                        <div class="card-section-content">微信小程序，支持携程/美团等平台价格监控和日历视图</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="tag tag-high">高</div>
+                        <span style="font-size:13px;color:#666;margin-left:8px;">五一/国庆等旺季需求强，用户付费意愿高</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="secondary-card">
+                    <div class="hotword">莫氏鸡煲已报警</div>
+                    <div class="hotnum">热度: 1,254,272</div>
+                    <div class="direction">产品方向：商家口碑监控工具、消费纠纷案例库</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">AI 与生活方式</h2>
+            
+            <div class="focus-cards">
+                <div class="card focus-card">
+                    <div class="card-header">
+                        <div class="hotword">豆包挑榴莲</div>
+                        <div class="hotnum">热度: 456,796</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">AI生活方式助手：基于大模型提供日常决策建议（如挑水果、选餐厅、穿搭建议等）</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">日常选择困难症用户、生活小白、年轻消费者</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP建议</div>
+                        <div class="card-section-content">微信小程序，围绕高频生活场景（挑水果、选餐厅、穿搭）提供对话式AI建议</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="tag tag-high">高</div>
+                        <span style="font-size:13px;color:#666;margin-left:8px;">高频刚需场景，可沉淀用户后变现</span>
+                    </div>
+                </div>
+
+                <div class="card focus-card">
+                    <div class="card-header">
+                        <div class="hotword">五一就该让千问AI劳动</div>
+                        <div class="hotnum">热度: 339,430</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">AI劳动节效率工具：提供节日专属AI助手，协助写祝福短信、做旅行规划、写加班文案等</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">节日有社交/工作需求的城市白领</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP建议</div>
+                        <div class="card-section-content">节日期间限时小程序，提供节日祝福生成、旅行攻略等功能</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="tag tag-medium">中</div>
+                        <span style="font-size:13px;color:#666;margin-left:8px;">节庆时效产品，适合获取流量但需考虑长期价值</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p style="margin-top:8px;">免责声明：本报告由 AI 自动生成，仅供参考，不构成投资或产品决策建议</p>
+        </footer>
+    </div>
+</body>
+</html>
