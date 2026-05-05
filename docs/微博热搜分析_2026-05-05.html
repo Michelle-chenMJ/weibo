@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1890ff 0%, #36cfc9 100%);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            color: white;
+        }
+        header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .overview {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .overview-item {
+            text-align: center;
+        }
+        .overview-item .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1890ff;
+        }
+        .overview-item .label {
+            font-size: 14px;
+            color: #666;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 12px;
+            border-left: 4px solid #1890ff;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .card.priority {
+            border-left: 4px solid #1890ff;
+        }
+        .card.secondary {
+            border-left: 4px solid #d9d9d9;
+            padding: 16px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .card-header .keyword {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .card-header .heat {
+            font-size: 13px;
+            color: #999;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        .tag.high {
+            background: #f6ffed;
+            color: #52c41a;
+        }
+        .tag.medium {
+            background: #fff7e6;
+            color: #fa8c16;
+        }
+        .tag.low {
+            background: #f5f5f5;
+            color: #999;
+        }
+        .analysis-item {
+            margin-bottom: 12px;
+        }
+        .analysis-item .label {
+            font-weight: 600;
+            color: #1890ff;
+            font-size: 14px;
+        }
+        .analysis-item .content {
+            color: #555;
+            font-size: 14px;
+        }
+        .secondary .card-header .keyword {
+            font-size: 15px;
+        }
+        .secondary .analysis-item .label {
+            color: #666;
+        }
+        .secondary .analysis-item .content {
+            font-size: 13px;
+            color: #666;
+        }
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 12px;
+            }
+            header {
+                padding: 30px 16px;
+            }
+            header h1 {
+                font-size: 22px;
+            }
+            .overview {
+                gap: 24px;
+            }
+            .section-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年05月05日 14:30</p>
+        </header>
+
+        <div class="overview">
+            <div class="overview-item">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-item">
+                <div class="number">6</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-item">
+                <div class="number">12</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">社会·时事</h2>
+            
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">浏阳烟花厂爆炸已致21死61伤</span>
+                    <span class="heat">热度 10001947</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">工厂安全风险监测SaaS平台，实时监控高危工厂的生产环境参数，AI预警潜在安全隐患</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">应急管理部门、工厂业主、安全责任险保险公司</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">接入工厂现有监控设备数据，设定危险阈值规则，异常时推送预警短信给安全负责人</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag high">高</span>
+                    <span class="content">政策强制推动工厂安全监控，toG/toB采购需求稳定</span>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">夫妻住没锁帐篷民宿遭陌生人闯入</span>
+                    <span class="heat">热度 403764</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">民宿安全入住指引App，入住前自动检测门锁状态，记录异常并提供应急联系方式</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">民宿住客、帐篷/野外经营者、短租平台</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">开发小程序，入住时引导用户检查门锁并拍照留存，提供一键报警和民宿管家呼叫功能</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag medium">中</span>
+                    <span class="content">解决露营热潮下的安全保障痛点，可对接OTA平台导流</span>
+                </div>
+            </div>
+
+            <div class="card secondary">
+                <div class="card-header">
+                    <span class="keyword">浏阳烟花爆炸企业负责人被控制</span>
+                    <span class="heat">热度 561727</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="content">可配合安全监测平台，形成事故追踪与追责系统</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">生活·假期</h2>
+            
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">端午节连休3天不调休</span>
+                    <span class="heat">热度 1936711</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">智能假期规划助手，根据假期长度和预算生成周边游/短途游方案，一键预订门票酒店</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">上班族、家庭亲子游用户、周边游爱好者</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">接入携程/美团API，基于用户位置和假期天数推荐1-3日游目的地，整合景区限流信息</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag high">高</span>
+                    <span class="content">假期出行决策需求刚性强，商业变现路径清晰（OTA分佣）</span>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">你根本没意识到自己有多年轻</span>
+                    <span class="heat">热度 411322</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">年龄焦虑心理测评与干预工具，量化用户的心理年龄vs实际年龄，提供个性化心理建设内容</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">25-45岁职场人群、有焦虑感的中青年、心理咨询需求者</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">开发心理年龄测评H5，配合认知行为疗法的短视频内容，按需推送心理建设建议</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag medium">中</span>
+                    <span class="content">心理健康赛道正值红利期，变现依托课程/咨询/企业EAP服务</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">综艺·娱乐</h2>
+            
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">王俊凯 中餐厅10</span>
+                    <span class="heat">热度 557759 <span class="tag">新</span></span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">综艺同款食谱小程序，节目中出现的中餐厅菜品一键生成做法，还能购买同款食材套餐</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">综艺粉丝、美食爱好者、厨房新手</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">每期节目后更新菜谱，接入盒马/朴朴食材配送，短视频教做菜引导关注</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag high">高</span>
+                    <span class="content">综艺流量稳定，变现靠食材电商和品牌植入，IP衍生价值大</span>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">虞书欣 种地吧</span>
+                    <span class="heat">热度 418675 <span class="tag">新</span></span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">田园生活体验App，线上认领虚拟菜地，线下对应真实农场可实地体验，社交分享种菜成果</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">城市白领、亲子家庭、追求解压的年轻用户</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">先做小程序，用户选品类种虚拟菜，可解锁真实农场体验名额，引流到线下农家乐</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag medium">中</span>
+                    <span class="content">田园综艺带火"数字农业"概念，线下农场合作模式可复制推广</span>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">别把男友的隐性贬低当成爱</span>
+                    <span class="heat">热度 517082</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">关系健康检测工具，分析聊天记录中潜在的语言暴力模式，提供专业沟通建议</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">恋爱/已婚女性、有沟通困惑的情侣</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">上传聊天截图（本地处理不上传），NLP分析负面话术模式，给出改善建议和心理建议</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag medium">中</span>
+                    <span class="content">情感赛道需求大，变现靠心理咨询和情感课程</span>
+                </div>
+            </div>
+
+            <div class="card secondary">
+                <div class="card-header">
+                    <span class="keyword">中餐厅10</span>
+                    <span class="heat">热度 406995</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="content">同王俊凯中餐厅10菜谱</span>
+                </div>
+            </div>
+
+            <div class="card secondary">
+                <div class="card-header">
+                    <span class="keyword">时代少年团演唱会导播致歉</span>
+                    <span class="heat">热度 413443</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="content">演唱会直播互动平台，粉丝权益保障工具</span>
+                </div>
+            </div>
+
+            <div class="card secondary">
+                <div class="card-header">
+                    <span class="keyword">张凌赫林允45秒吻戏</span>
+                    <span class="heat">热度 409773</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="content">影视CP二创素材库，短视频剪辑工具</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">体育·赛事</h2>
+            
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">赵心童回应吴宜泽夺世锦赛冠军</span>
+                    <span class="heat">热度 406669 <span class="tag">新</span></span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">体育新星成长追踪档案，聚合运动员的职业生涯数据、训练日常、粉丝应援</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">体育迷、运动员粉丝团、体育品牌</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">先做斯诺克/国乒等项目的数据追踪页，接入官方数据，方便粉丝一键应援</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag medium">中</span>
+                    <span class="content">体育明星商业价值高，变现靠代言、周边、会员订阅</span>
+                </div>
+            </div>
+
+            <div class="card secondary">
+                <div class="card-header">
+                    <span class="keyword">吴宜泽父亲卖掉全家唯一住房投资儿子</span>
+                    <span class="heat">热度 504810</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="content">体育人才培养纪录片/传记，运动员故事内容平台</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">科技·数码</h2>
+            
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">红果靠免费起家吸引近2亿用户</span>
+                    <span class="heat">热度 422138 <span class="tag">热</span></span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">免费模式拆解工具，输入行业和产品，AI分析免费策略可行性及变现路径设计</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">创业者、产品经理、投资人</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">先做知识库+案例库，分析成功的免费模式案例，付费输出深度报告</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag high">高</span>
+                    <span class="content">免费模式是商业分析热门需求，变现靠会员和咨询服务</span>
+                </div>
+            </div>
+
+            <div class="card priority">
+                <div class="card-header">
+                    <span class="keyword">数字技术催生文旅新业态</span>
+                    <span class="heat">热度 1550244</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">产品创意：</span>
+                    <span class="content">文旅数字化解决方案商店，展示VR全景、AR景区、数字藏品等技术的落地案例，按需报价</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">目标用户：</span>
+                    <span class="content">景区管理方、文旅局、博物馆展会主办方</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">MVP建议：</span>
+                    <span class="content">先做案例展示网站，对接技术供应商，按项目成交收取佣金</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="label">商业潜力：</span>
+                    <span class="tag high">高</span>
+                    <span class="content">文旅复苏+数字化政策双驱动，市场需求旺盛</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">明星·时尚</h2>
+            
+            <div class="card secondary">
+                <div class="card-header">
+                    <span class="keyword">BLACKPINK全员亮相metgala红毯</span>
+                    <span class="heat">热度 420715</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="content">明星同款穿搭识别工具，链接品牌购买</span>
+                </div>
+            </div>
+
+            <div class="card secondary">
+                <div class="card-header">
+                    <span class="keyword">谷爱凌的裙子会吹泡泡</span>
+                    <span class="heat">热度 415784</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="content">创意服装设计分享社区，面料/工艺创新展示</span>
+                </div>
+            </div>
+
+            <div class="card secondary">
+                <div class="card-header">
+                    <span class="keyword">穆祉丞戛纳</span>
+                    <span class="heat">热度 898697</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="content">明星戛纳行踪追踪，时尚活动直播</span>
+                </div>
+            </div>
+
+            <div class="card secondary">
+                <div class="card-header">
+                    <span class="keyword">栖见 白日梦我</span>
+                    <span class="heat">热度 422944</span>
+                </div>
+                <div class="analysis-item">
+                    <span class="content">小说IP影视化追踪工具，原著粉社区</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：微博热搜 | 生成时间：2026年05月05日</p>
+            <p>本报告由 AI 自动生成，仅供参考，不构成任何投资或决策建议</p>
+        </footer>
+    </div>
+</body>
+</html>
