@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Overview Stats */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .stat-card .label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Category Section */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        /* Focus Cards */
+        .focus-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .focus-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 4px solid #667eea;
+        }
+        
+        .focus-card .hotword {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .focus-card .heat {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 16px;
+        }
+        
+        .focus-card .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .focus-card .section-content {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 16px;
+        }
+        
+        .focus-card .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tag-high {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .tag-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .tag-low {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        /* Brief Cards */
+        .brief-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .brief-card {
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 3px solid #e0e0e0;
+        }
+        
+        .brief-card .hotword {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .brief-card .direction {
+            font-size: 13px;
+            color: #777;
+        }
+        
+        .brief-card .heat {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 40px;
+        }
+        
+        .footer .source {
+            margin-bottom: 8px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .focus-cards,
+            .brief-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年05月07日 14:30</p>
+        </header>
+        
+        <div class="overview">
+            <div class="stat-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">8</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </div>
+        
+        <!-- 电商生活分类 -->
+        <div class="category">
+            <h2 class="category-title">电商消费 · 生活</h2>
+            
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">淘宝免单</div>
+                    <div class="heat">热度: 21,613,226</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"免单挑战"小程序，用户完成指定浏览任务即可参与免单抽奖，商家获取精准流量</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">价格敏感型消费者、薅羊毛群体、电商活跃用户</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发微信小程序，用户每日签到+浏览3家店铺可获得1次抽奖机会，中奖可获免单券或现金红包</div>
+                    <div class="tag tag-high">商业潜力：高</div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">五一买24件衣服全退光店主心态崩了</div>
+                    <div class="heat">热度: 1,339,110</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"试穿信用"评估系统，根据用户退换货记录生成信用评分，商家可设置差异化服务</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">电商商家、高退货率用户、平台风控团队</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">在电商平台内嵌退换货记录查询功能，用户可查看自身退换货率，商家可设置高信用用户专属优惠</div>
+                    <div class="tag tag-high">商业潜力：高</div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">买衣服一定要穿最好看的那套去逛街</div>
+                    <div class="heat">热度: 465,461</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"穿搭镜子"AR应用，用户线上试穿效果，辅助决策是否购买</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">年轻女性消费者、线上购物频繁的用户</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发AR试穿小程序，支持拍照测肤色、虚拟试穿、生成穿搭报告推荐搭配</div>
+                    <div class="tag tag-medium">商业潜力：中</div>
+                </div>
+            </div>
+            
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="hotword">五一假日图景尽显中国活力</div>
+                    <div class="direction">产品方向：本地生活服务推荐、假日经济数据分析工具</div>
+                    <div class="heat">热度: 1,775,573</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 娱乐综艺分类 -->
+        <div class="category">
+            <h2 class="category-title">娱乐 · 综艺演出</h2>
+            
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">谢娜演唱会庆功宴现场</div>
+                    <div class="heat">热度: 617,490</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"明星演出情报"小程序，聚合演唱会信息、票务提醒、演出动态，提供一站式服务</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">演出爱好者、粉丝群体、票务黄牛</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发微信小程序，集成热门明星演出日历、开票提醒、票务比价、二手交易功能</div>
+                    <div class="tag tag-medium">商业潜力：中</div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">浪姐至今为止翻红最成功的艺人</div>
+                    <div class="heat">热度: 1,512,332</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"综艺影响力分析"平台，数据化追踪明星综艺表现与商业价值变化</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">经纪公司、广告主、粉丝运营团队</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发数据分析后台，追踪节目播出前后明星热度、社交讨论量、商业代言变化，生成影响力报告</div>
+                    <div class="tag tag-medium">商业潜力：中</div>
+                </div>
+            </div>
+            
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="hotword">跑男学这么精彩吗</div>
+                    <div class="direction">产品方向：综艺cut切片、社区讨论工具</div>
+                    <div class="heat">热度: 2,095,041</div>
+                </div>
+                <div class="brief-card">
+                    <div class="hotword">谢娜开演唱会上瘾了</div>
+                    <div class="direction">产品方向：粉丝应援工具、演出资讯聚合</div>
+                    <div class="heat">热度: 347,382</div>
+                </div>
+                <div class="brief-card">
+                    <div class="hotword">长宁帝军官宣</div>
+                    <div class="direction">产品方向：剧集宣发工具、CP向内容社区</div>
+                    <div class="heat">热度: 345,396</div>
+                </div>
+                <div class="brief-card">
+                    <div class="hotword">EXO ai篡改记忆</div>
+                    <div class="direction">产品方向：AI娱乐内容生成工具</div>
+                    <div class="heat">热度: 350,744</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 体育分类 -->
+        <div class="category">
+            <h2 class="category-title">体育</h2>
+            
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">FIFA回应中国区天价世界杯版权</div>
+                    <div class="heat">热度: 648,352</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"世界杯观赛指南"工具，聚合版权信息、更新观赛方式、提供中文解说源</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">球迷群体、世界杯关注者、内容分发平台</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发聚合页面，汇总各平台版权信息、赛程、对陣表、提供免费观看渠道汇总</div>
+                    <div class="tag tag-high">商业潜力：高</div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">孙颖莎拒绝场下偷拍</div>
+                    <div class="heat">热度: 350,101</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"运动员权益保护"平台，提供隐私保护、舆情监控、法律援助服务</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">运动员、体育机构、经纪团队</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发小程序，提供运动员隐私侵权投诉通道、证据保全、律师对接服务</div>
+                    <div class="tag tag-medium">商业潜力：中</div>
+                </div>
+            </div>
+            
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="hotword">国际足联严重依赖中国赞助商</div>
+                    <div class="direction">产品方向：体育商业数据分析、体育营销咨询</div>
+                    <div class="heat">热度: 355,772</div>
+                </div>
+                <div class="brief-card">
+                    <div class="hotword">马龙夫妇许昕夫妇同游英国</div>
+                    <div class="direction">产品方向：运动员动态资讯、粉丝社区</div>
+                    <div class="heat">热度: 338,259</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 社会分类 -->
+        <div class="category">
+            <h2 class="category-title">社会 · 热点</h2>
+            
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">公安局大院内酒店每晚200到300元</div>
+                    <div class="heat">热度: 408,531</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"公职人员住宿管理"系统，规范化出差住宿标准、费用透明的解决方案</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">政府机构、企事业单位行政人员、出差频繁的员工</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发企业内部预订系统，整合协议酒店资源、自动匹配差旅标准、简化报销流程</div>
+                    <div class="tag tag-low">商业潜力：低</div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">男子称爷爷30年前捐赠书画去向不明</div>
+                    <div class="heat">热度: 342,805</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"捐赠追溯"系统，记录物品流转历史，解决捐赠溯源难题</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">捐赠者、公益机构、博物馆、文保单位</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发区块链溯源平台，捐赠物品录入链上，记录每次流转，支持在线查询</div>
+                    <div class="tag tag-medium">商业潜力：中</div>
+                </div>
+            </div>
+            
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="hotword">高市早苗下跪看清日本丑恶嘴脸</div>
+                    <div class="direction">产品方向：国际关系舆情分析工具</div>
+                    <div class="heat">热度: 335,954</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 科技分类 -->
+        <div class="category">
+            <h2 class="category-title">科技 · 商业</h2>
+            
+            <div class="focus-cards">
+                <div class="focus-card">
+                    <div class="hotword">智界V9人生主场自在转场</div>
+                    <div class="heat">热度: -</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"车企营销内容工厂"工具，批量生成卖点文案、配置对比、功能演示</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">车企市场部、经销商、汽车媒体</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发AI内容生成工具，输入车型参数自动生成种草文案、配置表格、竞品对比</div>
+                    <div class="tag tag-medium">商业潜力：中</div>
+                </div>
+                
+                <div class="focus-card">
+                    <div class="hotword">英伟达宣布与康宁建立长期合作关系</div>
+                    <div class="heat">热度: 333,882</div>
+                    <div class="section-title">产品创意</div>
+                    <div class="section-content">开发"产业链关系图谱"工具，追踪科技企业合作动态，辅助投资决策</div>
+                    <div class="section-title">目标用户</div>
+                    <div class="section-content">投资者、行业研究员、财经媒体</div>
+                    <div class="section-title">MVP建议</div>
+                    <div class="section-content">开发数据看板，实时追踪科技巨头合作动态，生成产业链关系图，辅助投资研究</div>
+                    <div class="tag tag-high">商业潜力：高</div>
+                </div>
+            </div>
+            
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <div class="hotword">殷世航傲娇美宣布结婚</div>
+                    <div class="direction">产品方向：网红变现工具、私域流量管理</div>
+                    <div class="heat">热度: 354,978</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p class="source">数据来源：微博热搜</p>
+            <p class="disclaimer">免责声明：本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
