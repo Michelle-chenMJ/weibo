@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .overview-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+
+        .overview-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .overview-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .category {
+            margin-bottom: 36px;
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .highlight-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .highlight-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        }
+
+        .hotword {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .hotword-num {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 11px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .tag-high {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .tag-medium {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .tag-low {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 4px;
+        }
+
+        .brief-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .brief-card {
+            background: white;
+            padding: 14px;
+            border-radius: 10px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+        }
+
+        .brief-title {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .brief-direction {
+            font-size: 12px;
+            color: #666;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 32px;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .highlight-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .brief-cards {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .overview-number {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年05月08日 14:30</p>
+        </header>
+
+        <div class="overview">
+            <div class="overview-card">
+                <div class="overview-number">20</div>
+                <div class="overview-label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-number">6</div>
+                <div class="overview-label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-number">12</div>
+                <div class="overview-label">重点分析话题数</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">电商 · 消费</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="hotword">淘宝免单</div>
+                    <div class="hotword-num">热度 3,372,298</div>
+                    <span class="tag tag-high">高</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">免单挑战互动小程序 - 每日随机抽选订单免单</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">价格敏感型消费者、薅羊毛用户</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">接入淘宝订单 API，每日下午3点随机抽取今日下单用户免单，生成免单海报分享传播</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">因恶意退货太多整条街道被商家拉黑</div>
+                    <div class="hotword-num">热度 916,705</div>
+                    <span class="tag tag-medium">中</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">恶意退货黑名单查询 & 商家信用系统</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">电商商家、平台风控团队</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">建立恶意退货用户 ID 数据库，商家可查询下单用户历史退货率，高风险用户自动拦截或提高门槛</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">榴莲仅退款买家发声</div>
+                    <div class="hotword-num">热度 452,070</div>
+                    <span class="tag tag-medium">中</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">生鲜电商争议快速仲裁工具</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">生鲜卖家、平台客服</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">针对易腐商品(水果海鲜)设置专属售后规则，拍照举证+AI判定，24h快速处理争议</p>
+                </div>
+            </div>
+            <p class="section-label">次重点热搜</p>
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <p class="brief-title">假日经济点燃消费热潮</p>
+                    <p class="brief-direction">方向：节假日消费指南/本地生活打卡工具</p>
+                </div>
+                <div class="brief-card">
+                    <p class="brief-title">和蒙牛一起踢球吧</p>
+                    <p class="brief-direction">方向：品牌互动营销小程序</p>
+                </div>
+                <div class="brief-card"></div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">生活 · 健康</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="hotword">减肥才知道高中吃的有多少</div>
+                    <div class="hotword-num">热度 1,117,918</div>
+                    <span class="tag tag-high">高</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">健康饮食记录 & 卡路里追踪应用</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">减肥人群、健身爱好者、健康意识人群</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">拍照识别食物热量，记录每日饮食，设置热量目标，配合打卡提醒和体重曲线</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">加入酱油会出现蟑螂的酱油碟</div>
+                    <div class="hotword-num">热度 628,376</div>
+                    <span class="tag tag-medium">中</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">餐厅卫生举报 & 点评小程序</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">经常外出就餐的用户、家长</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">用户拍照举报餐厅卫生问题，积分制激励，生成餐厅卫生红黑榜</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">刷手机刻板行为</div>
+                    <div class="hotword-num">热度 401,365</div>
+                    <span class="tag tag-medium">中</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">屏幕使用时间管理工具</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">重度手机用户、有戒手机需求的人群</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">屏幕时间统计+使用提醒+定时锁定功能，结合冥想/休息提醒</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">教育</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="hotword">原来好的大学真的有隐形福利</div>
+                    <div class="hotword-num">热度 505,083</div>
+                    <span class="tag tag-high">高</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">大学福利聚合平台 - 汇集各校资源/优惠</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">高考生、家长、在校大学生</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">整理各高校图书馆、体育馆、景区优惠等福利，支持按校名搜索，UGC补充</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">体育 · 赛事</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="hotword">香港拿下世界杯转播权</div>
+                    <div class="hotword-num">热度 2,045,575</div>
+                    <span class="tag tag-high">高</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">世界杯观赛指南 & 直播导航工具</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">足球迷、世界杯观众</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">整合各平台直播链接，提供赛程表、一键预约提醒、赛果推送</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">央视拒买单后国际足联高管将访华</div>
+                    <div class="hotword-num">热度 435,346</div>
+                    <span class="tag tag-medium">中</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">体育商业新闻聚合 & 解读工具</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">体育投资人、从业者</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">体育商业资讯+AI解读，帮助用户快速了解赛事商业动态</p>
+                </div>
+            </div>
+            <p class="section-label">次重点热搜</p>
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <p class="brief-title">王楚钦不提倡不参与生日应援活动</p>
+                    <p class="brief-direction">方向：运动员粉丝运营工具</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">娱乐 · 综艺</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <div class="hotword">浪姐三公淘汰观众</div>
+                    <div class="hotword-num">热度 466,267</div>
+                    <span class="tag tag-medium">中</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">综艺互动投票 & 粉丝社群工具</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">综艺粉丝、饭圈用户</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">提供淘汰预测投票、选手热度榜单、实时讨论区</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">纸嫁衣纸影浮光第二弹</div>
+                    <div class="hotword-num">热度 -</div>
+                    <span class="tag tag-low">低</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">游戏攻略 & 社区</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">纸嫁衣玩家</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">关卡攻略、剧情讨论社区</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="hotword">马頔人家新婚你忍忍吧</div>
+                    <div class="hotword-num">热度 455,797</div>
+                    <span class="tag tag-low">低</span>
+                    <p class="section-title"><strong>产品创意：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">音乐人演出信息聚合</p>
+                    <p class="section-title"><strong>目标用户：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">独立音乐爱好者</p>
+                    <p class="section-title"><strong>MVP 建议：</strong></p>
+                    <p class="section-label" style="font-size:13px;color:#444;margin-bottom:8px;">音乐人巡演信息、购票入口</p>
+                </div>
+            </div>
+            <p class="section-label">次重点热搜</p>
+            <div class="brief-cards">
+                <div class="brief-card">
+                    <p class="brief-title">张杰在谢娜庆功宴上敬酒</p>
+                    <p class="brief-direction">方向：明星行程信息工具</p>
+                </div>
+                <div class="brief-card">
+                    <p class="brief-title">张凌赫宋祖儿刺棠Q3开机</p>
+                    <p class="brief-direction">方向：影视资讯聚合</p>
+                </div>
+                <div class="brief-card">
+                    <p class="brief-title">热巴的造型因metgala又在外网火了</p>
+                    <p class="brief-direction">方向：明星时尚内容聚合</p>
+                </div>
+                <div class="brief-card">
+                    <p class="brief-title">上海迪士尼能通话录音游客不能录</p>
+                    <p class="brief-direction">方向：景区规则查询工具</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">数据来源：微博热搜 | 本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
