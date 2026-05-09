@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #3b82f6;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --tag-high: #22c55e;
+            --tag-medium: #f97316;
+            --tag-low: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Overview */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .overview-card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .overview-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .overview-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Category Section */
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Priority Cards */
+        .priority-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+
+        .priority-card {
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .card-heat {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .card-section {
+            margin-bottom: 12px;
+        }
+
+        .card-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .card-section-content {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag-high {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .tag-medium {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .tag-low {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        /* Secondary Cards */
+        .secondary-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .secondary-card {
+            padding: 16px;
+            background: #fafbfc;
+            border-left: 3px solid #cbd5e1;
+        }
+
+        .secondary-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .secondary-direction {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+
+            .priority-cards,
+            .secondary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年05月09日 14:30</p>
+        </header>
+
+        <div class="overview">
+            <div class="overview-card">
+                <div class="overview-number">20</div>
+                <div class="overview-label">今日热搜总数</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-number">4</div>
+                <div class="overview-label">分析分类数</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-number">12</div>
+                <div class="overview-label">重点分析话题数</div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">娱乐 · 综艺影视</h2>
+            
+            <div class="priority-cards">
+                <div class="card priority-card">
+                    <div class="card-title">救救跑男</div>
+                    <div class="card-heat">热度: 1,935,110 · 综艺</div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">综艺互动社区+观众情绪投票产品，让观众实时参与综艺走向决策</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">综艺观众、粉丝群体、互动内容爱好者</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP 建议</div>
+                        <div class="card-section-content">开发小程序嵌入综艺预告片花，观众可对剧情走向投票，实时生成互动数据展示</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="card-section-content"><span class="tag tag-high">高</span> · 粉丝经济+广告变现双驱动</div>
+                    </div>
+                </div>
+
+                <div class="card priority-card">
+                    <div class="card-title">王暖暖拍摄时突然倒地</div>
+                    <div class="card-heat">热度: 777,612</div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">网红达人健康监测手环+疲劳预警工具，实时监测主播身体状态</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">职业主播、直播从业者、高强度内容创作者</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP 建议</div>
+                        <div class="card-section-content">智能手表App，监测主播心率/血氧/压力指标，连续直播超2小时自动提醒休息</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="card-section-content"><span class="tag tag-medium">中</span> · 健康赛道持续增长，职业主播群体扩大</div>
+                    </div>
+                </div>
+
+                <div class="card priority-card">
+                    <div class="card-title">王暖暖自曝长期遭MCN公司压榨</div>
+                    <div class="card-heat">热度: 399,637 · 新</div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">网红权益保护平台+合同智能评审工具，帮助主播保护自身权益</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">新人主播、签约MCN的内容创作者、寻求职业保障的博主</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP 建议</div>
+                        <div class="card-section-content">提供合同条款智能分析工具，标注不合理条款；建立主播维权案例库，提供法律援助指引</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="card-section-content"><span class="tag tag-high">高</span> · MCN乱象频发，刚需强烈，变现模式清晰</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="card secondary-card">
+                    <div class="secondary-title">奔跑吧回应收视率低</div>
+                    <div class="secondary-direction">产品方向：综艺节目数据分析平台，为制作方提供实时收视反馈</div>
+                </div>
+                <div class="card secondary-card">
+                    <div class="secondary-title">跑男疯狂证明自己</div>
+                    <div class="secondary-direction">产品方向：综艺二次创作工具+观众 SHOW 展示平台</div>
+                </div>
+                <div class="card secondary-card">
+                    <div class="secondary-title">李现是张婧仪的站姐吧</div>
+                    <div class="secondary-direction">产品方向：明星粉丝互动工具，让粉丝参与idol活动决策</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">社会 · 民生时事</h2>
+            
+            <div class="priority-cards">
+                <div class="card priority-card">
+                    <div class="card-title">宁波疾控提醒超声波驱蚊无科学依据</div>
+                    <div class="card-heat">热度: 约 1,500,000+</div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">健康辟谣科普小程序+伪科学产品识别工具，帮助用户辨别智商税产品</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">注重健康的消费者、中老年人群、购物决策者</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP 建议</div>
+                        <div class="card-section-content">按品类整理伪科学产品黑名单，提供科学原理说明，结合用户点评形成购物参考</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="card-section-content"><span class="tag tag-medium">中</span> · 健康焦虑人群庞大，变现需探索</div>
+                    </div>
+                </div>
+
+                <div class="card priority-card">
+                    <div class="card-title">调休</div>
+                    <div class="card-heat">热度: 1,530,009</div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">假期调休规划工具+最优出行方案推荐，解决调休困扰</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">上班族、学生、需要规划假期出行的用户</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP 建议</div>
+                        <div class="card-section-content">输入调休安排后自动生成假期组合方案，结合出行成本计算推荐最优解</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="card-section-content"><span class="tag tag-high">高</span> · 中国特色假期痛点，受众极广，旅游出行导流价值大</div>
+                    </div>
+                </div>
+
+                <div class="card priority-card">
+                    <div class="card-title">上海迪士尼游客通话不能录音新进展</div>
+                    <div class="card-heat">热度: 404,515</div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">景区权益保护工具+游客维权指南，解决出游纠纷</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">旅游爱好者、经常出入景区游客、维权意识强的消费者</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP 建议</div>
+                        <div class="card-section-content">整理热门景区常见纠纷场景，提供维权话术模板，链接法律援助资源</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="card-section-content"><span class="tag tag-low">低</span> · 低频需求，工具属性强，变现空间有限</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="card secondary-card">
+                    <div class="secondary-title">好的营商环境就是生产力</div>
+                    <div class="secondary-direction">产品方向：企业政策解读工具，为中小企业提供政策红利获取指引</div>
+                </div>
+                <div class="card secondary-card">
+                    <div class="secondary-title">皮皮虾事件游客已删除所有爆料</div>
+                    <div class="secondary-direction">产品方向：舆情监控系统，帮助商家/景区监测网络口碑</div>
+                </div>
+                <div class="card secondary-card">
+                    <div class="secondary-title">刘涛妈祖诞辰守夜</div>
+                    <div class="secondary-direction">产品方向：传统民俗活动日历，聚合非遗/传统节日文化活动信息</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">科技 · 互联网数码</h2>
+            
+            <div class="priority-cards">
+                <div class="card priority-card">
+                    <div class="card-title">同价买奥迪还是买小米</div>
+                    <div class="card-heat">热度: 406,503 · 新</div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">品牌对比选购决策工具，帮助用户在同价位不同品牌间做出理性选择</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">购车消费者、3C产品选购用户、品牌决策困难者</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP 建议</div>
+                        <div class="card-section-content">输入预算后横向对比同价位不同品牌产品的核心参数，按照用户关注维度智能推荐</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</Div>
+                        <div class="card-section-content"><span class="tag tag-high">高</span> · 决策工具实用性强，汽车/3C是高价品类，导流价值高</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="card secondary-card">
+                    <div class="secondary-title">淘宝免单</div>
+                    <div class="secondary-direction">产品方向：电商促销信息聚合工具，实时推送全网优惠活动</div>
+                </div>
+                <div class="card secondary-card">
+                    <div class="secondary-title">五角大楼公布的UFO画面</div>
+                    <div class="secondary-direction">产品方向：科技热点解读内容平台，深度解读前沿科技话题</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">生活 · 消费日常</h2>
+            
+            <div class="priority-cards">
+                <div class="card priority-card">
+                    <div class="card-title">很喜欢登机前的十分钟</div>
+                    <div class="card-heat">热度: 393,841</div>
+                    <div class="card-section">
+                        <div class="card-section-title">产品创意</div>
+                        <div class="card-section-content">候机时光利用指南+机场商圈探索工具，把候机时间变成体验机会</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">目标用户</div>
+                        <div class="card-section-content">商务旅客、经常飞行的用户、机场候机时间长的旅客</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">MVP 建议</div>
+                        <div class="card-section-content">根据航班时间和登机口位置，推荐机场内值得去的店铺/休息区/体验点</div>
+                    </div>
+                    <div class="card-section">
+                        <div class="card-section-title">商业潜力</div>
+                        <div class="card-section-content"><span class="tag tag-medium">中</span> · 细分场景，与航空服务联动有想象空间</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secondary-cards">
+                <div class="card secondary-card">
+                    <div class="secondary-title">刘涛骂哭新人女演员 (辟谣)</div>
+                    <div class="secondary-direction">产品方向：娱乐新闻辟谣聚合平台，净化信息环境</div>
+                </div>
+                <div class="card secondary-card">
+                    <div class="secondary-title">76人0比3尼克斯</div>
+                    <div class="secondary-direction">产品方向：体育赛事即时数据分析工具</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：微博热搜 · 本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
