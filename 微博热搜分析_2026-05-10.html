@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(135deg, #4a90d9 0%, #6ba3d6 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .overview {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .overview-item {
+            text-align: center;
+        }
+        .overview-item .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4a90d9;
+        }
+        .overview-item .label {
+            font-size: 14px;
+            color: #666;
+        }
+        .section {
+            margin-bottom: 35px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid #4a90d9;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .card.featured {
+            border-left: 4px solid #4a90d9;
+        }
+        .card.brief {
+            padding: 16px 20px;
+            margin-bottom: 10px;
+        }
+        .card.brief .keyword {
+            font-weight: 600;
+            color: #333;
+        }
+        .card.brief .heat {
+            color: #999;
+            font-size: 13px;
+            margin-left: 8px;
+        }
+        .card .keyword {
+            font-size: 17px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 8px;
+        }
+        .card .heat {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 14px;
+        }
+        .card .label-item {
+            margin-bottom: 10px;
+        }
+        .card .label-item strong {
+            color: #444;
+            font-weight: 500;
+        }
+        .card .label-item span {
+            color: #666;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .tag.high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .tag.medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        .tag.low {
+            background: #f5f5f5;
+            color: #757575;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+        }
+        footer p {
+            margin-bottom: 8px;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            header {
+                padding: 25px 20px;
+            }
+            header h1 {
+                font-size: 22px;
+            }
+            .card {
+                padding: 18px;
+            }
+            .overview {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年05月10日 14:30</p>
+        </header>
+
+        <div class="overview">
+            <div class="overview-item">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="overview-item">
+                <div class="number">6</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="overview-item">
+                <div class="number">12</div>
+                <div class="label">重点分析话题数</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">生活健康</h2>
+            
+            <div class="card featured">
+                <div class="keyword">难怪现在在外面吃饭很少拉肚子了</div>
+                <div class="heat">热度: 2,847,721</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>餐饮安全透明化小程序——用户扫码查看餐厅后厨卫生情况、食材溯源、检测报告，打造"放心吃"消费指南</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>注重饮食安全的消费者、年轻白领、亲子家庭</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>开发"餐厅安心榜"微信小程序，接入部分商家后厨监控或检测数据，用户可点评打卡，形成UGC口碑</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag high">高</span> 食品安全是全民痛点，政策支持力度大，可向商家收取认证服务费</span>
+                </div>
+            </div>
+
+            <div class="card featured">
+                <div class="keyword">原来这么多年牙齿都在负重前行</div>
+                <div class="heat">热度: 921,483</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>牙齿健康自测+口腔预防小程序——AI通过照片分析牙齿状况，提供护理建议和牙科预约导流</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>25-45岁关注健康的上班族、健身爱好者（咬牙矫正问题常见）</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>推出"牙齿健康自检"H5，上传自拍照片获取AI分析报告，引导至合作牙科诊所</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag medium">中</span> 牙科诊所导流分成，后续口腔护理产品电商变现</span>
+                </div>
+            </div>
+
+            <div class="card featured">
+                <div class="keyword">母亲节京东给所有妈妈送一份关怀礼</div>
+                <div class="heat">热度: 311,373</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>节日礼赠场景化推荐平台——根据收礼人画像、预算、关系亲密度智能推荐礼品，提供贺卡定制和一键代写祝福服务</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>25-40岁在大城市工作的子女、不知送什么礼物的选择困难用户</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>母亲节做一个"送礼神器"小程序专区，整合京东/天猫礼盒，按价格和品类筛选，模板祝福一键生成</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag medium">中</span> 电商导流佣金，节日礼盒定制溢价</span>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card brief">
+                    <span class="keyword">聊聊我的妈妈</span>
+                    <span class="heat">情感类</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：亲子故事征集/妈妈形象IP化平台，可做成年度妈妈故事纪录片或UGC内容社区</p>
+                </div>
+                <div class="card brief">
+                    <span class="keyword">缅甸又挖出2.2公斤红宝石</span>
+                    <span class="heat">热度: 302,796</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：宝石文玩鉴定+线上拍卖平台，解决文玩爱好者鉴真痛点</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">社会民生</h2>
+            
+            <div class="card featured">
+                <div class="keyword">一季度全国结婚登记169.7万对</div>
+                <div class="heat">热度: 1,345,582</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>结婚筹备一站式服务小程序——整合婚前检查、婚宴预约、婚礼策划、喜糖采购、婚纱摄影等全链路服务</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>25-35岁准备结婚的新人及其家庭</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>先做请柬小程序，提供海量模板，新人编辑后一键分享到微信/钉钉，支持回礼登记</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag high">高</span> 婚庆市场规模大，客单价高，可从婚礼策划、摄影摄像等抽佣</span>
+                </div>
+            </div>
+
+            <div class="card featured">
+                <div class="keyword">张雪率车队参加儿子学校运动会</div>
+                <div class="heat">热度: 350,388</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>家校活动记录与分享平台——记录孩子校园成长瞬间，生成班级相册、活动视频，支持家长互动</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>小学生家长、注重记录孩子成长的中产家庭</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>开发"班级成长相册"小程序，家长上传活动照片，自动生成班级年度影集，支持打印定制</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag medium">中</span> 相册打印、亲子活动电商变现</span>
+                </div>
+            </div>
+
+            <div class="card featured">
+                <div class="keyword">央视曝车企一次锁电可省数十亿元</div>
+                <div class="heat">热度: 276,477</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>新能源车电池权益保护工具——帮车主检测电池实际容量，提供维权证据收集，支持集体诉讼对接</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>比亚迪汉、小鹏P7、蔚来ES6等国产新能源车主</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>推出电池健康检测OBD工具，用户自行检测并生成报告，可作为维权证据</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag high">高</span> 涉及全民利益关注度高维权服务、法律咨询可变现</span>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card brief">
+                    <span class="keyword">世界杯中国转播费从3亿腰斩到1.5亿</span>
+                    <span class="heat">热度: 426,208</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：体育版权交易数据平台，为从业者提供版权价格趋势分析</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">体育</h2>
+            
+            <div class="card featured">
+                <div class="keyword">王楚钦打哭F勒布伦</div>
+                <div class="heat">热度: 628,701</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>国乒赛事追踪+粉丝互动小程序——实时比分、比赛数据、选手动态，支持粉丝应援、弹幕互动</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>国乒球迷、乒乓球爱好者、年轻女性粉丝群体</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>先做"世乒赛程"小程序，提供赛程提醒、实时比分push、选手海报生成功能</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag high">高</span> 运动员粉丝粘性高，代言、周边、电商均可变现</span>
+                </div>
+            </div>
+
+            <div class="card featured">
+                <div class="keyword">雷霆3比0湖人</div>
+                <div class="heat">热度: 400,455</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>NBA季后赛深度数据+球迷讨论社区——提供战术分析、球员数据对比、赛事预测功能</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>NBA球迷、篮球投注爱好者、喜欢研究数据的硬核粉丝</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>做"NBA数据帝"公众号/小程序，提供比分推送、关键时刻集锦、战术图解</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag medium">中</span> 篮球彩票导流、体育电商带货</span>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card brief">
+                    <span class="keyword">世界杯中国转播费从3亿腰斩到1.5亿</span>
+                    <span class="heat">热度: 426,208</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：体育媒体行业数据工具，为从业者提供版权价格查询分析</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">娱乐综艺</h2>
+            
+            <div class="card featured">
+                <div class="keyword">陈赫回应邀请李晨上五哈</div>
+                <div class="heat">热度: 1,093,242</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>综艺Reaction互动工具——看综艺时实时发弹幕、表情包、投票互动，支持多人连麦边看边聊</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>综艺粉丝、喜欢社交观影的年轻人、综艺节目官方</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>针对《五哈》等热门综艺做配套互动小程序，支持弹幕、投票、截图分享功能</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag medium">中</span> 综艺宣发合作费用，弹幕广告植入</span>
+                </div>
+            </div>
+
+            <div class="card featured">
+                <div class="keyword">黄霄雲演出晕倒</div>
+                <div class="heat">热度: 343,487</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>演出安全预警+艺人健康管理平台——监测艺人身体数据，提醒演出方注意艺人健康，提供急救资源对接</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>演出经纪公司、艺人工作室、主办方</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>先做艺人健康管理工具，记录艺人行程和健康指标，自动提醒疲劳风险</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag low">低</span>toB市场，B端付费为主</span>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card brief">
+                    <span class="keyword">五哈</span>
+                    <span class="heat">热度: 404,422</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：综艺cut剪辑工具，用户自制综艺名场面集锦分享</p>
+                </div>
+                <div class="card brief">
+                    <span class="keyword">虞书欣G社生图</span>
+                    <span class="heat">热度: 402,830</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：明星生图对比工具，颜值分析、造型记录</p>
+                </div>
+                <div class="card brief">
+                    <span class="keyword">浪姐三公事变</span>
+                    <span class="heat">热度: 375,498</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：浪姐数据榜单，人气支持、舞台直拍</p>
+                </div>
+                <div class="card brief">
+                    <span class="keyword">蔡文静经纪人打电话让蔡文静下播</span>
+                    <span class="heat">热度: 362,982</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：主播经纪人工具，帮主播管理直播时长健康</p>
+                </div>
+                <div class="card brief">
+                    <span class="keyword">田曦薇孙珍妮双女主</span>
+                    <span class="heat">热度: 628,738</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：双女主CP嗑糖工具，CP向混剪、配对分析</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">情感</h2>
+            
+            <div class="card featured">
+                <div class="keyword">先于所有人爱上你的是妈妈</div>
+                <div class="heat">热度: 1,137,063</div>
+                <div class="label-item">
+                    <strong>产品创意：</strong>
+                    <span>母亲节祝福生成工具——输入想对妈妈说的话，AI生成精美贺卡/视频/手写信模板，支持一键分享</span>
+                </div>
+                <div class="label-item">
+                    <strong>目标用户：</strong>
+                    <span>在外工作的年轻人、不善表达爱意的用户、想给妈妈惊喜的用户</span>
+                </div>
+                <div class="label-item">
+                    <strong>MVP建议：</strong>
+                    <span>母亲节推出"祝福生成器"小程序，输入关键词生成感恩文案+配图，可分享到朋友圈</span>
+                </div>
+                <div class="label-item">
+                    <strong>商业潜力：</strong>
+                    <span class="tag high">高</span> 节日流量爆发，贺卡打赏、模板付费、鲜花电商导流</span>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card brief">
+                    <span class="keyword">母亲节</span>
+                    <span class="heat">热度: 594,763</span>
+                    <p style="margin-top:8px;color:#666;font-size:14px;">产品方向：母亲节穿搭/妆容教程，服务于"漂亮妈妈"需求</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <p>免责声明：本报告由 AI 自动生成，仅供参考，不构成任何投资建议</p>
+        </footer>
+    </div>
+</body>
+</html>
