@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: #f5f8fc;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4a90d9 0%, #67b8de 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(74, 144, 217, 0.3);
+        }
+
+        header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .overview-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .overview-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90d9;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .overview-card .label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .category {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .category h2 {
+            font-size: 22px;
+            color: #333;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #4a90d9;
+            margin-bottom: 25px;
+        }
+
+        .priority-high {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .priority-low {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e8eef4;
+        }
+
+        .card.priority-high {
+            border-left: 4px solid #4a90d9;
+            background: #f0f6fc;
+        }
+
+        .card.priority-low {
+            background: #f8fafc;
+            padding: 15px;
+        }
+
+        .card .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card .heat {
+            font-size: 13px;
+            color: #999;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+
+        .card .section {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card .section strong {
+            color: #555;
+        }
+
+        .card .section span {
+            color: #666;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag-high {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .tag-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .tag-low {
+            background: #e2e3e5;
+            color: #6c757d;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        footer .disclaimer {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 24px;
+            }
+
+            .priority-high, .priority-low {
+                grid-template-columns: 1fr;
+            }
+
+            .category {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年05月11日 14:30</p>
+        </header>
+
+        <div class="overview">
+            <div class="overview-card">
+                <span class="number">20</span>
+                <span class="label">今日热搜总数</span>
+            </div>
+            <div class="overview-card">
+                <span class="number">5</span>
+                <span class="label">分析分类数</span>
+            </div>
+            <div class="overview-card">
+                <span class="number">15</span>
+                <span class="label">重点分析话题数</span>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>剧集娱乐</h2>
+            <div class="priority-high">
+                <div class="card priority-high">
+                    <div class="title">暗河传2官宣 <span class="tag tag-high">热</span></div>
+                    <div class="heat">热度: 1,639,658</div>
+                    <div class="section"><strong>产品创意：</strong><span>IP衍生剧集社区，提供剧情讨论、角色档案、花絮解锁等沉浸式追剧体验</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>剧集粉丝、CP党、角色扮演爱好者</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>开发小程序，提供分集剧情梳理、角色关系图谱、投票互动三大核心功能</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-high">高</span> 会员增值服务+IP联名授权</div>
+                </div>
+                <div class="card priority-high">
+                    <div class="title">藏海传2 <span class="tag tag-high">剧集</span></div>
+                    <div class="heat">热度: 937,306</div>
+                    <div class="section"><strong>产品创意：</strong><span>古装剧同袍穿搭道具复刻平台，支持剧中原版服装道具的数字收藏与实物定制</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>古装剧爱好者、cosplay玩家、文创产品消费者</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>小程序展示剧中热门穿搭，搭配道具购买链接，限时发售联名款</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-high">高</span> IP授权+电商分成+定制服务</div>
+                </div>
+                <div class="card priority-high">
+                    <div class="title">优酷9部剧集官宣第二部 <span class="tag tag-high">热</span></div>
+                    <div class="heat">热度: 890,081</div>
+                    <div class="section"><strong>产品创意：</strong><span>剧集宣发期倒计时+观剧提醒工具，整合多平台档期避免用户错过</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>追剧党、平台会员用户</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>接入优酷/爱奇艺等平台API，提供剧集订阅、日历提醒、平台跳转功能</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-medium">中</span> 平台导流+会员推广</div>
+                </div>
+            </div>
+            <div class="priority-low">
+                <div class="card priority-low">
+                    <div class="title"><span>藏海传导演回应和肖战二搭</span></div>
+                    <div class="heat">热度: 649,933 · 官宣</div>
+                    <div class="section"><span>产品方向：导演演员互动工具，记录演员合作历史与CP二搭呼声</span></div>
+                </div>
+                <div class="card priority-low">
+                    <div class="title"><span>少年歌行2等了四年终于开拍</span></div>
+                    <div class="heat">热度: 589,314 · 剧集</div>
+                    <div class="section"><span>产品方向：续作等待周期陪伴工具，记录用户追剧日历与期待值</span></div>
+                </div>
+                <div class="card priority-low">
+                    <div class="title"><span>成毅 港剧</span></div>
+                    <div class="heat">热度: 500,097 · 剧集</div>
+                    <div class="section"><span>产品方向：演员作品库+跨平台剧集推荐引擎</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>体育竞技</h2>
+            <div class="priority-high">
+                <div class="card priority-high">
+                    <div class="title">目光聚焦赛场掌声送给拼搏</div>
+                    <div class="heat">热度: 1,187,322</div>
+                    <div class="section"><strong>产品创意：</strong><span>赛事应援工具，支持观众为运动员创建电子加油牌、应援口号生成、赛事观看日历</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>体育迷、运动员粉丝、赛事观众</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>小程序提供应援口号生成+赛事提醒+观赛攻略一键分享</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-high">高</span> 体育赞助+应援道具付费</div>
+                </div>
+                <div class="card priority-high">
+                    <div class="title">是世界第一也是MVP <span class="tag tag-high">新</span></div>
+                    <div class="heat">热度: 656,388</div>
+                    <div class="section"><strong>产品创意：</strong><span>运动员成就档案+历史MVP榜单，展示运动员职业生涯高光时刻数据</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>体育爱好者、数据统计爱好者</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>数据可视化页面，展示运动员生涯数据、荣誉榜、对比分析工具</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-medium">中</span> 数据订阅+广告位</div>
+                </div>
+                <div class="card priority-high">
+                    <div class="title">王皓给王楚钦最猛烈的回应 <span class="tag tag-high">新</span></div>
+                    <div class="heat">热度: 605,951</div>
+                    <div class="section"><strong>产品创意：</strong><span>师徒/队友互动合集工具，聚合体育界教练点评、队友互动、经典语录</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>乒乓球粉丝、体育自媒体</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>小程序整理教练语录金句、互动视频片段、粉丝 Reactions</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-medium">中</span> 内容流量+周边产品</div>
+                </div>
+            </div>
+            <div class="priority-low">
+                <div class="card priority-low">
+                    <div class="title"><span>刘涛天庭编制</span></div>
+                    <div class="heat">热度: 636,761</div>
+                    <div class="section"><span>产品方向：演员跨界体育联动工具，聚合娱乐+体育跨界内容</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>科技商业</h2>
+            <div class="priority-high">
+                <div class="card priority-high">
+                    <div class="title">贾跃亭被任命为FF全球CEO <span class="tag tag-high">新</span></div>
+                    <div class="heat">热度: 775,377</div>
+                    <div class="section"><strong>产品创意：</strong><span>创始人IP追踪工具，监测创始人动态、舆论情绪、企业发展里程碑</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>投资者、财经关注者、企业研究者</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>为特定创始人创建追踪页面，支持动态更新推送+历史事件整理</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-medium">中</span> 付费订阅+数据分析服务</div>
+                </div>
+                <div class="card priority-high">
+                    <div class="title">中方宣布特朗普访华日期</div>
+                    <div class="heat">热度: 1,119,770</div>
+                    <div class="section"><strong>产品创意：</strong><span>国际动态影响分析工具，监测重大国际事件并评估对科技行业的影响</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>跨境企业、出海创业者、外贸从业者</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>国际事件影响分析报告，附行业影响评估+机会/风险建议</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-high">高</span> B端咨询服务+企业订阅</div>
+                </div>
+            </div>
+            <div class="priority-low">
+                <div class="card priority-low">
+                    <div class="title"><span>伊朗最高领袖下达最新指令</span></div>
+                    <div class="heat">热度: 492,004</div>
+                    <div class="section"><span>产品方向：国际时事快速解读工具，提供重点事件中文背景说明</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>生活健康</h2>
+            <div class="priority-high">
+                <div class="card priority-high">
+                    <div class="title">建议爱躺着玩手机的反复观看 <span class="tag tag-high">沸</span></div>
+                    <div class="heat">热度: 866,117</div>
+                    <div class="section"><strong>产品创意：</strong><span>健康用机提醒+护眼助手，提供躺姿检测、时长提醒、护眼模式切换提醒</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>手机依赖者、大学生、年轻上班族</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>开发手机监控功能，检测躺姿使用并推送提醒，结合护眼模式</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-high">高</span> 健康app付费+品牌合作</div>
+                </div>
+                <div class="card priority-high">
+                    <div class="title">广东地震局短信</div>
+                    <div class="heat">热度: 843,691</div>
+                    <div class="section"><strong>产品创意：</strong><span>地震预警+应急响应工具，集成预警推送、应急指南、报平安功能</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>广东居民、地震带地区居民、防灾爱好者</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>接入官方预警API，提供实时推送+应急物资清单+位置报平安</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-high">高</span> 政府合作+应急服务付费</div>
+                </div>
+            </div>
+            <div class="priority-low">
+                <div class="card priority-low">
+                    <div class="title"><span>林心如晒女儿做的母亲节礼物</span></div>
+                    <div class="heat">热度: 500,040</div>
+                    <div class="section"><span>产品方向：手作礼物灵感库，提供亲子手工教程、礼物模板分享</span></div>
+                </div>
+                <div class="card priority-low">
+                    <div class="title"><span>潘玮柏一周7喜爽透顶</span></div>
+                    <div class="heat">热度: -</div>
+                    <div class="section"><span>产品方向：品牌联名活动工具，聚合明星代言活动信息</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>社会热点</h2>
+            <div class="priority-high">
+                <div class="card priority-high">
+                    <div class="title">武大批评校友余某真的过了</div>
+                    <div class="heat">热度: 1,812,765</div>
+                    <div class="section"><strong>产品创意：</strong><span>高校舆情监测工具，追踪大学官方声明、校友动态、舆论走向</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>高校公关、媒体从业者、教育行业观察者</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>高校舆情监测后台，支持关键词追踪+报告生成+预警设置</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-medium">中</span> B端SaaS服务</div>
+                </div>
+                <div class="card priority-high">
+                    <div class="title">县城理发店取名东尼被英国公司起诉</div>
+                    <div class="heat">热度: 530,273</div>
+                    <div class="section"><strong>产品创意：</strong><span>商标风险检测工具，帮助小商家检测店名/品牌名是否存在侵权风险</span></div>
+                    <div class="section"><strong>目标用户：</strong><span>个体户、小微企业主、创业者</span></div>
+                    <div class="section"><strong>MVP建议：</strong><span>小程序输入店名，检测是否存在已注册商标/近似名称风险</span></div>
+                    <div class="section"><strong>商业潜力：</strong><span class="tag tag-high">高</span> 法律服务导流+增值查询</div>
+                </div>
+            </div>
+            <div class="priority-low">
+                <div class="card priority-low">
+                    <div class="title"><span>疑似维嘉卖掉的衣服被马丁淘回来了</span></div>
+                    <div class="heat">热度: 586,215</div>
+                    <div class="section"><span>产品方向：二手好物发现工具，聚合明星同款二手物品交易信息</span></div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：微博热搜</p>
+            <div class="disclaimer">
+                免责声明：本报告由 AI 自动生成，仅供参考，不构成任何投资或决策建议
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
