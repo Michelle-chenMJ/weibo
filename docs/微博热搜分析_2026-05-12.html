@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博热搜产品创意分析报告</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --tag-high: #10b981;
+            --tag-medium: #f59e0b;
+            --tag-low: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .header .subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Stats Overview */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.25rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .stat-card .number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-card .label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Category Section */
+        .category-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-left: 0.75rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Focus Cards */
+        .focus-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .focus-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .focus-card .hotword {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .focus-card .heat {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .focus-card .section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .focus-card .section-title::after {
+            content: "";
+            display: block;
+            width: 2rem;
+            height: 2px;
+            background: var(--primary-color);
+            margin-top: 0.25rem;
+        }
+
+        .focus-card .point {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .focus-card .point strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .focus-card .tag {
+            display: inline-block;
+            padding: 0.25rem 0.625rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .tag-high {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--tag-high);
+        }
+
+        .tag-medium {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--tag-medium);
+        }
+
+        .tag-low {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--tag-low);
+        }
+
+        /* Secondary Cards */
+        .secondary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .secondary-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            border: 1px solid var(--border-color);
+            opacity: 0.85;
+        }
+
+        .secondary-card .hotword {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .secondary-card .heat {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .secondary-card .direction {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .overview {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .overview .stat-card {
+                padding: 1rem;
+            }
+
+            .overview .stat-card .number {
+                font-size: 1.5rem;
+            }
+
+            .focus-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .secondary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .overview {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>微博热搜产品创意分析报告</h1>
+            <p class="subtitle">生成时间：2026年05月12日 14:30</p>
+        </header>
+
+        <section class="overview">
+            <div class="stat-card">
+                <div class="number">20</div>
+                <div class="label">今日热搜总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">5</div>
+                <div class="label">分析分类数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">12</div>
+                <div class="label">重点分析话题</div>
+            </div>
+        </section>
+
+        <!-- 科技/健康 -->
+        <section class="category-section">
+            <h2 class="category-title">科技/健康</h2>
+            
+            <div class="focus-cards">
+                <article class="focus-card">
+                    <h3 class="hotword">降噪耳机受害者出现</h3>
+                    <p class="heat">热度: 3,499,790</p>
+                    
+                    <p class="section-title">产品创意</p>
+                    <p class="point"><strong>降噪耳机安全提醒App</strong> — 当用户开启降噪模式时，检测周边环境音并在必要时提醒注意安全，如过马路、骑行时自动启用通透模式</p>
+                    
+                    <p class="section-title">目标用户</p>
+                    <p class="point">通勤族、数码爱好者、需要在嘈杂环境使用耳机的用户</p>
+                    
+                    <p class="section-title">MVP建议</p>
+                    <p class="point">开发耳机联动SDK，接入主流耳机API，实现运动/交通场景自动切换通透模式，核心功能仅需2周开发</p>
+                    
+                    <p class="section-title">商业潜力</p>
+                    <span class="tag tag-high">高</span>
+                    <p class="point" style="margin-top:0.5rem;margin-bottom:0">可与耳机厂商深度合作，订阅制增值服务</p>
+                </article>
+
+                <article class="focus-card">
+                    <h3 class="hotword">打司美格鲁肽减重的人怎么样了</h3>
+                    <p class="heat">热度: 431,223</p>
+                    
+                    <p class="section-title">产品创意</p>
+                    <p class="point"><strong>减重效果追踪社区</strong> — 用户分享减重经历记录，形成真实效果数据库，提供用药效果对比和副作用应对指南</p>
+                    
+                    <p class="section-title">目标用户</p>
+                    <p class="point">考虑或正在使用GLP-1类药物减重的人群</p>
+                    
+                    <p class="section-title">MVP建议</p>
+                    <p class="point">匿名分享社区+的效果记录工具，收集真实数据建立数据库</p>
+                    
+                    <p class="section-title">商业潜力</p>
+                    <span class="tag tag-medium">中</span>
+                    <p class="point" style="margin-top:0.5rem;margin-bottom:0">医疗健康赛道长期价值，数据积累可转化健康服务</p>
+                </article>
+            </div>
+
+            <div class="secondary-cards">
+                <article class="secondary-card">
+                    <h3 class="hotword">2026互联中国公益行动</h3>
+                    <p class="heat">热度: 891,348</p>
+                    <p class="direction">产品方向：公益活动平台，连接志愿者与企业，完成数字化公益闭环</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- 社会/教育 -->
+        <section class="category-section">
+            <h2 class="category-title">社会/教育</h2>
+            
+            <div class="focus-cards">
+                <article class="focus-card">
+                    <h3 class="hotword">湖北一小学被指调查家长职业背景</h3>
+                    <p class="heat">热度: 370,716</p>
+                    
+                    <p class="section-title">产品创意</p>
+                    <p class="point"><strong>教育公平监测平台</strong> — 收集家长反馈，监测学校招生、教育过程中的公平性问题，支持匿名举报和数据统计</p>
+                    
+                    <p class="section-title">目标用户</p>
+                    <p class="point">学生家长、教育监管部门、公益组织</p>
+                    
+                    <p class="section-title">MVP建议</p>
+                    <p class="point">小程序匿名反馈工具，数据脱敏后开放查询，触发舆论预警机制</p>
+                    
+                    <p class="section-title">商业潜力</p>
+                    <span class="tag tag-medium">中</span>
+                    <p class="point" style="margin-top:0.5rem;margin-bottom:0">ToG业务，需要与教育部门合作，公益属性较强</p>
+                </article>
+            </div>
+
+            <div class="secondary-cards">
+                <article class="secondary-card">
+                    <h3 class="hotword">汶川地震的可乐男孩入职可口可乐</h3>
+                    <p class="heat">热度: 1,156,039</p>
+                    <p class="direction">产品方向：正能量故事IP化，可口可乐品牌联名内容</p>
+                </article>
+                <article class="secondary-card">
+                    <h3 class="hotword">汶川地震失去双腿舞者廖智生四胎</h3>
+                    <p class="heat">热度: 407,440</p>
+                    <p class="direction">产品方向：励志内容平台，残疾人故事纪录片/短视频</p>
+                </article>
+                <article class="secondary-card">
+                    <h3 class="hotword">当年汶川追空投的男孩已成空降兵</h3>
+                    <p class="heat">热度: 368,387</p>
+                    <p class="direction">产品方向：军旅题材内容，国防教育宣传</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- 体育 -->
+        <section class="category-section">
+            <h2 class="category-title">体育</h2>
+            
+            <div class="focus-cards">
+                <article class="focus-card">
+                    <h3 class="hotword">梁靖崑担任北电教师</h3>
+                    <p class="heat">热度: 508,634</p>
+                    
+                    <p class="section-title">产品创意</p>
+                    <p class="point"><strong>运动员转型教育平台</strong> — 连接退役运动员与教育/影视资源，提供职业转型培训和机会对接</p>
+                    
+                    <p class="section-title">目标用户</p>
+                    <p class="point">退役运动员、体育院校、影视制作公司</p>
+                    
+                    <p class="section-title">MVP建议</p>
+                    <p class="point">建立运动员人才库+培训课程平台，先做垂直招聘</p>
+                    
+                    <p class="section-title">商业潜力</p>
+                    <span class="tag tag-low">低</span>
+                    <p class="point" style="margin-top:0.5rem;margin-bottom:0">细分市场，规模化需要时间</p>
+                </article>
+            </div>
+
+            <div class="secondary-cards">
+                <article class="secondary-card">
+                    <h3 class="hotword">湖人vs雷霆</h3>
+                    <p class="heat">热度: 385,886</p>
+                    <p class="direction">产品方向：NBA赛事直播聚合，数据统计工具</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- 娱乐 -->
+        <section class="category-section">
+            <h2 class="category-title">娱乐</h2>
+            
+            <div class="focus-cards">
+                <article class="focus-card">
+                    <h3 class="hotword">黄子韬调侃徐艺洋怪异跑姿</h3>
+                    <p class="heat">热度: 430,443</p>
+                    
+                    <p class="section-title">产品创意</p>
+                    <p class="point"><strong>CP互动二创工具</strong> — 提供综艺CPcut制作模板，素材一键剪辑+字幕贴纸工具</p>
+                    
+                    <p class="section-title">目标用户</p>
+                    <p class="point">CP粉、内容创作者、粉丝站</p>
+                    
+                    <p class="section-title">MVP建议</p>
+                    <p class="point">简单剪辑工具+预设模板，免费工具吸引用户，付费高级模板</p>
+                    
+                    <p class="section-title">商业潜力</p>
+                    <span class="tag tag-medium">中</span>
+                    <p class="point" style="margin-top:0.5rem;margin-bottom:0">粉丝经济，变现路径清晰但生命周期短</p>
+                </article>
+            </div>
+
+            <div class="secondary-cards">
+                <article class="secondary-card">
+                    <h3 class="hotword">黑夜告白大结局</h3>
+                    <p class="heat">热度: 418,778</p>
+                    <p class="direction">产品方向：剧集互动讨论社区，结局剧情分析工具</p>
+                </article>
+                <article class="secondary-card">
+                    <h3 class="hotword">给阿嬷的情书 观众的报复性投票</h3>
+                    <p class="heat">热度: 376,802</p>
+                    <p class="direction">产品方向：电影评分抗议工具，社区打假投票</p>
+                </article>
+                <article class="secondary-card">
+                    <h3 class="hotword">刘浩存00花咖位</h3>
+                    <p class="heat">热度: 372,623</p>
+                    <p class="direction">产品方向：明星数据榜单，咖位排名工具</p>
+                </article>
+                <article class="secondary-card">
+                    <h3 class="hotword">宁艺卓 别来身材羞辱那一套</h3>
+                    <p class="heat">热度: 395,897</p>
+                    <p class="direction">产品方向：反身材焦虑内容社区，女性正向激励平台</p>
+                </article>
+                <article class="secondary-card">
+                    <h3 class="hotword">演出完退礼服女孩发声</h3>
+                    <p class="heat">热度: 499,067</p>
+                    <p class="direction">产品方向：演出服租赁二手平台，演员服装共享</p>
+                </article>
+                <article class="secondary-card">
+                    <h3 class="hotword">别让没煮过饭的人买菜</h3>
+                    <p class="heat">热度: 625,390</p>
+                    <p class="direction">产品方向：家常菜教学App，厨艺分享社区</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- 时事 -->
+        <section class="category-section">
+            <h2 class="category-title">时事/国际</h2>
+            
+            <div class="secondary-cards">
+                <article class="secondary-card">
+                    <h3 class="hotword">特朗普发文称非常期待中国之行</h3>
+                    <p class="heat">热度: 437,441</p>
+                    <p class="direction">产品方向：国际时事解读短视频，外交趋势分析</p>
+                </article>
+                <article class="secondary-card">
+                    <h3 class="hotword">特朗普敲打鲁比奥等强硬派别捣乱</h3>
+                    <p class="heat">热度: 369,740</p>
+                    <p class="direction">产品方向：国际关系分析工具，外交政策追踪</p>
+                </article>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>数据来源：微博热搜 | 本报告由 AI 自动生成，仅供参考</p>
+        </footer>
+    </div>
+</body>
+</html>
