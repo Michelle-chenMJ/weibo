@@ -1,9 +1,7 @@
 name: 微博热搜产品创意分析
 
 on:
-  schedule:
-    - cron: '0 1 * * *'    # 每天 UTC 01:00（北京时间 09:00）
-  workflow_dispatch:         # 支持手动触发
+  workflow_dispatch:         # 仅支持手动触发
 
 jobs:
   analyze:
